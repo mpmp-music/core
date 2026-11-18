@@ -1,0 +1,66 @@
+{
+  "type": "job",
+  "job": {
+    "id": 9,
+    "kind": "scan",
+    "state": "completed",
+    "outcome": {
+      "type": "completed",
+      "report": {
+        "type": "scan",
+        "added_count": 0,
+        "updated_count": 0,
+        "restored_count": 0,
+        "removed_count": 0,
+        "error_count": 9,
+        "first_errors": [
+          {
+            "code": "root_unreachable",
+            "path": "/music/offline",
+            "message": "cannot read"
+          },
+          {
+            "code": "no_audio_files",
+            "path": "/music/empty",
+            "message": "cannot read"
+          },
+          {
+            "code": "directory_read_failed",
+            "path": "/music/restricted",
+            "message": "cannot read"
+          },
+          {
+            "code": "invalid_path",
+            "path": "/music/invalid-name",
+            "message": "cannot read"
+          },
+          {
+            "code": "stat_failed",
+            "path": "/music/stat.flac",
+            "message": "cannot read"
+          },
+          {
+            "code": "audio_read_failed",
+            "path": "/music/audio.flac",
+            "message": "cannot read"
+          },
+          {
+            "code": "cue_read_failed",
+            "path": "/music/sheet.cue",
+            "message": "cannot read"
+          },
+          {
+            "code": "reader_panicked",
+            "path": "/music/panic.flac",
+            "message": "cannot read"
+          },
+          {
+            "code": "cue_missing_files",
+            "path": "/music/missing.cue",
+            "message": "cannot read"
+          }
+        ]
+      }
+    }
+  }
+}

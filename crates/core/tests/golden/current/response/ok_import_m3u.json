@@ -1,0 +1,24 @@
+{
+  "request_id": 48,
+  "result": {
+    "type": "ok",
+    "changed": true,
+    "queue_revision": 1792500000021,
+    "playlist": {
+      "playlist": 17,
+      "revision": 0,
+      "created_items": [
+        310,
+        311
+      ],
+      "import": {
+        "matched_count": 2,
+        "missing": [
+          "../Downloads/live at the plugged nickel.flac"
+        ],
+        "missing_count": 1
+      }
+    },
+    "action": 5125
+  }
+}

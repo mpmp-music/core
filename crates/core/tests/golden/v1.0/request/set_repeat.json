@@ -1,0 +1,8 @@
+{
+  "request_id": 20,
+  "idempotency_key": null,
+  "command": {
+    "type": "set_repeat",
+    "mode": "one"
+  }
+}

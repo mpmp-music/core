@@ -1,0 +1,11 @@
+{
+  "request_id": 90,
+  "result": {
+    "type": "err",
+    "error": {
+      "kind": "unsupported",
+      "code": "cover_edit_unsupported",
+      "message": "cover_edit_unsupported"
+    }
+  }
+}

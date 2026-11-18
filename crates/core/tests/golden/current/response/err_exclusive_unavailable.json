@@ -1,0 +1,11 @@
+{
+  "request_id": 7,
+  "result": {
+    "type": "err",
+    "error": {
+      "kind": "failed",
+      "code": "exclusive_unavailable",
+      "message": "Output configuration could not be satisfied"
+    }
+  }
+}

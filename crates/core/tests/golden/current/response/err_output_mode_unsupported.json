@@ -1,0 +1,11 @@
+{
+  "request_id": 7,
+  "result": {
+    "type": "err",
+    "error": {
+      "kind": "unsupported",
+      "code": "output_mode_unsupported",
+      "message": "Output configuration could not be satisfied"
+    }
+  }
+}

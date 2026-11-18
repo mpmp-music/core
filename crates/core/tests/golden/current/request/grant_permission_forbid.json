@@ -1,0 +1,20 @@
+{
+  "request_id": 55,
+  "idempotency_key": null,
+  "command": {
+    "type": "grant_permission",
+    "agent": "codex",
+    "session": null,
+    "operation": {
+      "type": "class",
+      "class": "file_write"
+    },
+    "scope": {
+      "type": "all"
+    },
+    "until": {
+      "type": "forever"
+    },
+    "effect": "forbid"
+  }
+}

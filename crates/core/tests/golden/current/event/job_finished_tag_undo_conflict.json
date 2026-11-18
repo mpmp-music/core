@@ -1,0 +1,27 @@
+{
+  "seq": 5030,
+  "origin": {
+    "type": "ui"
+  },
+  "event": {
+    "type": "job_finished",
+    "job": 10,
+    "kind": "tag_edit",
+    "outcome": {
+      "type": "failed",
+      "error": {
+        "kind": "conflict",
+        "code": "action_conflict",
+        "message": "action 5160 cannot be undone: 1 of its objects changed since",
+        "details": {
+          "changed": [
+            {
+              "type": "track",
+              "id": 42
+            }
+          ]
+        }
+      }
+    }
+  }
+}

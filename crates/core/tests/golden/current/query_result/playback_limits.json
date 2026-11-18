@@ -1,0 +1,14 @@
+{
+  "type": "playback_limits",
+  "playback_limits": {
+    "stop_after_current": {
+      "entry": 500
+    },
+    "sleep_timer": {
+      "remaining_ms": 1234,
+      "sampled_at_ms": 100,
+      "includes_suspend": true
+    }
+  },
+  "now_ms": 100
+}

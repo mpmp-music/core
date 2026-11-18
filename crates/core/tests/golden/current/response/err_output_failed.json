@@ -1,0 +1,14 @@
+{
+  "request_id": 29,
+  "result": {
+    "type": "err",
+    "error": {
+      "kind": "failed",
+      "code": "output_failed",
+      "message": "output unavailable: default activation and concrete endpoint failed",
+      "details": {
+        "retryable": true
+      }
+    }
+  }
+}

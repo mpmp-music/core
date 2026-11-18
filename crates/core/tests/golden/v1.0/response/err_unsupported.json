@@ -1,0 +1,14 @@
+{
+  "request_id": 10,
+  "result": {
+    "type": "err",
+    "error": {
+      "kind": "unsupported",
+      "code": "unknown_field",
+      "message": "this core does not know the field command.fade_ms",
+      "details": {
+        "field": "command.fade_ms"
+      }
+    }
+  }
+}

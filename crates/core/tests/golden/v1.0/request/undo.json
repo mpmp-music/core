@@ -1,0 +1,8 @@
+{
+  "request_id": 21,
+  "idempotency_key": null,
+  "command": {
+    "type": "undo",
+    "revision": 1792500000021
+  }
+}

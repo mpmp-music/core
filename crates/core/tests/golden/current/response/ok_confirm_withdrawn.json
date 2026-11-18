@@ -1,0 +1,13 @@
+{
+  "request_id": 28,
+  "result": {
+    "type": "ok",
+    "changed": true,
+    "queue_revision": 1792500000018,
+    "confirmed": {
+      "token": "c-5e6f7a8b",
+      "approved": false,
+      "reason": "withdrawn"
+    }
+  }
+}

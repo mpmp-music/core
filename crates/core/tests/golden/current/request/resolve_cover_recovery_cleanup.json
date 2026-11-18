@@ -1,0 +1,9 @@
+{
+  "request_id": 72,
+  "idempotency_key": null,
+  "command": {
+    "type": "resolve_cover_recovery",
+    "track": 42,
+    "resolution": "cleanup_candidates"
+  }
+}

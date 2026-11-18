@@ -1,0 +1,26 @@
+{
+  "type": "facet",
+  "values": [
+    {
+      "value": {
+        "type": "text",
+        "value": "Jazz"
+      },
+      "track_count": 120
+    },
+    {
+      "value": {
+        "type": "text",
+        "value": "Bossa Nova"
+      },
+      "track_count": 30
+    },
+    {
+      "value": null,
+      "track_count": 4
+    }
+  ],
+  "offset": 0,
+  "total": 3,
+  "next_offset": null
+}

@@ -1,0 +1,31 @@
+{
+  "request_id": 70,
+  "result": {
+    "type": "err",
+    "error": {
+      "kind": "forbidden",
+      "code": "permission_denied",
+      "message": "the user forbade agent:claude this command (add_root); forbidden by grant 33 (local_path commands: all of what it acts on), grant 35 (add_root: a part of what it acts on)",
+      "details": {
+        "forbidden_by": [
+          {
+            "grant": 33,
+            "operation": {
+              "type": "class",
+              "class": "local_path"
+            },
+            "covers": "all"
+          },
+          {
+            "grant": 35,
+            "operation": {
+              "type": "command",
+              "command": "add_root"
+            },
+            "covers": "part"
+          }
+        ]
+      }
+    }
+  }
+}

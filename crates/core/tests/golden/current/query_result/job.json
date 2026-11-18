@@ -1,0 +1,12 @@
+{
+  "type": "job",
+  "job": {
+    "id": 10,
+    "kind": "tag_edit",
+    "state": "running",
+    "progress": {
+      "done": 1,
+      "total": 2
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "seq": 50,
+  "origin": {
+    "type": "ui"
+  },
+  "event": {
+    "type": "cover_recovery_resolved",
+    "track": 42,
+    "summary": "Accepted current; backup: /music/.cover-backup-example (SHA-256 0123456789ab); staged: missing; retained for separately confirmed cleanup"
+  }
+}

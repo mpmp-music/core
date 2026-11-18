@@ -1,0 +1,14 @@
+{
+  "request_id": 13,
+  "result": {
+    "type": "err",
+    "error": {
+      "kind": "invalid",
+      "code": "out_of_range",
+      "message": "position 9000000 ms is past the end of the track (562000 ms)",
+      "details": {
+        "field": "command.position_ms"
+      }
+    }
+  }
+}

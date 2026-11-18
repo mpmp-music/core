@@ -1,0 +1,18 @@
+{
+  "request_id": 22,
+  "result": {
+    "type": "err",
+    "error": {
+      "kind": "needs_confirmation",
+      "code": "needs_confirmation",
+      "message": "waiting for the user to confirm",
+      "details": {
+        "confirmation": {
+          "token": "c-5f0e2a9b",
+          "summary": "Add the music folder /home/me/Music",
+          "expires_at_ms": 1792541100000
+        }
+      }
+    }
+  }
+}

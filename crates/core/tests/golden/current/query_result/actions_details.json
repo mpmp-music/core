@@ -1,0 +1,145 @@
+{
+  "type": "actions",
+  "actions": [
+    {
+      "id": 6000,
+      "recorded_at_ms": 1792540740000,
+      "origin": {
+        "type": "ui"
+      },
+      "kind": "tag_edit",
+      "summary": "an operation",
+      "target_count": 1,
+      "undone_by": null,
+      "undo_of": null,
+      "undoable": true,
+      "grant": null,
+      "details": {
+        "type": "tag_edit",
+        "changes": [
+          {
+            "type": "set",
+            "key": "TITLE"
+          },
+          {
+            "type": "remove",
+            "key": "COMMENT"
+          }
+        ]
+      }
+    },
+    {
+      "id": 6001,
+      "recorded_at_ms": 1792540740000,
+      "origin": {
+        "type": "ui"
+      },
+      "kind": "root_add",
+      "summary": "an operation",
+      "target_count": 1,
+      "undone_by": null,
+      "undo_of": null,
+      "undoable": true,
+      "grant": null,
+      "details": {
+        "type": "root",
+        "root": 1,
+        "path": "/home/me/Music"
+      }
+    },
+    {
+      "id": 6002,
+      "recorded_at_ms": 1792540740000,
+      "origin": {
+        "type": "ui"
+      },
+      "kind": "set_rating",
+      "summary": "an operation",
+      "target_count": 1,
+      "undone_by": null,
+      "undo_of": null,
+      "undoable": true,
+      "grant": null,
+      "details": {
+        "type": "set_rating",
+        "rating": 5
+      }
+    },
+    {
+      "id": 6003,
+      "recorded_at_ms": 1792540740000,
+      "origin": {
+        "type": "ui"
+      },
+      "kind": "set_rating",
+      "summary": "an operation",
+      "target_count": 1,
+      "undone_by": null,
+      "undo_of": null,
+      "undoable": true,
+      "grant": null,
+      "details": {
+        "type": "set_rating",
+        "rating": null
+      }
+    },
+    {
+      "id": 6004,
+      "recorded_at_ms": 1792540740000,
+      "origin": {
+        "type": "ui"
+      },
+      "kind": "set_loved",
+      "summary": "an operation",
+      "target_count": 1,
+      "undone_by": null,
+      "undo_of": null,
+      "undoable": true,
+      "grant": null,
+      "details": {
+        "type": "set_loved",
+        "loved": true
+      }
+    },
+    {
+      "id": 6005,
+      "recorded_at_ms": 1792540740000,
+      "origin": {
+        "type": "ui"
+      },
+      "kind": "playlist_create",
+      "summary": "an operation",
+      "target_count": 1,
+      "undone_by": null,
+      "undo_of": null,
+      "undoable": true,
+      "grant": null,
+      "details": {
+        "type": "playlist",
+        "playlist": 4,
+        "name": "Road trip"
+      }
+    },
+    {
+      "id": 6006,
+      "recorded_at_ms": 1792540740000,
+      "origin": {
+        "type": "ui"
+      },
+      "kind": "undo",
+      "summary": "an operation",
+      "target_count": 1,
+      "undone_by": null,
+      "undo_of": null,
+      "undoable": true,
+      "grant": null,
+      "details": {
+        "type": "undo",
+        "original_kind": "tag_edit"
+      }
+    }
+  ],
+  "offset": 0,
+  "total": 7,
+  "next_offset": null
+}

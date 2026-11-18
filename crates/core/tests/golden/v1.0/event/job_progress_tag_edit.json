@@ -1,0 +1,13 @@
+{
+  "seq": 5020,
+  "origin": {
+    "type": "ui"
+  },
+  "event": {
+    "type": "job_progress",
+    "job": 9,
+    "kind": "tag_edit",
+    "done": 1,
+    "total": 3
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "request_id": 40,
+  "idempotency_key": null,
+  "command": {
+    "type": "purge_playlists",
+    "playlists": [
+      9,
+      10
+    ]
+  }
+}

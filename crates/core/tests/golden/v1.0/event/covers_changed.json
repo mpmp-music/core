@@ -1,0 +1,12 @@
+{
+  "seq": 51,
+  "origin": {
+    "type": "ui"
+  },
+  "event": {
+    "type": "covers_changed",
+    "tracks": [
+      42
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "seq": 4196,
+  "origin": {
+    "type": "remote",
+    "device": "living-room-tablet"
+  },
+  "event": {
+    "type": "playlists_changed",
+    "playlists": [
+      12,
+      15
+    ]
+  }
+}

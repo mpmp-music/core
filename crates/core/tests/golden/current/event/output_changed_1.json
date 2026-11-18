@@ -1,0 +1,30 @@
+{
+  "seq": 7001,
+  "origin": null,
+  "event": {
+    "type": "output_changed",
+    "output": {
+      "settings_revision": 7,
+      "generation": 4,
+      "status": "ready",
+      "actual": {
+        "device_id": "cpal:fixed-1",
+        "name": "Speakers",
+        "share_mode": "shared",
+        "backend": "cpal",
+        "format": {
+          "sample_rate": 48000,
+          "channels": 2,
+          "bits_per_sample": 32,
+          "sample_format": "f32",
+          "valid_bits_per_sample": null
+        },
+        "physical_device_id": null,
+        "exclusive_verified": false,
+        "sample_integrity": "unverified"
+      },
+      "failure": null,
+      "fallback": null
+    }
+  }
+}

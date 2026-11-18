@@ -1,0 +1,53 @@
+{
+  "seq": 5010,
+  "origin": {
+    "type": "agent",
+    "name": "claude",
+    "session": "conn-7f3a"
+  },
+  "event": {
+    "type": "confirmation_requested",
+    "confirmation": {
+      "token": "c-5d1e0a77",
+      "summary": "rewrite the tags of 3 files: set ARTIST to \"Miren Dalen\", \"Jorin Calven\"; remove COMMENT; 1 file will have legacy text converted to standard Unicode encoding",
+      "command": {
+        "type": "edit_tags",
+        "tracks": [
+          42,
+          43,
+          44
+        ],
+        "changes": [
+          {
+            "type": "set",
+            "key": "ARTIST",
+            "values": [
+              "Miren Dalen",
+              "Jorin Calven"
+            ]
+          },
+          {
+            "type": "remove",
+            "key": "COMMENT"
+          }
+        ]
+      },
+      "requested_by": {
+        "type": "agent",
+        "name": "claude",
+        "session": "conn-7f3a"
+      },
+      "expires_at_ms": 1792541100000,
+      "operation": {
+        "class": "file_write",
+        "command": "edit_tags"
+      },
+      "scope": {
+        "type": "library",
+        "root": 1,
+        "prefix": "Miren Dalen/Kites of Brass"
+      },
+      "display_location": "/home/me/Music/Miren Dalen/Kites of Brass"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "type": "playlist_items",
+  "playlist": 12,
+  "offset": 0,
+  "limit": 500,
+  "tags": [
+    "COMPOSER",
+    "LABEL"
+  ]
+}

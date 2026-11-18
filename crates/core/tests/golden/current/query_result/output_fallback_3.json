@@ -1,0 +1,24 @@
+{
+  "type": "output_state",
+  "settings": {
+    "selection": {
+      "type": "system_default"
+    },
+    "settings_revision": 0,
+    "mode": "exclusive",
+    "fallback": "shared",
+    "rate_policy": "source"
+  },
+  "state": {
+    "settings_revision": 0,
+    "generation": 0,
+    "status": "idle",
+    "actual": null,
+    "failure": null,
+    "fallback": {
+      "reason": "device_identity_expired",
+      "requested_mode": "exclusive",
+      "actual_mode": null
+    }
+  }
+}

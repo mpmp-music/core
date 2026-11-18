@@ -1,0 +1,7 @@
+{
+  "request_id": 7,
+  "idempotency_key": null,
+  "command": {
+    "type": "pause"
+  }
+}

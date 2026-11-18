@@ -1,0 +1,12 @@
+{
+  "seq": 4300,
+  "origin": null,
+  "event": {
+    "type": "confirmation_resolved",
+    "outcome": {
+      "token": "c-1c2d3e4f",
+      "approved": false,
+      "reason": "expired"
+    }
+  }
+}

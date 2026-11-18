@@ -1,0 +1,683 @@
+[
+  {
+    "album_context": false,
+    "audio": {
+      "muted": false,
+      "replay_gain": {
+        "fallback_preamp_db": 0.0,
+        "mode": "off",
+        "preamp_db": 0.0,
+        "prevent_clipping": true
+      },
+      "volume": 1.0
+    },
+    "expected": {
+      "bit_perfect": {
+        "reason": "shared mode: the OS mixer may process the signal",
+        "type": "uncertain"
+      },
+      "codec": "flac",
+      "lossless": true,
+      "output_channels": 2,
+      "output_format": "f32",
+      "output_rate": 44100,
+      "reason_codes": [
+        "shared_mixer"
+      ],
+      "source_bits_per_sample": 16,
+      "source_channels": 2,
+      "source_rate": 44100,
+      "stages": []
+    },
+    "name": "shared mixer",
+    "output": {
+      "channels": 2,
+      "sample_format": "f32",
+      "sample_rate": 44100
+    },
+    "track": {
+      "bits_per_sample": 16,
+      "channels": 2,
+      "codec": "flac",
+      "lossless": true,
+      "sample_rate": 44100
+    }
+  },
+  {
+    "album_context": false,
+    "audio": {
+      "muted": false,
+      "replay_gain": {
+        "fallback_preamp_db": 0.0,
+        "mode": "off",
+        "preamp_db": 0.0,
+        "prevent_clipping": true
+      },
+      "volume": 1.0
+    },
+    "expected": {
+      "bit_perfect": {
+        "reasons": [
+          "lossy source (mp3)",
+          "resample: 44100 Hz → 48000 Hz",
+          "channels: 6 ch → 2 ch",
+          "word length: 24 bit → 16 bit"
+        ],
+        "type": "no"
+      },
+      "codec": "mp3",
+      "lossless": false,
+      "output_channels": 2,
+      "output_format": "i16",
+      "output_rate": 48000,
+      "reason_codes": [
+        "lossy_source",
+        "resample",
+        "channels",
+        "word_length"
+      ],
+      "source_bits_per_sample": 24,
+      "source_channels": 6,
+      "source_rate": 44100,
+      "stages": [
+        {
+          "alters_samples": true,
+          "detail": "44100 Hz → 48000 Hz",
+          "gain_db": null,
+          "gain_scope": null,
+          "gain_source": null,
+          "input_format": {
+            "bits_per_sample": 24,
+            "channels": 6,
+            "sample_format": null,
+            "sample_rate": 44100,
+            "valid_bits_per_sample": 24
+          },
+          "kind": "resample",
+          "name": "resample",
+          "output_format": {
+            "bits_per_sample": 16,
+            "channels": 2,
+            "sample_format": "i16",
+            "sample_rate": 48000,
+            "valid_bits_per_sample": 16
+          },
+          "silent": null
+        },
+        {
+          "alters_samples": true,
+          "detail": "6 ch → 2 ch",
+          "gain_db": null,
+          "gain_scope": null,
+          "gain_source": null,
+          "input_format": {
+            "bits_per_sample": 24,
+            "channels": 6,
+            "sample_format": null,
+            "sample_rate": 44100,
+            "valid_bits_per_sample": 24
+          },
+          "kind": "channels",
+          "name": "channels",
+          "output_format": {
+            "bits_per_sample": 16,
+            "channels": 2,
+            "sample_format": "i16",
+            "sample_rate": 48000,
+            "valid_bits_per_sample": 16
+          },
+          "silent": null
+        },
+        {
+          "alters_samples": true,
+          "detail": "24 bit → 16 bit",
+          "gain_db": null,
+          "gain_scope": null,
+          "gain_source": null,
+          "input_format": {
+            "bits_per_sample": 24,
+            "channels": 6,
+            "sample_format": null,
+            "sample_rate": 44100,
+            "valid_bits_per_sample": 24
+          },
+          "kind": "word_length",
+          "name": "word length",
+          "output_format": {
+            "bits_per_sample": 16,
+            "channels": 2,
+            "sample_format": "i16",
+            "sample_rate": 48000,
+            "valid_bits_per_sample": 16
+          },
+          "silent": null
+        }
+      ]
+    },
+    "name": "lossy resampled downmix narrowed",
+    "output": {
+      "channels": 2,
+      "sample_format": "i16",
+      "sample_rate": 48000
+    },
+    "track": {
+      "bits_per_sample": 24,
+      "channels": 6,
+      "codec": "mp3",
+      "lossless": false,
+      "sample_rate": 44100
+    }
+  },
+  {
+    "album_context": false,
+    "audio": {
+      "muted": false,
+      "replay_gain": {
+        "fallback_preamp_db": 0.0,
+        "mode": "off",
+        "preamp_db": 0.0,
+        "prevent_clipping": true
+      },
+      "volume": 1.0
+    },
+    "expected": {
+      "bit_perfect": {
+        "reason": "shared mode: the OS mixer may process the signal",
+        "type": "uncertain"
+      },
+      "codec": "flac",
+      "lossless": true,
+      "output_channels": 2,
+      "output_format": "f32",
+      "output_rate": 44100,
+      "reason_codes": [
+        "shared_mixer"
+      ],
+      "source_bits_per_sample": 16,
+      "source_channels": 1,
+      "source_rate": 44100,
+      "stages": [
+        {
+          "alters_samples": false,
+          "detail": "1 ch → 2 ch",
+          "gain_db": null,
+          "gain_scope": null,
+          "gain_source": null,
+          "input_format": {
+            "bits_per_sample": 16,
+            "channels": 1,
+            "sample_format": null,
+            "sample_rate": 44100,
+            "valid_bits_per_sample": 16
+          },
+          "kind": "channels",
+          "name": "channels",
+          "output_format": {
+            "bits_per_sample": 32,
+            "channels": 2,
+            "sample_format": "f32",
+            "sample_rate": 44100,
+            "valid_bits_per_sample": null
+          },
+          "silent": null
+        }
+      ]
+    },
+    "name": "mono duplication preserves samples",
+    "output": {
+      "channels": 2,
+      "sample_format": "f32",
+      "sample_rate": 44100
+    },
+    "track": {
+      "bits_per_sample": 16,
+      "channels": 1,
+      "codec": "flac",
+      "lossless": true,
+      "sample_rate": 44100
+    }
+  },
+  {
+    "album_context": false,
+    "audio": {
+      "muted": false,
+      "replay_gain": {
+        "fallback_preamp_db": 0.0,
+        "mode": "track",
+        "preamp_db": 2.0,
+        "prevent_clipping": true
+      },
+      "volume": 1.0
+    },
+    "expected": {
+      "bit_perfect": {
+        "reasons": [
+          "ReplayGain changes the level"
+        ],
+        "type": "no"
+      },
+      "codec": "flac",
+      "lossless": true,
+      "output_channels": 2,
+      "output_format": "f32",
+      "output_rate": 44100,
+      "reason_codes": [
+        "replay_gain"
+      ],
+      "source_bits_per_sample": 16,
+      "source_channels": 2,
+      "source_rate": 44100,
+      "stages": [
+        {
+          "alters_samples": true,
+          "detail": "track -5.00 dB",
+          "gain_db": -5.0,
+          "gain_scope": "track",
+          "gain_source": "tags",
+          "input_format": null,
+          "kind": "replay_gain",
+          "name": "replay gain",
+          "output_format": null,
+          "silent": null
+        }
+      ]
+    },
+    "name": "tag track gain with preamp",
+    "output": {
+      "channels": 2,
+      "sample_format": "f32",
+      "sample_rate": 44100
+    },
+    "track": {
+      "bits_per_sample": 16,
+      "channels": 2,
+      "codec": "flac",
+      "lossless": true,
+      "replay_gain": {
+        "track_gain_db": -7.0,
+        "track_peak": 0.9,
+        "track_source": "tags"
+      },
+      "sample_rate": 44100
+    }
+  },
+  {
+    "album_context": true,
+    "audio": {
+      "muted": false,
+      "replay_gain": {
+        "fallback_preamp_db": 0.0,
+        "mode": "smart",
+        "preamp_db": 2.0,
+        "prevent_clipping": true
+      },
+      "volume": 1.0
+    },
+    "expected": {
+      "bit_perfect": {
+        "reasons": [
+          "ReplayGain changes the level"
+        ],
+        "type": "no"
+      },
+      "codec": "flac",
+      "lossless": true,
+      "output_channels": 2,
+      "output_format": "f32",
+      "output_rate": 44100,
+      "reason_codes": [
+        "replay_gain"
+      ],
+      "source_bits_per_sample": 16,
+      "source_channels": 2,
+      "source_rate": 44100,
+      "stages": [
+        {
+          "alters_samples": true,
+          "detail": "album +1.94 dB",
+          "gain_db": 1.9382001161575317,
+          "gain_scope": "album",
+          "gain_source": "automatic",
+          "input_format": null,
+          "kind": "replay_gain",
+          "name": "replay gain",
+          "output_format": null,
+          "silent": null
+        }
+      ]
+    },
+    "name": "automatic album clipping",
+    "output": {
+      "channels": 2,
+      "sample_format": "f32",
+      "sample_rate": 44100
+    },
+    "track": {
+      "bits_per_sample": 16,
+      "channels": 2,
+      "codec": "flac",
+      "lossless": true,
+      "replay_gain": {
+        "album_gain_db": 3.0,
+        "album_peak": 0.8,
+        "album_source": "automatic"
+      },
+      "sample_rate": 44100
+    }
+  },
+  {
+    "album_context": false,
+    "audio": {
+      "muted": false,
+      "replay_gain": {
+        "fallback_preamp_db": 0.0,
+        "mode": "album",
+        "preamp_db": 0.0,
+        "prevent_clipping": true
+      },
+      "volume": 1.0
+    },
+    "expected": {
+      "bit_perfect": {
+        "reasons": [
+          "ReplayGain changes the level"
+        ],
+        "type": "no"
+      },
+      "codec": "flac",
+      "lossless": true,
+      "output_channels": 2,
+      "output_format": "f32",
+      "output_rate": 44100,
+      "reason_codes": [
+        "replay_gain"
+      ],
+      "source_bits_per_sample": 16,
+      "source_channels": 2,
+      "source_rate": 44100,
+      "stages": [
+        {
+          "alters_samples": true,
+          "detail": "track -3.00 dB",
+          "gain_db": -3.0,
+          "gain_scope": "track",
+          "gain_source": "tags",
+          "input_format": null,
+          "kind": "replay_gain",
+          "name": "replay gain",
+          "output_format": null,
+          "silent": null
+        }
+      ]
+    },
+    "name": "album falls back to track tags",
+    "output": {
+      "channels": 2,
+      "sample_format": "f32",
+      "sample_rate": 44100
+    },
+    "track": {
+      "bits_per_sample": 16,
+      "channels": 2,
+      "codec": "flac",
+      "lossless": true,
+      "replay_gain": {
+        "track_gain_db": -3.0,
+        "track_source": "tags"
+      },
+      "sample_rate": 44100
+    }
+  },
+  {
+    "album_context": false,
+    "audio": {
+      "muted": false,
+      "replay_gain": {
+        "fallback_preamp_db": -6.0,
+        "mode": "track",
+        "preamp_db": 0.0,
+        "prevent_clipping": true
+      },
+      "volume": 0.5
+    },
+    "expected": {
+      "bit_perfect": {
+        "reasons": [
+          "ReplayGain changes the level",
+          "volume is below 100 %"
+        ],
+        "type": "no"
+      },
+      "codec": "flac",
+      "lossless": true,
+      "output_channels": 2,
+      "output_format": "f32",
+      "output_rate": 44100,
+      "reason_codes": [
+        "replay_gain",
+        "volume"
+      ],
+      "source_bits_per_sample": 16,
+      "source_channels": 2,
+      "source_rate": 44100,
+      "stages": [
+        {
+          "alters_samples": true,
+          "detail": "no RG data; fallback -6.00 dB",
+          "gain_db": -6.0,
+          "gain_scope": null,
+          "gain_source": "fallback",
+          "input_format": null,
+          "kind": "replay_gain",
+          "name": "replay gain",
+          "output_format": null,
+          "silent": null
+        },
+        {
+          "alters_samples": true,
+          "detail": "-18.1 dB",
+          "gain_db": -18.061800003051758,
+          "gain_scope": null,
+          "gain_source": null,
+          "input_format": null,
+          "kind": "volume",
+          "name": "volume",
+          "output_format": null,
+          "silent": false
+        }
+      ]
+    },
+    "name": "fallback gain and volume",
+    "output": {
+      "channels": 2,
+      "sample_format": "f32",
+      "sample_rate": 44100
+    },
+    "track": {
+      "bits_per_sample": 16,
+      "channels": 2,
+      "codec": "flac",
+      "lossless": true,
+      "sample_rate": 44100
+    }
+  },
+  {
+    "album_context": false,
+    "audio": {
+      "muted": false,
+      "replay_gain": {
+        "fallback_preamp_db": 0.0,
+        "mode": "track",
+        "preamp_db": 0.0,
+        "prevent_clipping": true
+      },
+      "volume": 1.0
+    },
+    "expected": {
+      "bit_perfect": {
+        "reason": "shared mode: the OS mixer may process the signal",
+        "type": "uncertain"
+      },
+      "codec": "flac",
+      "lossless": true,
+      "output_channels": 2,
+      "output_format": "f32",
+      "output_rate": 44100,
+      "reason_codes": [
+        "shared_mixer"
+      ],
+      "source_bits_per_sample": 16,
+      "source_channels": 2,
+      "source_rate": 44100,
+      "stages": [
+        {
+          "alters_samples": false,
+          "detail": "track +0.00 dB (no adjustment)",
+          "gain_db": 0.0,
+          "gain_scope": "track",
+          "gain_source": "automatic",
+          "input_format": null,
+          "kind": "replay_gain",
+          "name": "replay gain",
+          "output_format": null,
+          "silent": null
+        }
+      ]
+    },
+    "name": "unity automatic gain",
+    "output": {
+      "channels": 2,
+      "sample_format": "f32",
+      "sample_rate": 44100
+    },
+    "track": {
+      "bits_per_sample": 16,
+      "channels": 2,
+      "codec": "flac",
+      "lossless": true,
+      "replay_gain": {
+        "track_gain_db": 0.0,
+        "track_source": "automatic"
+      },
+      "sample_rate": 44100
+    }
+  },
+  {
+    "album_context": false,
+    "audio": {
+      "muted": true,
+      "replay_gain": {
+        "fallback_preamp_db": 0.0,
+        "mode": "off",
+        "preamp_db": 0.0,
+        "prevent_clipping": true
+      },
+      "volume": 1.0
+    },
+    "expected": {
+      "bit_perfect": {
+        "reasons": [
+          "volume is below 100 %"
+        ],
+        "type": "no"
+      },
+      "codec": "flac",
+      "lossless": true,
+      "output_channels": 2,
+      "output_format": "f32",
+      "output_rate": 44100,
+      "reason_codes": [
+        "volume"
+      ],
+      "source_bits_per_sample": 16,
+      "source_channels": 2,
+      "source_rate": 44100,
+      "stages": [
+        {
+          "alters_samples": true,
+          "detail": "muted",
+          "gain_db": null,
+          "gain_scope": null,
+          "gain_source": null,
+          "input_format": null,
+          "kind": "volume",
+          "name": "volume",
+          "output_format": null,
+          "silent": true
+        }
+      ]
+    },
+    "name": "muted",
+    "output": {
+      "channels": 2,
+      "sample_format": "f32",
+      "sample_rate": 44100
+    },
+    "track": {
+      "bits_per_sample": 16,
+      "channels": 2,
+      "codec": "flac",
+      "lossless": true,
+      "sample_rate": 44100
+    }
+  },
+  {
+    "album_context": false,
+    "audio": {
+      "muted": false,
+      "replay_gain": {
+        "fallback_preamp_db": 0.0,
+        "mode": "off",
+        "preamp_db": 0.0,
+        "prevent_clipping": true
+      },
+      "volume": 0.0
+    },
+    "expected": {
+      "bit_perfect": {
+        "reasons": [
+          "volume is below 100 %"
+        ],
+        "type": "no"
+      },
+      "codec": "flac",
+      "lossless": true,
+      "output_channels": 2,
+      "output_format": "f32",
+      "output_rate": 44100,
+      "reason_codes": [
+        "volume"
+      ],
+      "source_bits_per_sample": 16,
+      "source_channels": 2,
+      "source_rate": 44100,
+      "stages": [
+        {
+          "alters_samples": true,
+          "detail": "silent",
+          "gain_db": null,
+          "gain_scope": null,
+          "gain_source": null,
+          "input_format": null,
+          "kind": "volume",
+          "name": "volume",
+          "output_format": null,
+          "silent": true
+        }
+      ]
+    },
+    "name": "silent volume",
+    "output": {
+      "channels": 2,
+      "sample_format": "f32",
+      "sample_rate": 44100
+    },
+    "track": {
+      "bits_per_sample": 16,
+      "channels": 2,
+      "codec": "flac",
+      "lossless": true,
+      "sample_rate": 44100
+    }
+  }
+]

@@ -1,0 +1,14 @@
+{
+  "request_id": 14,
+  "idempotency_key": "agent-enqueue-7",
+  "command": {
+    "type": "enqueue",
+    "tracks": [
+      2310,
+      3050
+    ],
+    "at": "next",
+    "expected_revision": 1792500000017,
+    "expected_current": 1792500000002
+  }
+}

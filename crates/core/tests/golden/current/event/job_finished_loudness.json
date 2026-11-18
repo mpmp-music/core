@@ -1,0 +1,24 @@
+{
+  "seq": 5041,
+  "origin": null,
+  "event": {
+    "type": "job_finished",
+    "job": 12,
+    "kind": "loudness_scan",
+    "outcome": {
+      "type": "completed",
+      "report": {
+        "type": "loudness_scan",
+        "measured_count": 1,
+        "album_count": 0,
+        "silent_count": 0,
+        "failed": [
+          {
+            "track": 43,
+            "code": "file_changed"
+          }
+        ]
+      }
+    }
+  }
+}

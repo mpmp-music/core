@@ -1,0 +1,9 @@
+{
+  "request_id": 47,
+  "idempotency_key": null,
+  "command": {
+    "type": "import_m3u",
+    "path": "/home/me/Playlists/road trip.m3u8",
+    "name": "Road trip"
+  }
+}

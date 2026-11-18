@@ -1,0 +1,3334 @@
+{
+  "cases": [
+    {
+      "expected": {
+        "ids": [
+          6,
+          4,
+          2,
+          8,
+          3,
+          5,
+          1
+        ],
+        "next_offset": null,
+        "total": 7
+      },
+      "name": "default query omitted",
+      "query": {
+        "limit": 100,
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          6,
+          4,
+          2,
+          8,
+          3,
+          5,
+          1
+        ],
+        "next_offset": null,
+        "total": 7
+      },
+      "name": "default query explicit",
+      "query": {
+        "limit": 100,
+        "query": {},
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          4,
+          2,
+          8
+        ],
+        "next_offset": 4,
+        "total": 7
+      },
+      "name": "default sorted page",
+      "query": {
+        "limit": 3,
+        "offset": 1,
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [],
+        "next_offset": null,
+        "total": 7
+      },
+      "name": "default count only",
+      "query": {
+        "limit": 0,
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          2,
+          8,
+          1
+        ],
+        "next_offset": null,
+        "total": 3
+      },
+      "name": "genre eq",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "genre"
+            },
+            "op": "eq",
+            "type": "compare",
+            "value": {
+              "type": "text",
+              "value": "Jazz"
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          3,
+          1
+        ],
+        "next_offset": null,
+        "total": 2
+      },
+      "name": "multi-valued tag eq",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "key": " style ",
+              "type": "tag"
+            },
+            "op": "eq",
+            "type": "compare",
+            "value": {
+              "type": "text",
+              "value": "jazz"
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          4
+        ],
+        "next_offset": null,
+        "total": 1
+      },
+      "name": "year eq",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "year"
+            },
+            "op": "eq",
+            "type": "compare",
+            "value": {
+              "type": "int",
+              "value": 2000
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          6,
+          4,
+          3,
+          5
+        ],
+        "next_offset": null,
+        "total": 4
+      },
+      "name": "genre ne",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "genre"
+            },
+            "op": "ne",
+            "type": "compare",
+            "value": {
+              "type": "text",
+              "value": "Jazz"
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          6,
+          4,
+          2,
+          8,
+          5
+        ],
+        "next_offset": null,
+        "total": 5
+      },
+      "name": "multi-valued tag ne",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "key": " style ",
+              "type": "tag"
+            },
+            "op": "ne",
+            "type": "compare",
+            "value": {
+              "type": "text",
+              "value": "jazz"
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          6,
+          2,
+          8,
+          3,
+          5,
+          1
+        ],
+        "next_offset": null,
+        "total": 6
+      },
+      "name": "year ne",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "year"
+            },
+            "op": "ne",
+            "type": "compare",
+            "value": {
+              "type": "int",
+              "value": 2000
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [],
+        "next_offset": null,
+        "total": 0
+      },
+      "name": "genre lt",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "genre"
+            },
+            "op": "lt",
+            "type": "compare",
+            "value": {
+              "type": "text",
+              "value": "Jazz"
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [],
+        "next_offset": null,
+        "total": 0
+      },
+      "name": "multi-valued tag lt",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "key": " style ",
+              "type": "tag"
+            },
+            "op": "lt",
+            "type": "compare",
+            "value": {
+              "type": "text",
+              "value": "jazz"
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          2
+        ],
+        "next_offset": null,
+        "total": 1
+      },
+      "name": "year lt",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "year"
+            },
+            "op": "lt",
+            "type": "compare",
+            "value": {
+              "type": "int",
+              "value": 2000
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          2,
+          8,
+          1
+        ],
+        "next_offset": null,
+        "total": 3
+      },
+      "name": "genre le",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "genre"
+            },
+            "op": "le",
+            "type": "compare",
+            "value": {
+              "type": "text",
+              "value": "Jazz"
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          3,
+          1
+        ],
+        "next_offset": null,
+        "total": 2
+      },
+      "name": "multi-valued tag le",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "key": " style ",
+              "type": "tag"
+            },
+            "op": "le",
+            "type": "compare",
+            "value": {
+              "type": "text",
+              "value": "jazz"
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          4,
+          2
+        ],
+        "next_offset": null,
+        "total": 2
+      },
+      "name": "year le",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "year"
+            },
+            "op": "le",
+            "type": "compare",
+            "value": {
+              "type": "int",
+              "value": 2000
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          3
+        ],
+        "next_offset": null,
+        "total": 1
+      },
+      "name": "genre gt",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "genre"
+            },
+            "op": "gt",
+            "type": "compare",
+            "value": {
+              "type": "text",
+              "value": "Jazz"
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          2,
+          1
+        ],
+        "next_offset": null,
+        "total": 2
+      },
+      "name": "multi-valued tag gt",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "key": " style ",
+              "type": "tag"
+            },
+            "op": "gt",
+            "type": "compare",
+            "value": {
+              "type": "text",
+              "value": "jazz"
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          8,
+          1
+        ],
+        "next_offset": null,
+        "total": 2
+      },
+      "name": "year gt",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "year"
+            },
+            "op": "gt",
+            "type": "compare",
+            "value": {
+              "type": "int",
+              "value": 2000
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          2,
+          8,
+          3,
+          1
+        ],
+        "next_offset": null,
+        "total": 4
+      },
+      "name": "genre ge",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "genre"
+            },
+            "op": "ge",
+            "type": "compare",
+            "value": {
+              "type": "text",
+              "value": "Jazz"
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          2,
+          3,
+          1
+        ],
+        "next_offset": null,
+        "total": 3
+      },
+      "name": "multi-valued tag ge",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "key": " style ",
+              "type": "tag"
+            },
+            "op": "ge",
+            "type": "compare",
+            "value": {
+              "type": "text",
+              "value": "jazz"
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          4,
+          8,
+          1
+        ],
+        "next_offset": null,
+        "total": 3
+      },
+      "name": "year ge",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "year"
+            },
+            "op": "ge",
+            "type": "compare",
+            "value": {
+              "type": "int",
+              "value": 2000
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          3,
+          1
+        ],
+        "next_offset": null,
+        "total": 2
+      },
+      "name": "lossless bool eq",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "lossless"
+            },
+            "op": "eq",
+            "type": "compare",
+            "value": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          6,
+          4,
+          2,
+          8,
+          5
+        ],
+        "next_offset": null,
+        "total": 5
+      },
+      "name": "lossless bool ne",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "lossless"
+            },
+            "op": "ne",
+            "type": "compare",
+            "value": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          6,
+          4,
+          2,
+          8,
+          3,
+          5,
+          1
+        ],
+        "next_offset": null,
+        "total": 7
+      },
+      "name": "modified_at timestamp eq",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "modified_at"
+            },
+            "op": "eq",
+            "type": "compare",
+            "value": {
+              "type": "timestamp",
+              "value": 0
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [],
+        "next_offset": null,
+        "total": 0
+      },
+      "name": "modified_at timestamp ne",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "modified_at"
+            },
+            "op": "ne",
+            "type": "compare",
+            "value": {
+              "type": "timestamp",
+              "value": 0
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [],
+        "next_offset": null,
+        "total": 0
+      },
+      "name": "modified_at timestamp lt",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "modified_at"
+            },
+            "op": "lt",
+            "type": "compare",
+            "value": {
+              "type": "timestamp",
+              "value": 0
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          6,
+          4,
+          2,
+          8,
+          3,
+          5,
+          1
+        ],
+        "next_offset": null,
+        "total": 7
+      },
+      "name": "modified_at timestamp ge",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "modified_at"
+            },
+            "op": "ge",
+            "type": "compare",
+            "value": {
+              "type": "timestamp",
+              "value": 0
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [],
+        "next_offset": null,
+        "total": 0
+      },
+      "name": "modified_at days_ago eq",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "modified_at"
+            },
+            "op": "eq",
+            "type": "compare",
+            "value": {
+              "type": "days_ago",
+              "value": 0
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          6,
+          4,
+          2,
+          8,
+          3,
+          5,
+          1
+        ],
+        "next_offset": null,
+        "total": 7
+      },
+      "name": "modified_at days_ago ne",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "modified_at"
+            },
+            "op": "ne",
+            "type": "compare",
+            "value": {
+              "type": "days_ago",
+              "value": 0
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          6,
+          4,
+          2,
+          8,
+          3,
+          5,
+          1
+        ],
+        "next_offset": null,
+        "total": 7
+      },
+      "name": "modified_at days_ago lt",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "modified_at"
+            },
+            "op": "lt",
+            "type": "compare",
+            "value": {
+              "type": "days_ago",
+              "value": 0
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [],
+        "next_offset": null,
+        "total": 0
+      },
+      "name": "modified_at days_ago ge",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "modified_at"
+            },
+            "op": "ge",
+            "type": "compare",
+            "value": {
+              "type": "days_ago",
+              "value": 0
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          6,
+          4,
+          5
+        ],
+        "next_offset": null,
+        "total": 3
+      },
+      "name": "missing genre",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "genre"
+            },
+            "type": "missing"
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          6,
+          4,
+          8,
+          5
+        ],
+        "next_offset": null,
+        "total": 4
+      },
+      "name": "missing {'type': 'tag', 'key': 'STYLE'}",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "key": "STYLE",
+              "type": "tag"
+            },
+            "type": "missing"
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          2,
+          8
+        ],
+        "next_offset": null,
+        "total": 2
+      },
+      "name": "normalized text title ガ",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "title"
+            },
+            "op": "eq",
+            "type": "compare",
+            "value": {
+              "type": "text",
+              "value": "ガ"
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          2,
+          8
+        ],
+        "next_offset": null,
+        "total": 2
+      },
+      "name": "normalized search ガ",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "text": "ガ",
+            "type": "search"
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          1
+        ],
+        "next_offset": null,
+        "total": 1
+      },
+      "name": "normalized text title カ",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "title"
+            },
+            "op": "eq",
+            "type": "compare",
+            "value": {
+              "type": "text",
+              "value": "カ"
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          1
+        ],
+        "next_offset": null,
+        "total": 1
+      },
+      "name": "normalized search カ",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "text": "カ",
+            "type": "search"
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          3
+        ],
+        "next_offset": null,
+        "total": 1
+      },
+      "name": "normalized text title strasse",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "title"
+            },
+            "op": "eq",
+            "type": "compare",
+            "value": {
+              "type": "text",
+              "value": "strasse"
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          3
+        ],
+        "next_offset": null,
+        "total": 1
+      },
+      "name": "normalized search strasse",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "text": "strasse",
+            "type": "search"
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          5
+        ],
+        "next_offset": null,
+        "total": 1
+      },
+      "name": "normalized text title 사랑",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "title"
+            },
+            "op": "eq",
+            "type": "compare",
+            "value": {
+              "type": "text",
+              "value": "사랑"
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          5
+        ],
+        "next_offset": null,
+        "total": 1
+      },
+      "name": "normalized search 사랑",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "text": "사랑",
+            "type": "search"
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          6
+        ],
+        "next_offset": null,
+        "total": 1
+      },
+      "name": "normalized text title ab c d e",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "title"
+            },
+            "op": "eq",
+            "type": "compare",
+            "value": {
+              "type": "text",
+              "value": "ab c d e"
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          6
+        ],
+        "next_offset": null,
+        "total": 1
+      },
+      "name": "normalized search ab c d e",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "text": "ab c d e",
+            "type": "search"
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          5
+        ],
+        "next_offset": null,
+        "total": 1
+      },
+      "name": "normalized text artist royksopp",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "artist"
+            },
+            "op": "eq",
+            "type": "compare",
+            "value": {
+              "type": "text",
+              "value": "royksopp"
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          5
+        ],
+        "next_offset": null,
+        "total": 1
+      },
+      "name": "normalized search royksopp",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "text": "royksopp",
+            "type": "search"
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          2,
+          8,
+          1
+        ],
+        "next_offset": null,
+        "total": 3
+      },
+      "name": "normalized text genre JAZZ",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "genre"
+            },
+            "op": "eq",
+            "type": "compare",
+            "value": {
+              "type": "text",
+              "value": "JAZZ"
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          2,
+          8,
+          1
+        ],
+        "next_offset": null,
+        "total": 3
+      },
+      "name": "normalized search JAZZ",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "text": "JAZZ",
+            "type": "search"
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          6,
+          4,
+          2,
+          8,
+          3,
+          5,
+          1
+        ],
+        "next_offset": null,
+        "total": 7
+      },
+      "name": "normalized empty search",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "text": "\u0000\t́",
+            "type": "search"
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          7
+        ],
+        "next_offset": null,
+        "total": 1
+      },
+      "name": "include unavailable",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "available"
+            },
+            "op": "eq",
+            "type": "compare",
+            "value": {
+              "type": "bool",
+              "value": false
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          2,
+          8,
+          1,
+          3,
+          6,
+          4,
+          5
+        ],
+        "next_offset": null,
+        "total": 7
+      },
+      "name": "sort genre False",
+      "query": {
+        "limit": 100,
+        "query": {
+          "sort": [
+            {
+              "descending": false,
+              "field": {
+                "type": "genre"
+              }
+            }
+          ]
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          3,
+          2,
+          8,
+          1,
+          6,
+          4,
+          5
+        ],
+        "next_offset": null,
+        "total": 7
+      },
+      "name": "sort genre True",
+      "query": {
+        "limit": 100,
+        "query": {
+          "sort": [
+            {
+              "descending": true,
+              "field": {
+                "type": "genre"
+              }
+            }
+          ]
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          3,
+          1,
+          2,
+          6,
+          4,
+          8,
+          5
+        ],
+        "next_offset": null,
+        "total": 7
+      },
+      "name": "sort {'type': 'tag', 'key': 'STYLE'} False",
+      "query": {
+        "limit": 100,
+        "query": {
+          "sort": [
+            {
+              "descending": false,
+              "field": {
+                "key": "STYLE",
+                "type": "tag"
+              }
+            }
+          ]
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          2,
+          3,
+          1,
+          6,
+          4,
+          8,
+          5
+        ],
+        "next_offset": null,
+        "total": 7
+      },
+      "name": "sort {'type': 'tag', 'key': 'STYLE'} True",
+      "query": {
+        "limit": 100,
+        "query": {
+          "sort": [
+            {
+              "descending": true,
+              "field": {
+                "key": "STYLE",
+                "type": "tag"
+              }
+            }
+          ]
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          2,
+          4,
+          1,
+          8,
+          6,
+          3,
+          5
+        ],
+        "next_offset": null,
+        "total": 7
+      },
+      "name": "sort year False",
+      "query": {
+        "limit": 100,
+        "query": {
+          "sort": [
+            {
+              "descending": false,
+              "field": {
+                "type": "year"
+              }
+            }
+          ]
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          8,
+          1,
+          4,
+          2,
+          6,
+          3,
+          5
+        ],
+        "next_offset": null,
+        "total": 7
+      },
+      "name": "sort year True",
+      "query": {
+        "limit": 100,
+        "query": {
+          "sort": [
+            {
+              "descending": true,
+              "field": {
+                "type": "year"
+              }
+            }
+          ]
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "error": "invalid_query"
+      },
+      "name": "text field needs text",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "genre"
+            },
+            "op": "eq",
+            "type": "compare",
+            "value": {
+              "type": "int",
+              "value": 4
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "empty": true,
+      "expected": {
+        "error": "invalid_query"
+      },
+      "name": "text field needs text in empty library",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "genre"
+            },
+            "op": "eq",
+            "type": "compare",
+            "value": {
+              "type": "int",
+              "value": 4
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "error": "invalid_query"
+      },
+      "name": "text field needs text behind short circuit",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "all": [
+              {
+                "any": [],
+                "type": "or"
+              },
+              {
+                "field": {
+                  "type": "genre"
+                },
+                "op": "eq",
+                "type": "compare",
+                "value": {
+                  "type": "int",
+                  "value": 4
+                }
+              }
+            ],
+            "type": "and"
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "error": "invalid_query"
+      },
+      "name": "text field needs text in facet",
+      "query": {
+        "field": {
+          "type": "genre"
+        },
+        "filter": {
+          "field": {
+            "type": "genre"
+          },
+          "op": "eq",
+          "type": "compare",
+          "value": {
+            "type": "int",
+            "value": 4
+          }
+        },
+        "limit": 100,
+        "type": "facet"
+      }
+    },
+    {
+      "expected": {
+        "error": "invalid_query"
+      },
+      "name": "integer field needs int",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "year"
+            },
+            "op": "eq",
+            "type": "compare",
+            "value": {
+              "type": "text",
+              "value": "2000"
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "empty": true,
+      "expected": {
+        "error": "invalid_query"
+      },
+      "name": "integer field needs int in empty library",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "year"
+            },
+            "op": "eq",
+            "type": "compare",
+            "value": {
+              "type": "text",
+              "value": "2000"
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "error": "invalid_query"
+      },
+      "name": "integer field needs int behind short circuit",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "all": [
+              {
+                "any": [],
+                "type": "or"
+              },
+              {
+                "field": {
+                  "type": "year"
+                },
+                "op": "eq",
+                "type": "compare",
+                "value": {
+                  "type": "text",
+                  "value": "2000"
+                }
+              }
+            ],
+            "type": "and"
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "error": "invalid_query"
+      },
+      "name": "integer field needs int in facet",
+      "query": {
+        "field": {
+          "type": "genre"
+        },
+        "filter": {
+          "field": {
+            "type": "year"
+          },
+          "op": "eq",
+          "type": "compare",
+          "value": {
+            "type": "text",
+            "value": "2000"
+          }
+        },
+        "limit": 100,
+        "type": "facet"
+      }
+    },
+    {
+      "expected": {
+        "error": "invalid_query"
+      },
+      "name": "bool field needs bool",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "lossless"
+            },
+            "op": "eq",
+            "type": "compare",
+            "value": {
+              "type": "int",
+              "value": 1
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "empty": true,
+      "expected": {
+        "error": "invalid_query"
+      },
+      "name": "bool field needs bool in empty library",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "lossless"
+            },
+            "op": "eq",
+            "type": "compare",
+            "value": {
+              "type": "int",
+              "value": 1
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "error": "invalid_query"
+      },
+      "name": "bool field needs bool behind short circuit",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "all": [
+              {
+                "any": [],
+                "type": "or"
+              },
+              {
+                "field": {
+                  "type": "lossless"
+                },
+                "op": "eq",
+                "type": "compare",
+                "value": {
+                  "type": "int",
+                  "value": 1
+                }
+              }
+            ],
+            "type": "and"
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "error": "invalid_query"
+      },
+      "name": "bool field needs bool in facet",
+      "query": {
+        "field": {
+          "type": "genre"
+        },
+        "filter": {
+          "field": {
+            "type": "lossless"
+          },
+          "op": "eq",
+          "type": "compare",
+          "value": {
+            "type": "int",
+            "value": 1
+          }
+        },
+        "limit": 100,
+        "type": "facet"
+      }
+    },
+    {
+      "expected": {
+        "error": "invalid_query"
+      },
+      "name": "bool ordering forbidden",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "lossless"
+            },
+            "op": "gt",
+            "type": "compare",
+            "value": {
+              "type": "bool",
+              "value": false
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "empty": true,
+      "expected": {
+        "error": "invalid_query"
+      },
+      "name": "bool ordering forbidden in empty library",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "lossless"
+            },
+            "op": "gt",
+            "type": "compare",
+            "value": {
+              "type": "bool",
+              "value": false
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "error": "invalid_query"
+      },
+      "name": "bool ordering forbidden behind short circuit",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "all": [
+              {
+                "any": [],
+                "type": "or"
+              },
+              {
+                "field": {
+                  "type": "lossless"
+                },
+                "op": "gt",
+                "type": "compare",
+                "value": {
+                  "type": "bool",
+                  "value": false
+                }
+              }
+            ],
+            "type": "and"
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "error": "invalid_query"
+      },
+      "name": "bool ordering forbidden in facet",
+      "query": {
+        "field": {
+          "type": "genre"
+        },
+        "filter": {
+          "field": {
+            "type": "lossless"
+          },
+          "op": "gt",
+          "type": "compare",
+          "value": {
+            "type": "bool",
+            "value": false
+          }
+        },
+        "limit": 100,
+        "type": "facet"
+      }
+    },
+    {
+      "expected": {
+        "error": "invalid_query"
+      },
+      "name": "timestamp field rejects int",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "modified_at"
+            },
+            "op": "eq",
+            "type": "compare",
+            "value": {
+              "type": "int",
+              "value": 0
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "empty": true,
+      "expected": {
+        "error": "invalid_query"
+      },
+      "name": "timestamp field rejects int in empty library",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "modified_at"
+            },
+            "op": "eq",
+            "type": "compare",
+            "value": {
+              "type": "int",
+              "value": 0
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "error": "invalid_query"
+      },
+      "name": "timestamp field rejects int behind short circuit",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "all": [
+              {
+                "any": [],
+                "type": "or"
+              },
+              {
+                "field": {
+                  "type": "modified_at"
+                },
+                "op": "eq",
+                "type": "compare",
+                "value": {
+                  "type": "int",
+                  "value": 0
+                }
+              }
+            ],
+            "type": "and"
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "error": "invalid_query"
+      },
+      "name": "timestamp field rejects int in facet",
+      "query": {
+        "field": {
+          "type": "genre"
+        },
+        "filter": {
+          "field": {
+            "type": "modified_at"
+          },
+          "op": "eq",
+          "type": "compare",
+          "value": {
+            "type": "int",
+            "value": 0
+          }
+        },
+        "limit": 100,
+        "type": "facet"
+      }
+    },
+    {
+      "expected": {
+        "error": "invalid_query"
+      },
+      "name": "tag field needs text",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "key": "STYLE",
+              "type": "tag"
+            },
+            "op": "ne",
+            "type": "compare",
+            "value": {
+              "type": "int",
+              "value": 1
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "empty": true,
+      "expected": {
+        "error": "invalid_query"
+      },
+      "name": "tag field needs text in empty library",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "key": "STYLE",
+              "type": "tag"
+            },
+            "op": "ne",
+            "type": "compare",
+            "value": {
+              "type": "int",
+              "value": 1
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "error": "invalid_query"
+      },
+      "name": "tag field needs text behind short circuit",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "all": [
+              {
+                "any": [],
+                "type": "or"
+              },
+              {
+                "field": {
+                  "key": "STYLE",
+                  "type": "tag"
+                },
+                "op": "ne",
+                "type": "compare",
+                "value": {
+                  "type": "int",
+                  "value": 1
+                }
+              }
+            ],
+            "type": "and"
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "error": "invalid_query"
+      },
+      "name": "tag field needs text in facet",
+      "query": {
+        "field": {
+          "type": "genre"
+        },
+        "filter": {
+          "field": {
+            "key": "STYLE",
+            "type": "tag"
+          },
+          "op": "ne",
+          "type": "compare",
+          "value": {
+            "type": "int",
+            "value": 1
+          }
+        },
+        "limit": 100,
+        "type": "facet"
+      }
+    },
+    {
+      "expected": {
+        "error": "invalid_query"
+      },
+      "name": "text op requires text field",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "year"
+            },
+            "op": "equals",
+            "text": "2000",
+            "type": "text"
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "empty": true,
+      "expected": {
+        "error": "invalid_query"
+      },
+      "name": "text op requires text field in empty library",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "type": "year"
+            },
+            "op": "equals",
+            "text": "2000",
+            "type": "text"
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "error": "invalid_query"
+      },
+      "name": "text op requires text field behind short circuit",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "all": [
+              {
+                "any": [],
+                "type": "or"
+              },
+              {
+                "field": {
+                  "type": "year"
+                },
+                "op": "equals",
+                "text": "2000",
+                "type": "text"
+              }
+            ],
+            "type": "and"
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "error": "invalid_query"
+      },
+      "name": "text op requires text field in facet",
+      "query": {
+        "field": {
+          "type": "genre"
+        },
+        "filter": {
+          "field": {
+            "type": "year"
+          },
+          "op": "equals",
+          "text": "2000",
+          "type": "text"
+        },
+        "limit": 100,
+        "type": "facet"
+      }
+    },
+    {
+      "expected": {
+        "error": "invalid_query"
+      },
+      "name": "empty tag key",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "key": " \t ",
+              "type": "tag"
+            },
+            "op": "eq",
+            "type": "compare",
+            "value": {
+              "type": "text",
+              "value": "Jazz"
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "empty": true,
+      "expected": {
+        "error": "invalid_query"
+      },
+      "name": "empty tag key in empty library",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "key": " \t ",
+              "type": "tag"
+            },
+            "op": "eq",
+            "type": "compare",
+            "value": {
+              "type": "text",
+              "value": "Jazz"
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "error": "invalid_query"
+      },
+      "name": "empty tag key behind short circuit",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "all": [
+              {
+                "any": [],
+                "type": "or"
+              },
+              {
+                "field": {
+                  "key": " \t ",
+                  "type": "tag"
+                },
+                "op": "eq",
+                "type": "compare",
+                "value": {
+                  "type": "text",
+                  "value": "Jazz"
+                }
+              }
+            ],
+            "type": "and"
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "error": "invalid_query"
+      },
+      "name": "empty tag key in facet",
+      "query": {
+        "field": {
+          "type": "genre"
+        },
+        "filter": {
+          "field": {
+            "key": " \t ",
+            "type": "tag"
+          },
+          "op": "eq",
+          "type": "compare",
+          "value": {
+            "type": "text",
+            "value": "Jazz"
+          }
+        },
+        "limit": 100,
+        "type": "facet"
+      }
+    },
+    {
+      "expected": {
+        "ids": [],
+        "next_offset": null,
+        "total": 0
+      },
+      "name": "FEFF is not search whitespace",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "text": "﻿",
+            "type": "search"
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          6,
+          4,
+          2,
+          8,
+          5
+        ],
+        "next_offset": null,
+        "total": 5
+      },
+      "name": "multi-valued tag ne with unpadded key",
+      "query": {
+        "limit": 100,
+        "query": {
+          "filter": {
+            "field": {
+              "key": "STYLE",
+              "type": "tag"
+            },
+            "op": "ne",
+            "type": "compare",
+            "value": {
+              "type": "text",
+              "value": "jazz"
+            }
+          }
+        },
+        "type": "tracks"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          4
+        ],
+        "next_offset": 1,
+        "offset": 0,
+        "total": 2
+      },
+      "name": "album page 0/1",
+      "query": {
+        "key": "a\u001falbum",
+        "limit": 1,
+        "offset": 0,
+        "type": "album"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          2
+        ],
+        "next_offset": null,
+        "offset": 1,
+        "total": 2
+      },
+      "name": "album page 1/1",
+      "query": {
+        "key": "a\u001falbum",
+        "limit": 1,
+        "offset": 1,
+        "type": "album"
+      }
+    },
+    {
+      "expected": {
+        "ids": [],
+        "next_offset": null,
+        "offset": 2,
+        "total": 2
+      },
+      "name": "album page 2/1",
+      "query": {
+        "key": "a\u001falbum",
+        "limit": 1,
+        "offset": 2,
+        "type": "album"
+      }
+    },
+    {
+      "expected": {
+        "ids": [],
+        "next_offset": null,
+        "offset": 0,
+        "total": 2
+      },
+      "name": "album page 0/0",
+      "query": {
+        "key": "a\u001falbum",
+        "limit": 0,
+        "offset": 0,
+        "type": "album"
+      }
+    },
+    {
+      "expected": {
+        "ids": [],
+        "next_offset": null,
+        "offset": 99,
+        "total": 2
+      },
+      "name": "album page 99/4",
+      "query": {
+        "key": "a\u001falbum",
+        "limit": 4,
+        "offset": 99,
+        "type": "album"
+      }
+    },
+    {
+      "expected": {
+        "ids": [
+          4,
+          2
+        ],
+        "next_offset": null,
+        "offset": 0,
+        "total": 2
+      },
+      "name": "album page 0/4294967295",
+      "query": {
+        "key": "a\u001falbum",
+        "limit": 4294967295,
+        "offset": 0,
+        "type": "album"
+      }
+    },
+    {
+      "expected": {
+        "albums": [],
+        "artists": [],
+        "ids": [
+          6
+        ],
+        "next_offset": 1,
+        "offset": 0,
+        "total": 7,
+        "totals": [
+          7,
+          6,
+          1
+        ]
+      },
+      "name": "search tracks page 0/1",
+      "query": {
+        "kind": "tracks",
+        "limit": 1,
+        "offset": 0,
+        "text": "a",
+        "type": "search"
+      }
+    },
+    {
+      "expected": {
+        "albums": [],
+        "artists": [],
+        "ids": [
+          3
+        ],
+        "next_offset": 2,
+        "offset": 1,
+        "total": 7,
+        "totals": [
+          7,
+          6,
+          1
+        ]
+      },
+      "name": "search tracks page 1/1",
+      "query": {
+        "kind": "tracks",
+        "limit": 1,
+        "offset": 1,
+        "text": "a",
+        "type": "search"
+      }
+    },
+    {
+      "expected": {
+        "albums": [],
+        "artists": [],
+        "ids": [],
+        "next_offset": null,
+        "offset": 0,
+        "total": 7,
+        "totals": [
+          7,
+          6,
+          1
+        ]
+      },
+      "name": "search tracks page 0/0",
+      "query": {
+        "kind": "tracks",
+        "limit": 0,
+        "offset": 0,
+        "text": "a",
+        "type": "search"
+      }
+    },
+    {
+      "expected": {
+        "albums": [],
+        "artists": [],
+        "ids": [],
+        "next_offset": null,
+        "offset": 99,
+        "total": 7,
+        "totals": [
+          7,
+          6,
+          1
+        ]
+      },
+      "name": "search tracks page 99/2",
+      "query": {
+        "kind": "tracks",
+        "limit": 2,
+        "offset": 99,
+        "text": "a",
+        "type": "search"
+      }
+    },
+    {
+      "expected": {
+        "albums": [],
+        "artists": [],
+        "ids": [
+          6,
+          3,
+          4,
+          1,
+          2,
+          8,
+          5
+        ],
+        "next_offset": null,
+        "offset": 0,
+        "total": 7,
+        "totals": [
+          7,
+          6,
+          1
+        ]
+      },
+      "name": "search tracks page 0/4294967295",
+      "query": {
+        "kind": "tracks",
+        "limit": 4294967295,
+        "offset": 0,
+        "text": "a",
+        "type": "search"
+      }
+    },
+    {
+      "expected": {
+        "albums": [
+          "\u001falbum"
+        ],
+        "artists": [],
+        "ids": [],
+        "next_offset": 1,
+        "offset": 0,
+        "total": 6,
+        "totals": [
+          7,
+          6,
+          1
+        ]
+      },
+      "name": "search albums page 0/1",
+      "query": {
+        "kind": "albums",
+        "limit": 1,
+        "offset": 0,
+        "text": "a",
+        "type": "search"
+      }
+    },
+    {
+      "expected": {
+        "albums": [
+          "a\u001falbum"
+        ],
+        "artists": [],
+        "ids": [],
+        "next_offset": 2,
+        "offset": 1,
+        "total": 6,
+        "totals": [
+          7,
+          6,
+          1
+        ]
+      },
+      "name": "search albums page 1/1",
+      "query": {
+        "kind": "albums",
+        "limit": 1,
+        "offset": 1,
+        "text": "a",
+        "type": "search"
+      }
+    },
+    {
+      "expected": {
+        "albums": [],
+        "artists": [],
+        "ids": [],
+        "next_offset": null,
+        "offset": 0,
+        "total": 6,
+        "totals": [
+          7,
+          6,
+          1
+        ]
+      },
+      "name": "search albums page 0/0",
+      "query": {
+        "kind": "albums",
+        "limit": 0,
+        "offset": 0,
+        "text": "a",
+        "type": "search"
+      }
+    },
+    {
+      "expected": {
+        "albums": [],
+        "artists": [],
+        "ids": [],
+        "next_offset": null,
+        "offset": 99,
+        "total": 6,
+        "totals": [
+          7,
+          6,
+          1
+        ]
+      },
+      "name": "search albums page 99/2",
+      "query": {
+        "kind": "albums",
+        "limit": 2,
+        "offset": 99,
+        "text": "a",
+        "type": "search"
+      }
+    },
+    {
+      "expected": {
+        "albums": [
+          "\u001falbum",
+          "a\u001falbum",
+          "b\u001falbum",
+          "royksopp\u001falbum",
+          "z\u001falbum",
+          "a\u001fbeta"
+        ],
+        "artists": [],
+        "ids": [],
+        "next_offset": null,
+        "offset": 0,
+        "total": 6,
+        "totals": [
+          7,
+          6,
+          1
+        ]
+      },
+      "name": "search albums page 0/4294967295",
+      "query": {
+        "kind": "albums",
+        "limit": 4294967295,
+        "offset": 0,
+        "text": "a",
+        "type": "search"
+      }
+    },
+    {
+      "expected": {
+        "albums": [],
+        "artists": [
+          "A"
+        ],
+        "ids": [],
+        "next_offset": null,
+        "offset": 0,
+        "total": 1,
+        "totals": [
+          7,
+          6,
+          1
+        ]
+      },
+      "name": "search artists page 0/1",
+      "query": {
+        "kind": "artists",
+        "limit": 1,
+        "offset": 0,
+        "text": "a",
+        "type": "search"
+      }
+    },
+    {
+      "expected": {
+        "albums": [],
+        "artists": [],
+        "ids": [],
+        "next_offset": null,
+        "offset": 1,
+        "total": 1,
+        "totals": [
+          7,
+          6,
+          1
+        ]
+      },
+      "name": "search artists page 1/1",
+      "query": {
+        "kind": "artists",
+        "limit": 1,
+        "offset": 1,
+        "text": "a",
+        "type": "search"
+      }
+    },
+    {
+      "expected": {
+        "albums": [],
+        "artists": [],
+        "ids": [],
+        "next_offset": null,
+        "offset": 0,
+        "total": 1,
+        "totals": [
+          7,
+          6,
+          1
+        ]
+      },
+      "name": "search artists page 0/0",
+      "query": {
+        "kind": "artists",
+        "limit": 0,
+        "offset": 0,
+        "text": "a",
+        "type": "search"
+      }
+    },
+    {
+      "expected": {
+        "albums": [],
+        "artists": [],
+        "ids": [],
+        "next_offset": null,
+        "offset": 99,
+        "total": 1,
+        "totals": [
+          7,
+          6,
+          1
+        ]
+      },
+      "name": "search artists page 99/2",
+      "query": {
+        "kind": "artists",
+        "limit": 2,
+        "offset": 99,
+        "text": "a",
+        "type": "search"
+      }
+    },
+    {
+      "expected": {
+        "albums": [],
+        "artists": [
+          "A"
+        ],
+        "ids": [],
+        "next_offset": null,
+        "offset": 0,
+        "total": 1,
+        "totals": [
+          7,
+          6,
+          1
+        ]
+      },
+      "name": "search artists page 0/4294967295",
+      "query": {
+        "kind": "artists",
+        "limit": 4294967295,
+        "offset": 0,
+        "text": "a",
+        "type": "search"
+      }
+    },
+    {
+      "expected": {
+        "albums": [],
+        "artists": [],
+        "ids": [],
+        "next_offset": null,
+        "offset": 0,
+        "total": 0,
+        "totals": [
+          0,
+          0,
+          0
+        ]
+      },
+      "name": "search blank/no hits ''",
+      "query": {
+        "kind": "tracks",
+        "limit": 1,
+        "offset": 0,
+        "text": "",
+        "type": "search"
+      }
+    },
+    {
+      "expected": {
+        "albums": [],
+        "artists": [],
+        "ids": [],
+        "next_offset": null,
+        "offset": 0,
+        "total": 0,
+        "totals": [
+          0,
+          0,
+          0
+        ]
+      },
+      "name": "search blank/no hits '  '",
+      "query": {
+        "kind": "tracks",
+        "limit": 1,
+        "offset": 0,
+        "text": "  ",
+        "type": "search"
+      }
+    },
+    {
+      "expected": {
+        "albums": [],
+        "artists": [],
+        "ids": [],
+        "next_offset": null,
+        "offset": 0,
+        "total": 0,
+        "totals": [
+          0,
+          0,
+          0
+        ]
+      },
+      "name": "search blank/no hits 'unmatchable'",
+      "query": {
+        "kind": "tracks",
+        "limit": 1,
+        "offset": 0,
+        "text": "unmatchable",
+        "type": "search"
+      }
+    },
+    {
+      "expected": {
+        "albums": [
+          "\u001falbum",
+          "a\u001falbum"
+        ],
+        "artists": [
+          "A"
+        ],
+        "ids": [
+          6,
+          3
+        ],
+        "next_offset": null,
+        "offset": 0,
+        "total": 14,
+        "totals": [
+          7,
+          6,
+          1
+        ]
+      },
+      "name": "mixed search first screen",
+      "query": {
+        "limit": 2,
+        "text": "a",
+        "type": "search"
+      }
+    },
+    {
+      "expected": {
+        "albums": [],
+        "artists": [],
+        "ids": [
+          1,
+          2
+        ],
+        "next_offset": 2,
+        "offset": 0,
+        "total": 6,
+        "totals": [
+          6,
+          5,
+          0
+        ]
+      },
+      "name": "FTS relevance page album/0",
+      "query": {
+        "kind": "tracks",
+        "limit": 2,
+        "offset": 0,
+        "text": "album",
+        "type": "search"
+      }
+    },
+    {
+      "expected": {
+        "albums": [],
+        "artists": [],
+        "ids": [
+          2,
+          4
+        ],
+        "next_offset": 3,
+        "offset": 1,
+        "total": 6,
+        "totals": [
+          6,
+          5,
+          0
+        ]
+      },
+      "name": "FTS relevance page album/1",
+      "query": {
+        "kind": "tracks",
+        "limit": 2,
+        "offset": 1,
+        "text": "album",
+        "type": "search"
+      }
+    },
+    {
+      "expected": {
+        "albums": [],
+        "artists": [],
+        "ids": [
+          3
+        ],
+        "next_offset": null,
+        "offset": 0,
+        "total": 1,
+        "totals": [
+          1,
+          0,
+          0
+        ]
+      },
+      "name": "FTS relevance page strasse/0",
+      "query": {
+        "kind": "tracks",
+        "limit": 2,
+        "offset": 0,
+        "text": "strasse",
+        "type": "search"
+      }
+    },
+    {
+      "expected": {
+        "albums": [],
+        "artists": [],
+        "ids": [],
+        "next_offset": null,
+        "offset": 1,
+        "total": 1,
+        "totals": [
+          1,
+          0,
+          0
+        ]
+      },
+      "name": "FTS relevance page strasse/1",
+      "query": {
+        "kind": "tracks",
+        "limit": 2,
+        "offset": 1,
+        "text": "strasse",
+        "type": "search"
+      }
+    },
+    {
+      "expected": {
+        "albums": [],
+        "artists": [],
+        "ids": [
+          1,
+          2
+        ],
+        "next_offset": 2,
+        "offset": 0,
+        "total": 6,
+        "totals": [
+          6,
+          5,
+          0
+        ]
+      },
+      "name": "FTS relevance page album a/0",
+      "query": {
+        "kind": "tracks",
+        "limit": 2,
+        "offset": 0,
+        "text": "album a",
+        "type": "search"
+      }
+    },
+    {
+      "expected": {
+        "albums": [],
+        "artists": [],
+        "ids": [
+          2,
+          4
+        ],
+        "next_offset": 3,
+        "offset": 1,
+        "total": 6,
+        "totals": [
+          6,
+          5,
+          0
+        ]
+      },
+      "name": "FTS relevance page album a/1",
+      "query": {
+        "kind": "tracks",
+        "limit": 2,
+        "offset": 1,
+        "text": "album a",
+        "type": "search"
+      }
+    },
+    {
+      "name": "mixed search offset is rejected",
+      "query": {
+        "type": "search",
+        "text": "song",
+        "offset": 1,
+        "limit": 10
+      },
+      "expected": {
+        "error": "out_of_range"
+      }
+    }
+  ],
+  "defaults": {
+    "album": "Album",
+    "album_artist": null,
+    "artist": null,
+    "available": true,
+    "compilation": false,
+    "disc_no": null,
+    "genre": null,
+    "lossless": false,
+    "modified_at_ms": 0,
+    "tags": {},
+    "track_no": null,
+    "year": null
+  },
+  "normalization": [
+    {
+      "expected": "ガ",
+      "input": "ガ"
+    },
+    {
+      "expected": "カ",
+      "input": "カ"
+    },
+    {
+      "expected": "ガンダム",
+      "input": "ｶﾞﾝﾀﾞﾑ"
+    },
+    {
+      "expected": "사랑",
+      "input": "사랑"
+    },
+    {
+      "expected": "etude dvorak",
+      "input": "Étude Dvořák"
+    },
+    {
+      "expected": "o d d l h i ss ae oe th",
+      "input": "Ø Đ Ð Ł Ħ ı ß Æ Œ Þ"
+    },
+    {
+      "expected": "strasse",
+      "input": "Straße"
+    },
+    {
+      "expected": "istanbul",
+      "input": "İstanbul"
+    },
+    {
+      "expected": "abc song",
+      "input": "ＡＢＣ　Ｓｏｎｇ"
+    },
+    {
+      "expected": "songtm no5 20°c mhz",
+      "input": "Song™ №5 20℃ ㎒"
+    },
+    {
+      "expected": "abcd",
+      "input": "́a᪰b᷀c⃐d︠"
+    },
+    {
+      "expected": "a b c",
+      "input": "  a\u0000\u001fbc\t  "
+    },
+    {
+      "expected": "﻿ a ﻿",
+      "input": "﻿ a ﻿"
+    },
+    {
+      "expected": "ा",
+      "input": "ा"
+    },
+    {
+      "expected": "ος",
+      "input": "ΟΣ"
+    },
+    {
+      "expected": "𐐨",
+      "input": "𐐀"
+    }
+  ],
+  "tracks": [
+    {
+      "artist": "Z",
+      "genre": "Jazz",
+      "id": 1,
+      "lossless": true,
+      "path": "z.flac",
+      "tags": {
+        "STYLE": [
+          "Jazz",
+          "Rock"
+        ]
+      },
+      "title": "カ",
+      "year": 2020
+    },
+    {
+      "artist": "A",
+      "genre": "ＪＡＺＺ",
+      "id": 2,
+      "path": "a2.flac",
+      "tags": {
+        "STYLE": [
+          "Rock"
+        ]
+      },
+      "title": "ガ",
+      "year": 1990
+    },
+    {
+      "artist": "B",
+      "genre": "Rock",
+      "id": 3,
+      "lossless": true,
+      "path": "b.flac",
+      "tags": {
+        "STYLE": [
+          "JAZZ"
+        ]
+      },
+      "title": "Straße"
+    },
+    {
+      "artist": "A",
+      "genre": "́",
+      "id": 4,
+      "path": "a1.flac",
+      "tags": {
+        "STYLE": [
+          "́",
+          "\u001f"
+        ]
+      },
+      "title": "ÉTUDE",
+      "year": 2000
+    },
+    {
+      "artist": "Røyksopp",
+      "genre": null,
+      "id": 5,
+      "path": "r.flac",
+      "title": "사랑"
+    },
+    {
+      "genre": "\t  ",
+      "id": 6,
+      "path": "unknown.flac",
+      "title": "ＡＢ\u001fＣ\u0000 DE"
+    },
+    {
+      "artist": "B",
+      "available": false,
+      "genre": "Jazz",
+      "id": 7,
+      "path": "missing.flac",
+      "tags": {
+        "STYLE": [
+          "Swing",
+          "Blues"
+        ]
+      },
+      "title": "Unavailable"
+    },
+    {
+      "album": "Beta",
+      "artist": "A",
+      "genre": "Jazz",
+      "id": 8,
+      "path": "a3.flac",
+      "title": "ｶﾞ",
+      "year": 2021
+    }
+  ],
+  "large_album": {
+    "count": 1007,
+    "cases": [
+      {
+        "name": "v1.0 album request returns every track",
+        "query": {
+          "type": "album",
+          "key": "a\u001falbum"
+        },
+        "length": 1007,
+        "offset": 0,
+        "next_offset": null
+      },
+      {
+        "name": "explicit offset zero opts into paging",
+        "query": {
+          "type": "album",
+          "key": "a\u001falbum",
+          "offset": 0
+        },
+        "length": 1000,
+        "offset": 0,
+        "next_offset": 1000
+      },
+      {
+        "name": "explicit oversized limit is capped",
+        "query": {
+          "type": "album",
+          "key": "a\u001falbum",
+          "limit": 4294967295
+        },
+        "length": 1000,
+        "offset": 0,
+        "next_offset": 1000
+      },
+      {
+        "name": "offset only reads remaining tracks",
+        "query": {
+          "type": "album",
+          "key": "a\u001falbum",
+          "offset": 1000
+        },
+        "length": 7,
+        "offset": 1000,
+        "next_offset": null
+      },
+      {
+        "name": "explicit zero only counts",
+        "query": {
+          "type": "album",
+          "key": "a\u001falbum",
+          "limit": 0
+        },
+        "length": 0,
+        "offset": 0,
+        "next_offset": null
+      }
+    ]
+  }
+}

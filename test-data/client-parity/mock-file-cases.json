@@ -1,0 +1,805 @@
+{
+  "command_preconditions": [
+    {
+      "command": {
+        "changes": [
+          {
+            "key": "TITLE",
+            "type": "set",
+            "values": [
+              "x"
+            ]
+          }
+        ],
+        "tracks": [],
+        "type": "edit_tags"
+      },
+      "core_error": null,
+      "expected": {
+        "code": "invalid",
+        "kind": null,
+        "outcome": "not_sent",
+        "reason": "before_submission",
+        "retryable": false,
+        "source": "host"
+      },
+      "name": "empty tracks",
+      "repeat": null
+    },
+    {
+      "command": {
+        "changes": [
+          {
+            "key": "TITLE",
+            "type": "set",
+            "values": [
+              "x"
+            ]
+          }
+        ],
+        "tracks": [
+          1
+        ],
+        "type": "edit_tags"
+      },
+      "core_error": null,
+      "expected": {
+        "code": "invalid",
+        "kind": null,
+        "outcome": "not_sent",
+        "reason": "before_submission",
+        "retryable": false,
+        "source": "host"
+      },
+      "name": "over 1000 tracks",
+      "repeat": 1001
+    },
+    {
+      "command": {
+        "changes": [
+          {
+            "key": "TITLE",
+            "type": "set",
+            "values": [
+              "x"
+            ]
+          }
+        ],
+        "tracks": [
+          999999
+        ],
+        "type": "edit_tags"
+      },
+      "core_error": {
+        "code": "track_not_found",
+        "details": {
+          "field": "tracks[0]",
+          "missing": [
+            {
+              "id": 999999,
+              "type": "track"
+            }
+          ]
+        },
+        "kind": "not_found",
+        "message": "unknown tracks: 999999"
+      },
+      "expected": {
+        "code": "track_not_found",
+        "kind": "not_found",
+        "outcome": "not_sent",
+        "reason": "core_precondition",
+        "retryable": false,
+        "source": "core"
+      },
+      "name": "unknown track preview",
+      "repeat": null
+    },
+    {
+      "command": {
+        "changes": [
+          {
+            "key": "APIC",
+            "type": "set",
+            "values": [
+              "x"
+            ]
+          }
+        ],
+        "tracks": [
+          1
+        ],
+        "type": "edit_tags"
+      },
+      "core_error": {
+        "code": "invalid_tag",
+        "details": {
+          "field": "changes[0].key"
+        },
+        "kind": "invalid",
+        "message": "changes[0].key: APIC cannot be edited: pictures and CUE sheets are not edited, and ratings stay in the library"
+      },
+      "expected": {
+        "code": "invalid_tag",
+        "kind": "invalid",
+        "outcome": "not_sent",
+        "reason": "core_precondition",
+        "retryable": false,
+        "source": "core"
+      },
+      "name": "invalid changes preview",
+      "repeat": null
+    }
+  ],
+  "host_errors": {
+    "conflict": {
+      "code": "conflict",
+      "outcome": "not_sent",
+      "reason": "before_submission",
+      "retryable": false,
+      "source": "host"
+    },
+    "no_writable": {
+      "code": "invalid",
+      "outcome": "not_sent",
+      "reason": "before_submission",
+      "retryable": false,
+      "source": "host"
+    },
+    "reject": {
+      "code": "cancelled",
+      "outcome": "not_sent",
+      "reason": "before_submission",
+      "retryable": false,
+      "source": "host"
+    },
+    "timeout": {
+      "code": "cancelled",
+      "outcome": "not_sent",
+      "reason": "before_submission",
+      "retryable": false,
+      "source": "host"
+    }
+  },
+  "legacy": {
+    "files": [
+      {
+        "after": {
+          "GENRE": [
+            "Pop"
+          ],
+          "TITLE": [
+            "七里香"
+          ]
+        },
+        "before": {
+          "TITLE": [
+            "七里香"
+          ]
+        },
+        "changed": true,
+        "encoding_conversion": true,
+        "track": 4
+      }
+    ],
+    "skipped": []
+  },
+  "minor_2": {
+    "cleared_rating_details": {
+      "rating": null,
+      "type": "set_rating"
+    },
+    "failed_job": {
+      "kind": "tag_edit",
+      "state": "failed"
+    },
+    "missing_job": {
+      "code": "job_not_found",
+      "kind": "not_found"
+    },
+    "root_details": {
+      "path_matches": true,
+      "root_matches": true
+    },
+    "tag_details": {
+      "changes": [
+        {
+          "key": "TITLE",
+          "type": "set"
+        }
+      ],
+      "type": "tag_edit"
+    },
+    "tag_job": {
+      "kind": "tag_edit",
+      "outcome": true,
+      "state": "completed"
+    },
+    "undo_details": {
+      "original_kind": "tag_edit",
+      "type": "undo"
+    }
+  },
+  "noop": {
+    "action": false,
+    "changed": false,
+    "job": false,
+    "written": []
+  },
+  "preview_cases": [
+    {
+      "changes": [],
+      "expected": {
+        "files": [
+          {
+            "after": {
+              "ALBUM": [
+                "Album"
+              ],
+              "ARTIST": [
+                "Old"
+              ],
+              "COMMENT": [
+                "comment"
+              ],
+              "ENCODER": [
+                "Lavf62.12.103"
+              ],
+              "TITLE": [
+                "Song 2"
+              ],
+              "TRACKNUMBER": [
+                "2"
+              ]
+            },
+            "before": {
+              "ALBUM": [
+                "Album"
+              ],
+              "ARTIST": [
+                "Old"
+              ],
+              "COMMENT": [
+                "comment"
+              ],
+              "ENCODER": [
+                "Lavf62.12.103"
+              ],
+              "TITLE": [
+                "Song 2"
+              ],
+              "TRACKNUMBER": [
+                "2"
+              ]
+            },
+            "changed": false,
+            "encoding_conversion": false,
+            "track": 2
+          },
+          {
+            "after": {
+              "ALBUM": [
+                "Album"
+              ],
+              "ARTIST": [
+                "Old"
+              ],
+              "COMMENT": [
+                "comment"
+              ],
+              "ENCODER": [
+                "Lavf62.12.103"
+              ],
+              "TITLE": [
+                "Song 1"
+              ],
+              "TRACKNUMBER": [
+                "1"
+              ]
+            },
+            "before": {
+              "ALBUM": [
+                "Album"
+              ],
+              "ARTIST": [
+                "Old"
+              ],
+              "COMMENT": [
+                "comment"
+              ],
+              "ENCODER": [
+                "Lavf62.12.103"
+              ],
+              "TITLE": [
+                "Song 1"
+              ],
+              "TRACKNUMBER": [
+                "1"
+              ]
+            },
+            "changed": false,
+            "encoding_conversion": false,
+            "track": 1
+          }
+        ],
+        "skipped": []
+      },
+      "name": "empty changes read current full tags with deduplicated targets",
+      "tracks": [
+        2,
+        1,
+        2
+      ]
+    },
+    {
+      "changes": [
+        {
+          "key": "TITLE",
+          "type": "set",
+          "values": [
+            "Song 1"
+          ]
+        }
+      ],
+      "expected": {
+        "files": [
+          {
+            "after": {
+              "ALBUM": [
+                "Album"
+              ],
+              "ARTIST": [
+                "Old"
+              ],
+              "COMMENT": [
+                "comment"
+              ],
+              "ENCODER": [
+                "Lavf62.12.103"
+              ],
+              "TITLE": [
+                "Song 1"
+              ],
+              "TRACKNUMBER": [
+                "1"
+              ]
+            },
+            "before": {
+              "ALBUM": [
+                "Album"
+              ],
+              "ARTIST": [
+                "Old"
+              ],
+              "COMMENT": [
+                "comment"
+              ],
+              "ENCODER": [
+                "Lavf62.12.103"
+              ],
+              "TITLE": [
+                "Song 1"
+              ],
+              "TRACKNUMBER": [
+                "1"
+              ]
+            },
+            "changed": false,
+            "encoding_conversion": false,
+            "track": 1
+          },
+          {
+            "after": {
+              "ALBUM": [
+                "Album"
+              ],
+              "ARTIST": [
+                "Old"
+              ],
+              "COMMENT": [
+                "comment"
+              ],
+              "ENCODER": [
+                "Lavf62.12.103"
+              ],
+              "TITLE": [
+                "Song 1"
+              ],
+              "TRACKNUMBER": [
+                "2"
+              ]
+            },
+            "before": {
+              "ALBUM": [
+                "Album"
+              ],
+              "ARTIST": [
+                "Old"
+              ],
+              "COMMENT": [
+                "comment"
+              ],
+              "ENCODER": [
+                "Lavf62.12.103"
+              ],
+              "TITLE": [
+                "Song 2"
+              ],
+              "TRACKNUMBER": [
+                "2"
+              ]
+            },
+            "changed": true,
+            "encoding_conversion": false,
+            "track": 2
+          }
+        ],
+        "skipped": []
+      },
+      "name": "unchanged files remain visible in preview",
+      "tracks": [
+        1,
+        2
+      ]
+    },
+    {
+      "changes": [
+        {
+          "key": "date",
+          "type": "set",
+          "values": [
+            " 2025-03-01 "
+          ]
+        }
+      ],
+      "expected": {
+        "files": [
+          {
+            "after": {
+              "ALBUM": [
+                "Album"
+              ],
+              "ARTIST": [
+                "Old"
+              ],
+              "COMMENT": [
+                "comment"
+              ],
+              "DATE": [
+                "2025-03-01"
+              ],
+              "ENCODER": [
+                "Lavf62.12.103"
+              ],
+              "TITLE": [
+                "Song 2"
+              ],
+              "TRACKNUMBER": [
+                "2"
+              ]
+            },
+            "before": {
+              "ALBUM": [
+                "Album"
+              ],
+              "ARTIST": [
+                "Old"
+              ],
+              "COMMENT": [
+                "comment"
+              ],
+              "ENCODER": [
+                "Lavf62.12.103"
+              ],
+              "TITLE": [
+                "Song 2"
+              ],
+              "TRACKNUMBER": [
+                "2"
+              ]
+            },
+            "changed": true,
+            "encoding_conversion": false,
+            "track": 2
+          }
+        ],
+        "skipped": []
+      },
+      "name": "DATE writes year and values are trimmed",
+      "tracks": [
+        2
+      ]
+    },
+    {
+      "changes": [],
+      "expected": {
+        "error": {
+          "code": "track_not_found",
+          "kind": "not_found"
+        }
+      },
+      "name": "missing track is a query error",
+      "tracks": [
+        999
+      ]
+    },
+    {
+      "changes": [
+        {
+          "key": "TITLE",
+          "type": "set",
+          "values": [
+            " "
+          ]
+        }
+      ],
+      "expected": {
+        "error": {
+          "code": "invalid_tag",
+          "kind": "invalid"
+        }
+      },
+      "name": "blank value is invalid_tag",
+      "tracks": [
+        1
+      ]
+    },
+    {
+      "changes": [
+        {
+          "key": "CUESHEET",
+          "type": "remove"
+        }
+      ],
+      "expected": {
+        "error": {
+          "code": "invalid_tag",
+          "kind": "invalid"
+        }
+      },
+      "name": "CUESHEET is not editable",
+      "tracks": [
+        1
+      ]
+    },
+    {
+      "changes": [
+        {
+          "key": "TITLE",
+          "type": "remove"
+        },
+        {
+          "key": "title",
+          "type": "remove"
+        }
+      ],
+      "expected": {
+        "error": {
+          "code": "invalid_tag",
+          "kind": "invalid"
+        }
+      },
+      "name": "case-folded duplicate changes are invalid_tag",
+      "tracks": [
+        1
+      ]
+    }
+  ],
+  "remove_repeat": {
+    "action": null,
+    "changed": false
+  },
+  "root_errors": {
+    "busy": {
+      "code": "job_busy",
+      "kind": "failed",
+      "retryable": true
+    },
+    "timeout": {
+      "code": "io",
+      "kind": "failed",
+      "retryable": true
+    }
+  },
+  "scoped_scan": [
+    1,
+    1
+  ],
+  "seed": {
+    "files": [
+      {
+        "after": {
+          "ALBUM": [
+            "Album"
+          ],
+          "ARTIST": [
+            "Old"
+          ],
+          "COMMENT": [
+            "comment"
+          ],
+          "ENCODER": [
+            "Lavf62.12.103"
+          ],
+          "TITLE": [
+            "Song 1"
+          ],
+          "TRACKNUMBER": [
+            "1"
+          ]
+        },
+        "before": {
+          "ALBUM": [
+            "Album"
+          ],
+          "ARTIST": [
+            "Old"
+          ],
+          "COMMENT": [
+            "comment"
+          ],
+          "ENCODER": [
+            "Lavf62.12.103"
+          ],
+          "TITLE": [
+            "Song 1"
+          ],
+          "TRACKNUMBER": [
+            "1"
+          ]
+        },
+        "changed": false,
+        "encoding_conversion": false,
+        "track": 1
+      },
+      {
+        "after": {
+          "ALBUM": [
+            "Album"
+          ],
+          "ARTIST": [
+            "Old"
+          ],
+          "COMMENT": [
+            "comment"
+          ],
+          "ENCODER": [
+            "Lavf62.12.103"
+          ],
+          "TITLE": [
+            "Song 2"
+          ],
+          "TRACKNUMBER": [
+            "2"
+          ]
+        },
+        "before": {
+          "ALBUM": [
+            "Album"
+          ],
+          "ARTIST": [
+            "Old"
+          ],
+          "COMMENT": [
+            "comment"
+          ],
+          "ENCODER": [
+            "Lavf62.12.103"
+          ],
+          "TITLE": [
+            "Song 2"
+          ],
+          "TRACKNUMBER": [
+            "2"
+          ]
+        },
+        "changed": false,
+        "encoding_conversion": false,
+        "track": 2
+      },
+      {
+        "after": {
+          "ALBUM": [
+            "Album"
+          ],
+          "ARTIST": [
+            "Old"
+          ],
+          "COMMENT": [
+            "comment"
+          ],
+          "ENCODER": [
+            "Lavf62.12.103"
+          ],
+          "TITLE": [
+            "Song 3"
+          ],
+          "TRACKNUMBER": [
+            "3"
+          ]
+        },
+        "before": {
+          "ALBUM": [
+            "Album"
+          ],
+          "ARTIST": [
+            "Old"
+          ],
+          "COMMENT": [
+            "comment"
+          ],
+          "ENCODER": [
+            "Lavf62.12.103"
+          ],
+          "TITLE": [
+            "Song 3"
+          ],
+          "TRACKNUMBER": [
+            "3"
+          ]
+        },
+        "changed": false,
+        "encoding_conversion": false,
+        "track": 3
+      }
+    ],
+    "skipped": []
+  },
+  "workflow": {
+    "busy": {
+      "code": "file_in_use",
+      "kind": "failed",
+      "retryable": true
+    },
+    "date": {
+      "tags": {
+        "DATE": [
+          "2025-03-01"
+        ]
+      },
+      "year": 2025
+    },
+    "filtered": {
+      "length": 0,
+      "next_offset": null,
+      "total": 0
+    },
+    "no_tags": {},
+    "noop": {
+      "kind": "tag_edit",
+      "target_count": 1,
+      "undoable": true,
+      "written_count": 1
+    },
+    "open_preview": {
+      "files": [],
+      "skipped": [
+        {
+          "track": 2,
+          "code": "file_in_use"
+        }
+      ]
+    },
+    "released": {
+      "files": [],
+      "skipped": [
+        {
+          "code": "root_released",
+          "track": 1
+        }
+      ]
+    },
+    "removed_count": 0,
+    "rescan": "completed",
+    "restored": {
+      "length": 1,
+      "released": false
+    },
+    "undo": {
+      "kind": "undo",
+      "target_count": 1,
+      "undo_of": true,
+      "written_count": 1
+    }
+  }
+}

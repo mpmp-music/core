@@ -1,0 +1,17 @@
+{
+  "request_id": 74,
+  "idempotency_key": null,
+  "command": {
+    "type": "edit_cover",
+    "tracks": [
+      42
+    ],
+    "change": {
+      "type": "set",
+      "image": {
+        "mime": "image/png",
+        "data_base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR4nGMQFNf8DwAB3wFRsS+UFAAAAABJRU5ErkJggg=="
+      }
+    }
+  }
+}

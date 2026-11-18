@@ -1,0 +1,13 @@
+{
+  "request_id": 28,
+  "result": {
+    "type": "ok",
+    "changed": true,
+    "queue_revision": 1792500000021,
+    "confirmed": {
+      "token": "c-77d1c3e0",
+      "approved": false,
+      "reason": "rejected"
+    }
+  }
+}

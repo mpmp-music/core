@@ -1,0 +1,6 @@
+{
+  "type": "artists",
+  "view": "person",
+  "offset": 0,
+  "limit": 100
+}

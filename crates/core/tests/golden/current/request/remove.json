@@ -1,0 +1,12 @@
+{
+  "request_id": 16,
+  "idempotency_key": null,
+  "command": {
+    "type": "remove",
+    "entries": [
+      1792500000004,
+      1792500000007
+    ],
+    "expected_revision": 1792500000018
+  }
+}

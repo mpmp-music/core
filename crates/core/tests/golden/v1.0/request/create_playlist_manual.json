@@ -1,0 +1,11 @@
+{
+  "request_id": 35,
+  "idempotency_key": "ui-create-1",
+  "command": {
+    "type": "create_playlist",
+    "name": "Late night",
+    "kind": {
+      "type": "manual"
+    }
+  }
+}

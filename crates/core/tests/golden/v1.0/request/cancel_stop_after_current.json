@@ -1,0 +1,8 @@
+{
+  "request_id": 62,
+  "idempotency_key": null,
+  "command": {
+    "type": "set_stop_after_current",
+    "enabled": false
+  }
+}

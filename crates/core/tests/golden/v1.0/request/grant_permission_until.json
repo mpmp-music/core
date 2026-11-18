@@ -1,0 +1,23 @@
+{
+  "request_id": 54,
+  "idempotency_key": null,
+  "command": {
+    "type": "grant_permission",
+    "agent": "claude",
+    "session": null,
+    "operation": {
+      "type": "command",
+      "command": "export_m3u"
+    },
+    "scope": {
+      "type": "library",
+      "root": 1,
+      "prefix": "Playlists"
+    },
+    "until": {
+      "type": "at",
+      "at_ms": 1793145600000
+    },
+    "effect": "allow"
+  }
+}

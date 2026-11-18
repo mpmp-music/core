@@ -1,0 +1,6 @@
+{
+  "type": "artists",
+  "view": "album_group",
+  "offset": 0,
+  "limit": 100
+}

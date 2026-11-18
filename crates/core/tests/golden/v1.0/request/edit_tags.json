@@ -1,0 +1,26 @@
+{
+  "request_id": 57,
+  "idempotency_key": "ui-tags-1",
+  "command": {
+    "type": "edit_tags",
+    "tracks": [
+      42,
+      43,
+      44
+    ],
+    "changes": [
+      {
+        "type": "set",
+        "key": "ARTIST",
+        "values": [
+          "Miren Dalen",
+          "Jorin Calven"
+        ]
+      },
+      {
+        "type": "remove",
+        "key": "COMMENT"
+      }
+    ]
+  }
+}

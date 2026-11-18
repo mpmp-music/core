@@ -1,0 +1,5 @@
+{
+  "register-agent": {"type":"register_agent","name":"fixture"},
+  "renew-agent": {"type":"renew_agent_token","agent":"fixture"},
+  "remove-agent": {"type":"remove_agent","agent":"fixture"}
+}

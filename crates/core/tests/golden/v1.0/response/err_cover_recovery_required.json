@@ -1,0 +1,11 @@
+{
+  "request_id": 90,
+  "result": {
+    "type": "err",
+    "error": {
+      "kind": "failed",
+      "code": "cover_recovery_required",
+      "message": "cover_recovery_required"
+    }
+  }
+}

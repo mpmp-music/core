@@ -1,0 +1,6 @@
+{
+  "type": "albums",
+  "sort": "oldest_added",
+  "offset": 0,
+  "limit": 200
+}

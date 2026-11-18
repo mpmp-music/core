@@ -1,0 +1,133 @@
+{
+  "type": "permissions",
+  "grants": [
+    {
+      "id": 31,
+      "agent": "claude",
+      "session": "conn-7f3a",
+      "operation": {
+        "type": "class",
+        "class": "local_path"
+      },
+      "scope": {
+        "type": "location",
+        "location": "/home/me/Music"
+      },
+      "until": {
+        "type": "session"
+      },
+      "effect": "allow",
+      "created_at_ms": 1792281600000
+    },
+    {
+      "id": 32,
+      "agent": "claude",
+      "session": null,
+      "operation": {
+        "type": "command",
+        "command": "export_m3u"
+      },
+      "scope": {
+        "type": "library",
+        "root": 1,
+        "prefix": "Playlists"
+      },
+      "until": {
+        "type": "at",
+        "at_ms": 1793145600000
+      },
+      "effect": "allow",
+      "created_at_ms": 1792281600000
+    },
+    {
+      "id": 33,
+      "agent": "claude",
+      "session": null,
+      "operation": {
+        "type": "class",
+        "class": "file_write"
+      },
+      "scope": {
+        "type": "library",
+        "root": 2,
+        "prefix": null
+      },
+      "until": {
+        "type": "forever"
+      },
+      "effect": "forbid",
+      "created_at_ms": 1792281600000
+    },
+    {
+      "id": 34,
+      "agent": "claude",
+      "session": null,
+      "operation": {
+        "type": "class",
+        "class": "library_edit"
+      },
+      "scope": {
+        "type": "all"
+      },
+      "until": {
+        "type": "forever"
+      },
+      "effect": "forbid",
+      "created_at_ms": 1792281600000
+    },
+    {
+      "id": 35,
+      "agent": "claude",
+      "session": null,
+      "operation": {
+        "type": "class",
+        "class": "playback"
+      },
+      "scope": {
+        "type": "all"
+      },
+      "until": {
+        "type": "forever"
+      },
+      "effect": "forbid",
+      "created_at_ms": 1792281600000
+    },
+    {
+      "id": 36,
+      "agent": "claude",
+      "session": null,
+      "operation": {
+        "type": "class",
+        "class": "purge"
+      },
+      "scope": {
+        "type": "all"
+      },
+      "until": {
+        "type": "forever"
+      },
+      "effect": "forbid",
+      "created_at_ms": 1792281600000
+    },
+    {
+      "id": 37,
+      "agent": "claude",
+      "session": null,
+      "operation": {
+        "type": "class",
+        "class": "permissions"
+      },
+      "scope": {
+        "type": "all"
+      },
+      "until": {
+        "type": "forever"
+      },
+      "effect": "forbid",
+      "created_at_ms": 1792281600000
+    }
+  ],
+  "offset": 0,
+  "total": 9,
+  "next_offset": 7
+}

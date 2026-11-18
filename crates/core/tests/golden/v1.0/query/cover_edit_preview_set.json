@@ -1,0 +1,13 @@
+{
+  "type": "cover_edit_preview",
+  "tracks": [
+    42
+  ],
+  "change": {
+    "type": "set",
+    "image": {
+      "mime": "image/png",
+      "data_base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR4nGMQFNf8DwAB3wFRsS+UFAAAAABJRU5ErkJggg=="
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "request_id": 90,
+  "result": {
+    "type": "err",
+    "error": {
+      "kind": "conflict",
+      "code": "cover_recovery_changed",
+      "message": "cover_recovery_changed"
+    }
+  }
+}

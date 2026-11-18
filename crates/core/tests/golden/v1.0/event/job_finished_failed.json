@@ -1,0 +1,20 @@
+{
+  "seq": 4252,
+  "origin": null,
+  "event": {
+    "type": "job_finished",
+    "job": 9,
+    "kind": "scan",
+    "outcome": {
+      "type": "failed",
+      "error": {
+        "kind": "failed",
+        "code": "db",
+        "message": "database is locked",
+        "details": {
+          "retryable": true
+        }
+      }
+    }
+  }
+}

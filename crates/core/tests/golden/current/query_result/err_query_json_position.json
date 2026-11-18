@@ -1,0 +1,12 @@
+{
+  "type": "err",
+  "error": {
+    "kind": "invalid",
+    "code": "invalid_json",
+    "message": "key must be a string at line 2 column 28",
+    "details": {
+      "line": 2,
+      "column": 28
+    }
+  }
+}

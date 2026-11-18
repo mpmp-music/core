@@ -1,0 +1,8 @@
+{
+  "type": "actions",
+  "origin": {
+    "type": "media_controls"
+  },
+  "offset": 0,
+  "limit": 100
+}

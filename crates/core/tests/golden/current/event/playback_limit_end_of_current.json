@@ -1,0 +1,10 @@
+{
+  "seq": 6000,
+  "origin": null,
+  "event": {
+    "type": "playback_limit_reached",
+    "reason": "end_of_current",
+    "action": "stop",
+    "entry": 500
+  }
+}

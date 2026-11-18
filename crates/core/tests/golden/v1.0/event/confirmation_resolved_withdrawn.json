@@ -1,0 +1,12 @@
+{
+  "seq": 4301,
+  "origin": null,
+  "event": {
+    "type": "confirmation_resolved",
+    "outcome": {
+      "token": "c-5e6f7a8b",
+      "approved": false,
+      "reason": "withdrawn"
+    }
+  }
+}

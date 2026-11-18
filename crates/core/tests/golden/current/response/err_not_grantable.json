@@ -1,0 +1,14 @@
+{
+  "request_id": 64,
+  "result": {
+    "type": "err",
+    "error": {
+      "kind": "invalid",
+      "code": "not_grantable",
+      "message": "this grant could never apply: an agent may do this without asking anyway, or it is never allowed without asking (permanently deleting library data, the user's own commands)",
+      "details": {
+        "field": "command.operation"
+      }
+    }
+  }
+}

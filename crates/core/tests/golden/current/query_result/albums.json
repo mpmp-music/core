@@ -1,0 +1,30 @@
+{
+  "type": "albums",
+  "albums": [
+    {
+      "key": "miren dalen\u001fkites of brass",
+      "title": "Kites of Brass",
+      "artist": "Miren Dalen",
+      "year": 1959,
+      "track_count": 5,
+      "disc_count": 1,
+      "duration_ms": 2756000,
+      "art_track": 1201,
+      "added_at_ms": 1745000000000
+    },
+    {
+      "key": "\u001f",
+      "title": "",
+      "artist": null,
+      "year": null,
+      "track_count": 31,
+      "disc_count": 0,
+      "duration_ms": 6120000,
+      "art_track": null,
+      "added_at_ms": 1745000000000
+    }
+  ],
+  "offset": 0,
+  "total": 412,
+  "next_offset": 2
+}

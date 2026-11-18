@@ -1,0 +1,14 @@
+{
+  "request_id": 73,
+  "result": {
+    "type": "err",
+    "error": {
+      "kind": "invalid",
+      "code": "session_ended",
+      "message": "claude's session 0f9a6c2e-5b1d-4e8a-9c3f-7d2b6e4a1c58 has ended: a grant for it could never apply",
+      "details": {
+        "field": "command.session"
+      }
+    }
+  }
+}

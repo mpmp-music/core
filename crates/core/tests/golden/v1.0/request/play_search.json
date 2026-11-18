@@ -1,0 +1,13 @@
+{
+  "request_id": 3,
+  "idempotency_key": null,
+  "command": {
+    "type": "play",
+    "context": {
+      "type": "search",
+      "text": "calven"
+    },
+    "start": 0,
+    "start_track": null
+  }
+}

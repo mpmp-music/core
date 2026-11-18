@@ -1,0 +1,22 @@
+{
+  "type": "lyrics",
+  "lyrics": {
+    "source": "embedded",
+    "format": "plain",
+    "lines": [
+      {
+        "start_ms": null,
+        "text": "First line"
+      },
+      {
+        "start_ms": null,
+        "text": ""
+      },
+      {
+        "start_ms": null,
+        "text": "Second"
+      }
+    ],
+    "raw": "First line\n\nSecond"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "request_id": 62,
+  "result": {
+    "type": "err",
+    "error": {
+      "kind": "invalid",
+      "code": "invalid_tag",
+      "message": "changes[0].key: the library shows TPE1 as ARTIST: change that key",
+      "details": {
+        "field": "command.changes[0].key"
+      }
+    }
+  }
+}

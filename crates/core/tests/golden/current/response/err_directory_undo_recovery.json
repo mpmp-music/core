@@ -1,0 +1,14 @@
+{
+  "request_id": 49,
+  "result": {
+    "type": "err",
+    "error": {
+      "kind": "failed",
+      "code": "io",
+      "message": "directory undo committed; retry RemoveRoot to finish participant recovery",
+      "details": {
+        "recovery_command": "remove_root"
+      }
+    }
+  }
+}

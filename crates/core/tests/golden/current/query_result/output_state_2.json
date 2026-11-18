@@ -1,0 +1,21 @@
+{
+  "type": "output_state",
+  "settings": {
+    "selection": {
+      "type": "device",
+      "id": "cpal:fixed-1"
+    },
+    "settings_revision": 7,
+    "mode": "shared",
+    "fallback": "pause",
+    "rate_policy": "mix"
+  },
+  "state": {
+    "settings_revision": 7,
+    "generation": 4,
+    "status": "rebuilding",
+    "actual": null,
+    "failure": null,
+    "fallback": null
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "type": "albums",
+  "sort": "year",
+  "offset": 0,
+  "limit": 200
+}

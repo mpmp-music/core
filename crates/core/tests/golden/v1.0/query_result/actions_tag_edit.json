@@ -1,0 +1,23 @@
+{
+  "type": "actions",
+  "actions": [
+    {
+      "id": 5160,
+      "recorded_at_ms": 1792540680000,
+      "origin": {
+        "type": "agent",
+        "name": "claude"
+      },
+      "kind": "tag_edit",
+      "summary": "edit the tags of 2 files: set ARTIST, remove COMMENT",
+      "target_count": 2,
+      "undone_by": null,
+      "undo_of": null,
+      "undoable": true,
+      "grant": null
+    }
+  ],
+  "offset": 0,
+  "total": 1,
+  "next_offset": null
+}

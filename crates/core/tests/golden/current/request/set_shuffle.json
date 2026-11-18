@@ -1,0 +1,8 @@
+{
+  "request_id": 19,
+  "idempotency_key": null,
+  "command": {
+    "type": "set_shuffle",
+    "shuffle": true
+  }
+}

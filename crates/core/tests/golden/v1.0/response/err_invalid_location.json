@@ -1,0 +1,14 @@
+{
+  "request_id": 71,
+  "result": {
+    "type": "err",
+    "error": {
+      "kind": "invalid",
+      "code": "invalid_location",
+      "message": "\"/home/me/Music/new/../mix.m3u\" is not a location core can act on (relative, `..` past what exists, a link to nothing, or longer than 4096 characters)",
+      "details": {
+        "field": "command.path"
+      }
+    }
+  }
+}

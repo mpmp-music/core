@@ -1,0 +1,37 @@
+{
+  "type": "lyrics",
+  "lyrics": {
+    "source": "file",
+    "format": "enhanced_lrc",
+    "lines": [
+      {
+        "start_ms": 0,
+        "text": ""
+      },
+      {
+        "start_ms": 12300,
+        "text": "Hello world",
+        "words": [
+          {
+            "start_ms": 12300,
+            "text": "Hel"
+          },
+          {
+            "start_ms": 12650,
+            "text": "lo "
+          },
+          {
+            "start_ms": 13100,
+            "text": "world"
+          }
+        ]
+      },
+      {
+        "start_ms": 15000,
+        "text": "Goodbye",
+        "translation": "再见"
+      }
+    ],
+    "raw": "[00:00.00]\n[00:12.30]<00:12.30>Hel<00:12.65>lo <00:13.10>world\n[00:15.00]Goodbye\n[00:15.00]再见\n"
+  }
+}

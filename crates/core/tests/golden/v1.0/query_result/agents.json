@@ -1,0 +1,15 @@
+{
+  "type": "agents",
+  "agents": [
+    {
+      "name": "claude",
+      "created_at_ms": 1789948800000,
+      "last_seen_at_ms": 1792540740000
+    },
+    {
+      "name": "codex",
+      "created_at_ms": 1792454400000,
+      "last_seen_at_ms": null
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "request_id": 33,
+  "idempotency_key": null,
+  "command": {
+    "type": "set_replay_gain",
+    "mode": "album",
+    "preamp_db": 2.5,
+    "fallback_preamp_db": null,
+    "prevent_clipping": null
+  }
+}

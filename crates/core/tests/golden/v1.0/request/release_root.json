@@ -1,0 +1,8 @@
+{
+  "request_id": 58,
+  "idempotency_key": null,
+  "command": {
+    "type": "release_root",
+    "root": 1
+  }
+}

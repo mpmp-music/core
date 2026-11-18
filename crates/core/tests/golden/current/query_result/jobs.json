@@ -1,0 +1,48 @@
+{
+  "type": "jobs",
+  "jobs": [
+    {
+      "id": 10,
+      "kind": "tag_edit",
+      "state": "running",
+      "progress": {
+        "done": 1,
+        "total": 2
+      }
+    },
+    {
+      "id": 9,
+      "kind": "scan",
+      "state": "completed",
+      "counts": {
+        "type": "scan",
+        "added_count": 0,
+        "updated_count": 0,
+        "restored_count": 0,
+        "removed_count": 0,
+        "error_count": 9
+      }
+    },
+    {
+      "id": 8,
+      "kind": "loudness_scan",
+      "state": "cancelled",
+      "progress": {
+        "done": 3,
+        "total": null
+      }
+    },
+    {
+      "id": 7,
+      "kind": "tag_edit",
+      "state": "failed",
+      "error": {
+        "kind": "failed",
+        "code": "io"
+      }
+    }
+  ],
+  "offset": 0,
+  "total": 5,
+  "next_offset": 4
+}

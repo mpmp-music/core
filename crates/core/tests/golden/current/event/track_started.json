@@ -1,0 +1,73 @@
+{
+  "seq": 4191,
+  "origin": null,
+  "event": {
+    "type": "track_started",
+    "entry": 1792500000004,
+    "track": {
+      "id": 2310,
+      "title": "Brass in Glass",
+      "title_from_file": false,
+      "artist": "Miren Dalen",
+      "artists": [
+        {
+          "key": "person:v1:9534d53acedcff35f87de4c0d30a5eb5427b91bd3a14145bb7492ec103f86876",
+          "name": "Miren Dalen"
+        }
+      ],
+      "artists_source": "artist_values",
+      "artists_complete": true,
+      "album": "Kites of Brass (2022 Remaster)",
+      "album_artist": "Miren Dalen",
+      "group_artist": "Miren Dalen",
+      "album_key": "miren dalen\u001fkites of brass 2022 remaster",
+      "track_no": 3,
+      "track_total": 5,
+      "disc_no": 1,
+      "disc_total": 1,
+      "year": 1959,
+      "genre": "Jazz",
+      "compilation": false,
+      "duration_ms": 337000,
+      "codec": "flac",
+      "sample_rate": 96000,
+      "channels": 2,
+      "bits_per_sample": 24,
+      "bitrate_kbps": 3521,
+      "lossless": true,
+      "root": 1,
+      "path": "Miren Dalen/Kites of Brass/03 Brass in Glass.flac",
+      "size_bytes": 61234567,
+      "modified_at_ms": 1700000000000,
+      "added_at_ms": 1745000000000,
+      "available": true,
+      "has_cover": true,
+      "cover_revision": "sha256:example",
+      "rating": null,
+      "loved": false,
+      "play_count": 0,
+      "skip_count": 0,
+      "last_played_at_ms": null,
+      "first_played_at_ms": null
+    },
+    "signal_path": {
+      "codec": "flac",
+      "lossless": true,
+      "source_rate": 96000,
+      "source_channels": 2,
+      "source_bits_per_sample": 24,
+      "stages": [],
+      "output_rate": 96000,
+      "output_channels": 2,
+      "output_format": "i24",
+      "bit_perfect": {
+        "type": "yes"
+      },
+      "reason_codes": [],
+      "share_mode": "exclusive",
+      "output_device_id": "cpal:example",
+      "backend": "wasapi",
+      "sample_integrity": "verified"
+    }
+  }
+}

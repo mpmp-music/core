@@ -1,0 +1,53 @@
+{
+  "type": "cover_edit_preview",
+  "files": [
+    {
+      "track": 42,
+      "before": {
+        "mime": "image/png",
+        "bytes": 68,
+        "width": 1,
+        "height": 1,
+        "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+      },
+      "after": {
+        "mime": "image/png",
+        "bytes": 68,
+        "width": 1,
+        "height": 1,
+        "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+      },
+      "changed": true,
+      "undo_bytes": 160,
+      "fallback": true,
+      "scope": "front_cover"
+    },
+    {
+      "track": 43,
+      "before": null,
+      "after": {
+        "mime": "image/png",
+        "bytes": 68,
+        "width": 1,
+        "height": 1,
+        "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+      },
+      "changed": true,
+      "undo_bytes": 80,
+      "fallback": false,
+      "scope": "all_covr"
+    }
+  ],
+  "skipped": [
+    {
+      "track": 44,
+      "code": "cue_track",
+      "message": "This track uses part of an audio file"
+    },
+    {
+      "track": 45,
+      "code": "file_read_only",
+      "message": "file is read-only"
+    }
+  ]
+}

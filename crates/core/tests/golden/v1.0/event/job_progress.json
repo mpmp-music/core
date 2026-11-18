@@ -1,0 +1,13 @@
+{
+  "seq": 4199,
+  "origin": {
+    "type": "ui"
+  },
+  "event": {
+    "type": "job_progress",
+    "job": 7,
+    "kind": "scan",
+    "done": 1250,
+    "total": 4800
+  }
+}

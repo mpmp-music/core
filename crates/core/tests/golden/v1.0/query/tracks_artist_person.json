@@ -1,0 +1,13 @@
+{
+  "type": "tracks",
+  "query": {
+    "filter": {
+      "type": "artist_person",
+      "name": "Miren Dalen"
+    },
+    "sort": []
+  },
+  "offset": 0,
+  "limit": 100,
+  "tags": []
+}

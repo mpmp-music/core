@@ -1,0 +1,15 @@
+{
+  "seq": 7000,
+  "origin": null,
+  "event": {
+    "type": "output_changed",
+    "output": {
+      "settings_revision": 7,
+      "generation": 4,
+      "status": "idle",
+      "actual": null,
+      "failure": null,
+      "fallback": null
+    }
+  }
+}

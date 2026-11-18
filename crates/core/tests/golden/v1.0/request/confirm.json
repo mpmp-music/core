@@ -1,0 +1,8 @@
+{
+  "request_id": 28,
+  "idempotency_key": null,
+  "command": {
+    "type": "confirm",
+    "token": "c-5f0e2a9b"
+  }
+}

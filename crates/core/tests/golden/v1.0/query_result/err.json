@@ -1,0 +1,11 @@
+{
+  "type": "err",
+  "error": {
+    "kind": "invalid",
+    "code": "invalid_query",
+    "message": "`contains` needs a text field, `year` is a number",
+    "details": {
+      "field": "query.filter.all[1].field"
+    }
+  }
+}

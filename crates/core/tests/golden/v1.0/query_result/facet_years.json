@@ -1,0 +1,22 @@
+{
+  "type": "facet",
+  "values": [
+    {
+      "value": {
+        "type": "int",
+        "value": 1959
+      },
+      "track_count": 10
+    },
+    {
+      "value": {
+        "type": "int",
+        "value": 1964
+      },
+      "track_count": 8
+    }
+  ],
+  "offset": 0,
+  "total": 14,
+  "next_offset": 2
+}

@@ -1,0 +1,11 @@
+{
+  "request_id": 16,
+  "result": {
+    "type": "ok",
+    "changed": true,
+    "queue_revision": 1792500000019,
+    "removed_entries": [
+      1792500000004
+    ]
+  }
+}

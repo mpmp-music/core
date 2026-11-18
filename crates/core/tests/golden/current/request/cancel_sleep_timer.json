@@ -1,0 +1,8 @@
+{
+  "request_id": 64,
+  "idempotency_key": null,
+  "command": {
+    "type": "set_sleep_timer",
+    "duration_ms": null
+  }
+}

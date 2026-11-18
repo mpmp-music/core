@@ -1,0 +1,8 @@
+{
+  "request_id": 22,
+  "idempotency_key": "ui-add-root-1",
+  "command": {
+    "type": "add_root",
+    "path": "/home/me/Music"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "type": "artists",
+  "indexing": true,
+  "artists": [
+    {
+      "key": "person:v1:9534d53acedcff35f87de4c0d30a5eb5427b91bd3a14145bb7492ec103f86876",
+      "name": "Miren Dalen",
+      "album_count": 1,
+      "track_count": 1
+    }
+  ],
+  "offset": 0,
+  "total": 1,
+  "next_offset": null
+}

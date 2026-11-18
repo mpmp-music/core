@@ -1,0 +1,8 @@
+{
+  "request_id": 50,
+  "idempotency_key": "ui-register-1",
+  "command": {
+    "type": "register_agent",
+    "name": "claude"
+  }
+}

@@ -1,0 +1,14 @@
+# Generated files compared byte-for-byte by tests: keep LF on every platform.
+docs/contract.schema.json text eol=lf
+crates/core/tests/golden/** text eol=lf
+# Embedded into the schema's description.
+crates/core/src/guarantees.md text eol=lf
+# Canonical SDK generator outputs.
+apps/desktop/sdk/contract.d.ts text eol=lf
+apps/desktop/sdk/policy.d.ts text eol=lf
+apps/desktop/sdk/job-cache-page.d.ts text eol=lf
+apps/desktop/sdk/output-compat.js text eol=lf
+# SQL whose stored text is fingerprinted (schema 1 DDL, development v13 fixture): LF everywhere.
+*.sql text eol=lf
+# The Reflection CUE fixture pins the original CRLF bytes across checkout settings.
+crates/library/tests/data/reflection.cue -text

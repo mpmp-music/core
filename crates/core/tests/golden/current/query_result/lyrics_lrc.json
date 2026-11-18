@@ -1,0 +1,18 @@
+{
+  "type": "lyrics",
+  "lyrics": {
+    "source": "embedded",
+    "format": "lrc",
+    "lines": [
+      {
+        "start_ms": 1000,
+        "text": "First"
+      },
+      {
+        "start_ms": 4500,
+        "text": "Second"
+      }
+    ],
+    "raw": "[00:01.00]First\n[00:04.50]Second"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "type": "actions",
+  "actions": [
+    {
+      "id": 5161,
+      "recorded_at_ms": 1792540800000,
+      "origin": {
+        "type": "ui"
+      },
+      "kind": "cover_edit",
+      "summary": "Set embedded front covers (MP4: all covr items)",
+      "target_count": 1,
+      "undone_by": null,
+      "undo_of": null,
+      "undoable": true,
+      "grant": null,
+      "details": {
+        "type": "cover_edit",
+        "operation": "remove",
+        "scope": "front_cover_or_all_covr",
+        "file_count": 1
+      }
+    }
+  ],
+  "offset": 0,
+  "total": 1,
+  "next_offset": null
+}

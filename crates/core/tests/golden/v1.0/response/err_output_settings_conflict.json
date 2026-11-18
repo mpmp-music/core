@@ -1,0 +1,11 @@
+{
+  "request_id": 7,
+  "result": {
+    "type": "err",
+    "error": {
+      "kind": "conflict",
+      "code": "output_settings_conflict",
+      "message": "Output configuration could not be satisfied"
+    }
+  }
+}

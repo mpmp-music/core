@@ -1,0 +1,14 @@
+{
+  "request_id": 72,
+  "result": {
+    "type": "err",
+    "error": {
+      "kind": "invalid",
+      "code": "location_changed",
+      "message": "/home/me/Music/Playlists/mix.m3u no longer leads where it did when the user was asked: it changed while the command waited",
+      "details": {
+        "field": "command.path"
+      }
+    }
+  }
+}

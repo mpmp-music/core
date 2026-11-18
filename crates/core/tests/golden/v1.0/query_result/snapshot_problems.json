@@ -1,0 +1,91 @@
+{
+  "type": "snapshot",
+  "snapshot": {
+    "seq": 0,
+    "contract_version": 1,
+    "contract_minor": 0,
+    "features": [
+      "multi_artist",
+      "cover_edit",
+      "playback_limits",
+      "output_devices",
+      "output_mode_contract",
+      "permissions",
+      "lyrics",
+      "waveform",
+      "cue",
+      "edit_tags",
+      "automatic_loudness",
+      "paused_navigation",
+      "track_rows",
+      "album_paging",
+      "search_paging",
+      "enqueue_expected_current",
+      "playlist_playback_guards",
+      "release_root",
+      "queue_candidates",
+      "structured_signal_path",
+      "job_queries",
+      "action_details",
+      "scan_error_codes"
+    ],
+    "now_ms": 112,
+    "state": "stopped",
+    "current": null,
+    "position": null,
+    "queue": {
+      "revision": 1792500000000,
+      "entry_count": 0,
+      "current_index": null,
+      "next_entry": null,
+      "natural_next_entry": null
+    },
+    "shuffle": false,
+    "repeat": "off",
+    "audio": {
+      "volume": 0.0,
+      "volume_db": null,
+      "muted": true,
+      "volume_mode": "software",
+      "replay_gain": {
+        "mode": "off",
+        "preamp_db": 0.0,
+        "fallback_preamp_db": -6.0,
+        "prevent_clipping": true
+      },
+      "output": {
+        "selection": {
+          "type": "system_default"
+        },
+        "settings_revision": 0,
+        "mode": "shared",
+        "fallback": "pause",
+        "rate_policy": "mix"
+      }
+    },
+    "playback_limits": {
+      "stop_after_current": null,
+      "sleep_timer": null
+    },
+    "output": {
+      "settings_revision": 0,
+      "generation": 0,
+      "status": "idle",
+      "actual": null,
+      "failure": null,
+      "fallback": null
+    },
+    "problems": [
+      {
+        "code": "permissions_unavailable",
+        "message": "the agents and grants could not be read: database error: disk I/O error",
+        "since_ms": 1792537200000
+      },
+      {
+        "code": "library_damaged",
+        "message": "database error: database disk image is malformed",
+        "since_ms": 1792540800000
+      }
+    ]
+  }
+}

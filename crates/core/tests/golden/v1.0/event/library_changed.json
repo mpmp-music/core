@@ -1,0 +1,9 @@
+{
+  "seq": 4194,
+  "origin": {
+    "type": "system"
+  },
+  "event": {
+    "type": "library_changed"
+  }
+}

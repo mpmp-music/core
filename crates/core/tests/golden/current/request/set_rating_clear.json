@@ -1,0 +1,11 @@
+{
+  "request_id": 26,
+  "idempotency_key": null,
+  "command": {
+    "type": "set_rating",
+    "tracks": [
+      877
+    ],
+    "rating": null
+  }
+}

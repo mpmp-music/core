@@ -1,0 +1,31 @@
+{
+  "seq": 4254,
+  "origin": {
+    "type": "agent",
+    "name": "claude"
+  },
+  "event": {
+    "type": "confirmation_requested",
+    "confirmation": {
+      "token": "c-9a4b7d21",
+      "summary": "Permanently delete 1 playlist in the trash (Old mix)",
+      "command": {
+        "type": "purge_playlists",
+        "playlists": [
+          9
+        ]
+      },
+      "requested_by": {
+        "type": "agent",
+        "name": "claude"
+      },
+      "expires_at_ms": 1792541100000,
+      "operation": {
+        "class": "purge",
+        "command": "purge_playlists"
+      },
+      "scope": null,
+      "display_location": null
+    }
+  }
+}

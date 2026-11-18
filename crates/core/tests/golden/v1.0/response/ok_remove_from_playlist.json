@@ -1,0 +1,16 @@
+{
+  "request_id": 44,
+  "result": {
+    "type": "ok",
+    "changed": true,
+    "queue_revision": 1792500000021,
+    "playlist": {
+      "playlist": 12,
+      "revision": 10,
+      "removed_items": [
+        301
+      ]
+    },
+    "action": 5124
+  }
+}

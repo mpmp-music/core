@@ -1,0 +1,36 @@
+{
+  "type": "output_device_capabilities",
+  "generation": 4,
+  "resolved_device": {
+    "id": "cpal:fixed-1",
+    "name": "Speakers",
+    "is_default": true,
+    "available": true,
+    "id_stability": "persistent"
+  },
+  "capabilities": {
+    "backend": "alsa",
+    "exclusive_access": "supported",
+    "source_rate_switch": "supported",
+    "bit_exact_transport": "undetermined",
+    "physical_route_known": true,
+    "mix_format": null,
+    "exclusive_formats": [
+      {
+        "channels": 2,
+        "sample_format": "i32",
+        "valid_bits_per_sample": 24,
+        "sample_rate_min": 44100,
+        "sample_rate_max": 44100
+      },
+      {
+        "channels": 2,
+        "sample_format": "f32",
+        "valid_bits_per_sample": null,
+        "sample_rate_min": 48000,
+        "sample_rate_max": 96000
+      }
+    ],
+    "formats_complete": false
+  }
+}

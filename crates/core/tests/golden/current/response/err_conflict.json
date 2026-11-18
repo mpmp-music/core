@@ -1,0 +1,15 @@
+{
+  "request_id": 14,
+  "result": {
+    "type": "err",
+    "error": {
+      "kind": "conflict",
+      "code": "queue_conflict",
+      "message": "the queue changed meanwhile: refresh and retry",
+      "details": {
+        "expected": 1792500000017,
+        "actual": 1792500000018
+      }
+    }
+  }
+}

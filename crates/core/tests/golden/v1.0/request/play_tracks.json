@@ -1,0 +1,17 @@
+{
+  "request_id": 2,
+  "idempotency_key": null,
+  "command": {
+    "type": "play",
+    "context": {
+      "type": "tracks",
+      "tracks": [
+        1201,
+        1202,
+        3050
+      ]
+    },
+    "start": 2,
+    "start_track": null
+  }
+}

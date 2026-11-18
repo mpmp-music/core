@@ -1,0 +1,8 @@
+{
+  "seq": 7010,
+  "origin": null,
+  "event": {
+    "type": "output_devices_changed",
+    "generation": 5
+  }
+}

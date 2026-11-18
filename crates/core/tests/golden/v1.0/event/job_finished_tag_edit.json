@@ -1,0 +1,37 @@
+{
+  "seq": 5023,
+  "origin": {
+    "type": "ui"
+  },
+  "event": {
+    "type": "job_finished",
+    "job": 9,
+    "kind": "tag_edit",
+    "outcome": {
+      "type": "completed",
+      "report": {
+        "type": "tag_edit",
+        "encoding_converted": [
+          42
+        ],
+        "written": [
+          42
+        ],
+        "written_count": 1,
+        "action": 5160,
+        "skipped": [
+          {
+            "track": 43,
+            "code": "file_in_use"
+          }
+        ],
+        "failed": [
+          {
+            "track": 44,
+            "code": "write_failed"
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "request_id": 39,
+  "idempotency_key": null,
+  "command": {
+    "type": "restore_playlist",
+    "playlist": 12
+  }
+}

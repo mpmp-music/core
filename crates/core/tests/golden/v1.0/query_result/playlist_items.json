@@ -1,0 +1,131 @@
+{
+  "type": "playlist_items",
+  "playlist": {
+    "id": 12,
+    "name": "Late night",
+    "kind": {
+      "type": "manual"
+    },
+    "track_count": 2,
+    "duration_ms": 1151000,
+    "revision": 8,
+    "created_at_ms": 1750000000000,
+    "updated_at_ms": 1792368000000,
+    "deleted_at_ms": null
+  },
+  "items": [
+    {
+      "item": 301,
+      "track": {
+        "id": 1201,
+        "title": "Soft Wheels",
+        "title_from_file": false,
+        "artist": "Miren Dalen",
+        "artists": [
+          {
+            "key": "person:v1:9534d53acedcff35f87de4c0d30a5eb5427b91bd3a14145bb7492ec103f86876",
+            "name": "Miren Dalen"
+          }
+        ],
+        "artists_source": "artist_values",
+        "artists_complete": true,
+        "album": "Kites of Brass",
+        "album_artist": "Miren Dalen",
+        "group_artist": "Miren Dalen",
+        "album_key": "miren dalen\u001fkites of brass",
+        "track_no": 1,
+        "track_total": 5,
+        "disc_no": 1,
+        "disc_total": 1,
+        "year": 1959,
+        "genre": "Jazz",
+        "compilation": false,
+        "duration_ms": 562000,
+        "codec": "flac",
+        "sample_rate": 44100,
+        "channels": 2,
+        "bits_per_sample": 16,
+        "bitrate_kbps": 912,
+        "lossless": true,
+        "root": 1,
+        "path": "Miren Dalen/Kites of Brass/01 Soft Wheels.flac",
+        "size_bytes": 61234567,
+        "modified_at_ms": 1700000000000,
+        "added_at_ms": 1745000000000,
+        "available": true,
+        "has_cover": true,
+        "cover_revision": "sha256:example",
+        "rating": 5,
+        "loved": true,
+        "play_count": 42,
+        "skip_count": 1,
+        "last_played_at_ms": 1792454400000,
+        "first_played_at_ms": 1745100000000,
+        "replay_gain": {
+          "track_gain_db": -7.9,
+          "track_peak": 0.98,
+          "album_gain_db": -8.4,
+          "album_peak": 1.0,
+          "track_source": "tags",
+          "album_source": "tags"
+        },
+        "tags": {
+          "COMPOSER": [
+            "Miren Dalen",
+            "Bren Elven"
+          ],
+          "LABEL": [
+            "Cloudbox"
+          ]
+        }
+      }
+    },
+    {
+      "item": 302,
+      "track": {
+        "id": 877,
+        "title": "track03",
+        "title_from_file": true,
+        "artist": null,
+        "artists": [],
+        "artists_source": null,
+        "artists_complete": false,
+        "album": null,
+        "album_artist": null,
+        "group_artist": null,
+        "album_key": "\u001f",
+        "track_no": null,
+        "track_total": null,
+        "disc_no": null,
+        "disc_total": null,
+        "year": null,
+        "genre": null,
+        "compilation": false,
+        "duration_ms": null,
+        "codec": "mp3",
+        "sample_rate": null,
+        "channels": null,
+        "bits_per_sample": null,
+        "bitrate_kbps": null,
+        "lossless": false,
+        "root": 2,
+        "path": "old rips/track03.mp3",
+        "size_bytes": 4812345,
+        "modified_at_ms": 1200000000000,
+        "added_at_ms": 1745000000000,
+        "available": false,
+        "has_cover": false,
+        "cover_revision": null,
+        "rating": null,
+        "loved": false,
+        "play_count": 0,
+        "skip_count": 0,
+        "last_played_at_ms": null,
+        "first_played_at_ms": null
+      }
+    }
+  ],
+  "offset": 0,
+  "total": 2,
+  "next_offset": null
+}

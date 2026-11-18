@@ -1,0 +1,41 @@
+{
+  "type": "tag_edit_preview",
+  "files": [
+    {
+      "changed": true,
+      "display_location": "/music/Jazz/Kites of Brass/Soft Wheels.flac",
+      "track": 42,
+      "encoding_conversion": true,
+      "before": {
+        "ARTIST": [
+          "Miren Dalen"
+        ],
+        "COMMENT": [
+          "remastered"
+        ],
+        "TITLE": [
+          "Soft Wheels"
+        ]
+      },
+      "after": {
+        "ARTIST": [
+          "Miren Dalen",
+          "Jorin Calven"
+        ],
+        "TITLE": [
+          "Soft Wheels"
+        ]
+      }
+    }
+  ],
+  "skipped": [
+    {
+      "track": 43,
+      "code": "file_changed"
+    },
+    {
+      "track": 44,
+      "code": "unsupported_format"
+    }
+  ]
+}

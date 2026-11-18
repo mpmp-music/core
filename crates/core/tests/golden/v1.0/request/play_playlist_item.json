@@ -1,0 +1,15 @@
+{
+  "request_id": 60,
+  "idempotency_key": null,
+  "command": {
+    "type": "play",
+    "context": {
+      "type": "playlist",
+      "playlist": 12,
+      "start_item": 18,
+      "expected_revision": 4
+    },
+    "start": 0,
+    "start_track": null
+  }
+}

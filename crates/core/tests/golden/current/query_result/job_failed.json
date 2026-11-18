@@ -1,0 +1,16 @@
+{
+  "type": "job",
+  "job": {
+    "id": 7,
+    "kind": "tag_edit",
+    "state": "failed",
+    "outcome": {
+      "type": "failed",
+      "error": {
+        "kind": "failed",
+        "code": "io",
+        "message": "cannot write tags"
+      }
+    }
+  }
+}

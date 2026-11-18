@@ -1,0 +1,12 @@
+{
+  "request_id": 43,
+  "idempotency_key": null,
+  "command": {
+    "type": "remove_from_playlist",
+    "playlist": 12,
+    "items": [
+      301
+    ],
+    "expected_revision": 9
+  }
+}

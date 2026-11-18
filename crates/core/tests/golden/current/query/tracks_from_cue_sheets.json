@@ -1,0 +1,20 @@
+{
+  "type": "tracks",
+  "query": {
+    "filter": {
+      "type": "compare",
+      "field": {
+        "type": "cue_sheet"
+      },
+      "op": "eq",
+      "value": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    "sort": []
+  },
+  "offset": 0,
+  "limit": 100,
+  "tags": []
+}

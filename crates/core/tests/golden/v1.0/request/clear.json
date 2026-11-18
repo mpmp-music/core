@@ -1,0 +1,8 @@
+{
+  "request_id": 18,
+  "idempotency_key": null,
+  "command": {
+    "type": "clear",
+    "expected_revision": 1792500000020
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "type": "output_devices",
+  "generation": 4,
+  "default_device": "cpal:fixed-1",
+  "devices": [
+    {
+      "id": "cpal:fixed-1",
+      "name": "Speakers",
+      "is_default": true,
+      "available": true,
+      "id_stability": "persistent"
+    },
+    {
+      "id": "cpal:session-2",
+      "name": "Speakers",
+      "is_default": false,
+      "available": false,
+      "id_stability": "session"
+    }
+  ]
+}

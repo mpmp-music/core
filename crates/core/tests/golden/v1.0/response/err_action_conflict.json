@@ -1,0 +1,23 @@
+{
+  "request_id": 51,
+  "result": {
+    "type": "err",
+    "error": {
+      "kind": "conflict",
+      "code": "action_conflict",
+      "message": "later actions changed 2 of the objects; nothing was undone",
+      "details": {
+        "changed": [
+          {
+            "type": "track",
+            "id": 1201
+          },
+          {
+            "type": "playlist",
+            "id": 12
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "seq": 5040,
+  "origin": null,
+  "event": {
+    "type": "job_progress",
+    "job": 12,
+    "kind": "loudness_scan",
+    "done": 1,
+    "total": null
+  }
+}

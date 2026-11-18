@@ -1,0 +1,10 @@
+{
+  "request_id": 65,
+  "idempotency_key": null,
+  "command": {
+    "type": "set_output_device",
+    "selection": {
+      "type": "system_default"
+    }
+  }
+}

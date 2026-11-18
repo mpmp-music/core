@@ -1,0 +1,14 @@
+{
+  "seq": 4251,
+  "origin": {
+    "type": "ui"
+  },
+  "event": {
+    "type": "job_finished",
+    "job": 8,
+    "kind": "scan",
+    "outcome": {
+      "type": "cancelled"
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "seq": 4192,
+  "origin": {
+    "type": "media_controls"
+  },
+  "event": {
+    "type": "position",
+    "position": {
+      "entry": 1792500000004,
+      "position_ms": 15000,
+      "at_ms": 3700000,
+      "rate": 1.0
+    }
+  }
+}

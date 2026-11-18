@@ -1,0 +1,11 @@
+{
+  "request_id": 69,
+  "idempotency_key": null,
+  "command": {
+    "type": "set_output_mode",
+    "mode": "exclusive",
+    "fallback": "shared",
+    "rate_policy": "source",
+    "expected_revision": 7
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "seq": 7003,
+  "origin": null,
+  "event": {
+    "type": "output_changed",
+    "output": {
+      "settings_revision": 7,
+      "generation": 4,
+      "status": "unavailable",
+      "actual": null,
+      "failure": {
+        "code": "output_device_unavailable",
+        "message": "Selected endpoint is offline",
+        "retryable": true
+      },
+      "fallback": null
+    }
+  }
+}

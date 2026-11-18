@@ -1,0 +1,7 @@
+{
+  "request_id": 8,
+  "idempotency_key": null,
+  "command": {
+    "type": "resume"
+  }
+}

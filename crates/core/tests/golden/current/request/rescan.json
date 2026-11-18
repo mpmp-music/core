@@ -1,0 +1,7 @@
+{
+  "request_id": 24,
+  "idempotency_key": null,
+  "command": {
+    "type": "rescan"
+  }
+}

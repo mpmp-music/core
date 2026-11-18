@@ -1,0 +1,11 @@
+{
+  "request_id": 7,
+  "result": {
+    "type": "err",
+    "error": {
+      "kind": "not_found",
+      "code": "output_device_not_found",
+      "message": "Output configuration could not be satisfied"
+    }
+  }
+}

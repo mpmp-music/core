@@ -1,0 +1,8 @@
+{
+  "type": "artist_albums",
+  "view": "person",
+  "name": "Miren Dalen",
+  "sort": "artist",
+  "offset": 0,
+  "limit": 100
+}

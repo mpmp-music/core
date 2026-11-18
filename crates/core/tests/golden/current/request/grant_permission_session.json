@@ -1,0 +1,21 @@
+{
+  "request_id": 53,
+  "idempotency_key": null,
+  "command": {
+    "type": "grant_permission",
+    "agent": "claude",
+    "session": "conn-7f3a",
+    "operation": {
+      "type": "class",
+      "class": "local_path"
+    },
+    "scope": {
+      "type": "location",
+      "location": "/home/me/Music"
+    },
+    "until": {
+      "type": "session"
+    },
+    "effect": "allow"
+  }
+}

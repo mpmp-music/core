@@ -1,0 +1,7 @@
+{
+  "type": "output_device_capabilities",
+  "selection": {
+    "type": "device",
+    "id": "cpal:fixed-1"
+  }
+}

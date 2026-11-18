@@ -1,0 +1,14 @@
+{
+  "request_id": 70,
+  "idempotency_key": null,
+  "command": {
+    "type": "resolve_cover_recovery",
+    "track": 42,
+    "resolution": "restore_before",
+    "selection": {
+      "intent": 5161,
+      "role": "backup",
+      "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+    }
+  }
+}

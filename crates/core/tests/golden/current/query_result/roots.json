@@ -1,0 +1,17 @@
+{
+  "type": "roots",
+  "roots": [
+    {
+      "id": 1,
+      "path": "/home/me/Music",
+      "track_count": 4800,
+      "released": false
+    },
+    {
+      "id": 3,
+      "path": "/mnt/nas/hires",
+      "track_count": 312,
+      "released": false
+    }
+  ]
+}

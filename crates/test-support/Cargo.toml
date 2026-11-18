@@ -1,0 +1,18 @@
+[package]
+name = "mpmp-test-support"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[features]
+# Public-core helpers are enabled only by core integration tests.
+core = ["dep:mpmp-core", "dep:mpmp-engine"]
+
+[dependencies]
+mpmp-core = { workspace = true, optional = true }
+mpmp-engine = { workspace = true, optional = true }
+mpmp-storage.workspace = true
+
+[target.'cfg(windows)'.dependencies]
+windows-sys = { workspace = true, features = ["Win32_Storage_FileSystem", "Win32_Foundation"] }

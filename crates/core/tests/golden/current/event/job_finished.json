@@ -1,0 +1,32 @@
+{
+  "seq": 4250,
+  "origin": {
+    "type": "ui"
+  },
+  "event": {
+    "type": "job_finished",
+    "job": 7,
+    "kind": "scan",
+    "outcome": {
+      "type": "completed",
+      "report": {
+        "type": "scan",
+        "added_count": 4790,
+        "updated_count": 3,
+        "restored_count": 2,
+        "removed_count": 1,
+        "error_count": 2,
+        "first_errors": [
+          {
+            "path": "/home/me/Music/broken.flac",
+            "message": "not a FLAC stream"
+          },
+          {
+            "path": "/home/me/Music/private",
+            "message": "permission denied"
+          }
+        ]
+      }
+    }
+  }
+}

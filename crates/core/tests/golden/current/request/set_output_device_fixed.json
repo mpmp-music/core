@@ -1,0 +1,12 @@
+{
+  "request_id": 66,
+  "idempotency_key": null,
+  "command": {
+    "type": "set_output_device",
+    "selection": {
+      "type": "device",
+      "id": "cpal:fixed-1"
+    },
+    "expected_revision": 7
+  }
+}

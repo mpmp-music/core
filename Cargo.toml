@@ -1,0 +1,77 @@
+[workspace]
+resolver = "3"
+members = ["crates/media-io","crates/engine","crates/output-cpal","crates/storage","crates/library","crates/core","crates/fs-desktop","crates/agent-mcp","crates/test-support","apps/cli","apps/player-mcp"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+publish = false
+rust-version = "1.90"
+
+[workspace.dependencies]
+mpmp-test-support = { path = "crates/test-support" }
+mpmp-storage = { path = "crates/storage" }
+mpmp-media-io = { path = "crates/media-io" }
+mpmp-engine = { path = "crates/engine" }
+mpmp-output-cpal = { path = "crates/output-cpal" }
+mpmp-core = { path = "crates/core", default-features = false }
+
+symphonia = { version = "0.6.1", default-features = false, features = ["id3v2", "mp3", "flac", "vorbis", "pcm", "wav", "aac", "isomp4", "alac", "ogg", "aiff"] }
+cpal = "0.18.2"
+rtrb = "0.4"
+rubato = "5.0.1"
+crossbeam-channel = "0.5"
+crossbeam-queue = "=0.3.5"
+thiserror = "2"
+tracing = "0.1"
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.154"
+schemars = "1.2.3"
+arc-swap = "1.9.3"
+fastrand = "2.5.0"
+tracing-subscriber = { version = "0.3.23", features = ["env-filter"] }
+hound = "3.5"
+mpmp-library = { path = "crates/library", default-features = false }
+mpmp-fs-desktop = { path = "crates/fs-desktop" }
+lofty = "0.25.4"
+rusqlite = { version = "0.40.2", features = ["bundled"] }
+chardetng = "1.0.0"
+encoding_rs = "0.8.42"
+unicode-normalization = "0.1.26"
+walkdir = "2.5.0"
+# Whether two paths or handles are the same file, outside Unix (Windows: volume serial and
+# file index), for checked locations; already used by walkdir.
+same-file = "=1.0.6"
+# Unix only: `O_NONBLOCK`, so that opening an M3U file to import never waits on a FIFO;
+# already in the lock file (through getrandom, cpal …).
+libc = { version = "=0.2.191", default-features = false }
+# Windows only, already in the lock file (through tempfile, cpal …); each crate turns on only
+# the API it calls: this computer's names, addresses and shares, so that a UNC path back to it
+# (`\\localhost\C$\…`) is judged as the local folder (fs-desktop); the named pipe's access
+# control and the peer's user (agent-mcp).
+windows = { version = "=0.62.2", default-features = false }
+windows-core = { version = "=0.62.2", default-features = false }
+windows-sys = { version = "=0.61.2", default-features = false }
+tempfile = "3.27.0"
+# Agent tokens (crates/core permissions): a CSPRNG and SHA-256, exact versions.
+getrandom = { version = "=0.4.3", default-features = false }
+sha2 = { version = "=0.10.9", default-features = false }
+# Cover thumbnails (crates/library): decode and resize JPEG, PNG, GIF, WebP and BMP, encode
+# JPEG and PNG; no default features (no rayon, no other formats), exact version.
+image = { version = "=0.25.10", default-features = false, features = ["jpeg", "png", "gif", "webp", "bmp"] }
+# Agents over MCP (crates/agent-mcp, apps/player-mcp; docs/design/agent-permissions.md):
+# the official MCP SDK (Apache-2.0) and the async runtime it runs on. Without its default
+# features the adapter crate is only the endpoint and handshake, which is all the bridge needs.
+mpmp-agent-mcp = { path = "crates/agent-mcp", default-features = false }
+rmcp = { version = "=3.6.0", default-features = false }
+tokio = { version = "=1.54.0", default-features = false }
+
+[profile.dev]
+# Line numbers in backtraces, without full debug info: smaller artifacts, faster links.
+# For a debugger session: CARGO_PROFILE_DEV_DEBUG=true.
+debug = "line-tables-only"
+
+# SQLite is C compiled by build.rs; unoptimized it makes debug-build tests slow.
+[profile.dev.package.libsqlite3-sys]
+opt-level = 3

@@ -1,0 +1,19 @@
+{
+  "type": "facet",
+  "field": {
+    "type": "genre"
+  },
+  "filter": {
+    "type": "compare",
+    "field": {
+      "type": "year"
+    },
+    "op": "lt",
+    "value": {
+      "type": "int",
+      "value": 1970
+    }
+  },
+  "offset": 0,
+  "limit": 100
+}

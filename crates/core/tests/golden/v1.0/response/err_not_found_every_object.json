@@ -1,0 +1,59 @@
+{
+  "request_id": 52,
+  "result": {
+    "type": "err",
+    "error": {
+      "kind": "not_found",
+      "code": "entry_not_found",
+      "message": "not found",
+      "details": {
+        "missing": [
+          {
+            "type": "entry",
+            "id": 1792500000099
+          },
+          {
+            "type": "track",
+            "id": 4040
+          },
+          {
+            "type": "playlist",
+            "id": 99
+          },
+          {
+            "type": "playlist_item",
+            "id": 999
+          },
+          {
+            "type": "root",
+            "id": 9
+          },
+          {
+            "type": "album",
+            "key": "nobody\u001fnothing"
+          },
+          {
+            "type": "confirmation",
+            "token": "c-00000000"
+          },
+          {
+            "type": "job",
+            "id": 99
+          },
+          {
+            "type": "action",
+            "id": 9999
+          },
+          {
+            "type": "agent",
+            "name": "gemini"
+          },
+          {
+            "type": "grant",
+            "id": 99
+          }
+        ]
+      }
+    }
+  }
+}

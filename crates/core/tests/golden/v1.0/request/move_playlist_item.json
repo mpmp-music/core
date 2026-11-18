@@ -1,0 +1,11 @@
+{
+  "request_id": 44,
+  "idempotency_key": null,
+  "command": {
+    "type": "move_playlist_item",
+    "playlist": 12,
+    "item": 302,
+    "to": 0,
+    "expected_revision": 10
+  }
+}

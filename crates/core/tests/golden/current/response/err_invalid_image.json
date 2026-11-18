@@ -1,0 +1,11 @@
+{
+  "request_id": 90,
+  "result": {
+    "type": "err",
+    "error": {
+      "kind": "invalid",
+      "code": "invalid_image",
+      "message": "invalid_image"
+    }
+  }
+}

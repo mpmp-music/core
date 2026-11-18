@@ -1,0 +1,2556 @@
+{
+  "batches": [
+    {
+      "expected": null,
+      "input": {
+        "tracks": [],
+        "type": "enqueue"
+      },
+      "kind": "command",
+      "length": 1000,
+      "name": "enqueue 1000",
+      "path": [
+        "tracks"
+      ],
+      "value": 1
+    },
+    {
+      "expected": {
+        "code": "invalid",
+        "outcome": "not_sent",
+        "source": "host"
+      },
+      "input": {
+        "tracks": [],
+        "type": "enqueue"
+      },
+      "kind": "command",
+      "length": 1001,
+      "name": "enqueue 1001",
+      "path": [
+        "tracks"
+      ],
+      "value": 1
+    },
+    {
+      "expected": null,
+      "input": {
+        "entries": [],
+        "type": "remove"
+      },
+      "kind": "command",
+      "length": 1000,
+      "name": "remove 1000",
+      "path": [
+        "entries"
+      ],
+      "value": 1
+    },
+    {
+      "expected": {
+        "code": "invalid",
+        "outcome": "not_sent",
+        "source": "host"
+      },
+      "input": {
+        "entries": [],
+        "type": "remove"
+      },
+      "kind": "command",
+      "length": 1001,
+      "name": "remove 1001",
+      "path": [
+        "entries"
+      ],
+      "value": 1
+    },
+    {
+      "expected": null,
+      "input": {
+        "loved": true,
+        "tracks": [],
+        "type": "set_loved"
+      },
+      "kind": "command",
+      "length": 1000,
+      "name": "set_loved 1000",
+      "path": [
+        "tracks"
+      ],
+      "value": 1
+    },
+    {
+      "expected": {
+        "code": "invalid",
+        "outcome": "not_sent",
+        "source": "host"
+      },
+      "input": {
+        "loved": true,
+        "tracks": [],
+        "type": "set_loved"
+      },
+      "kind": "command",
+      "length": 1001,
+      "name": "set_loved 1001",
+      "path": [
+        "tracks"
+      ],
+      "value": 1
+    },
+    {
+      "expected": null,
+      "input": {
+        "rating": 4,
+        "tracks": [],
+        "type": "set_rating"
+      },
+      "kind": "command",
+      "length": 1000,
+      "name": "set_rating 1000",
+      "path": [
+        "tracks"
+      ],
+      "value": 1
+    },
+    {
+      "expected": {
+        "code": "invalid",
+        "outcome": "not_sent",
+        "source": "host"
+      },
+      "input": {
+        "rating": 4,
+        "tracks": [],
+        "type": "set_rating"
+      },
+      "kind": "command",
+      "length": 1001,
+      "name": "set_rating 1001",
+      "path": [
+        "tracks"
+      ],
+      "value": 1
+    },
+    {
+      "expected": null,
+      "input": {
+        "playlist": 1,
+        "tracks": [],
+        "type": "add_to_playlist"
+      },
+      "kind": "command",
+      "length": 1000,
+      "name": "add_to_playlist 1000",
+      "path": [
+        "tracks"
+      ],
+      "value": 1
+    },
+    {
+      "expected": {
+        "code": "invalid",
+        "outcome": "not_sent",
+        "source": "host"
+      },
+      "input": {
+        "playlist": 1,
+        "tracks": [],
+        "type": "add_to_playlist"
+      },
+      "kind": "command",
+      "length": 1001,
+      "name": "add_to_playlist 1001",
+      "path": [
+        "tracks"
+      ],
+      "value": 1
+    },
+    {
+      "expected": null,
+      "input": {
+        "items": [],
+        "playlist": 1,
+        "type": "remove_from_playlist"
+      },
+      "kind": "command",
+      "length": 1000,
+      "name": "remove_from_playlist 1000",
+      "path": [
+        "items"
+      ],
+      "value": 1
+    },
+    {
+      "expected": {
+        "code": "invalid",
+        "outcome": "not_sent",
+        "source": "host"
+      },
+      "input": {
+        "items": [],
+        "playlist": 1,
+        "type": "remove_from_playlist"
+      },
+      "kind": "command",
+      "length": 1001,
+      "name": "remove_from_playlist 1001",
+      "path": [
+        "items"
+      ],
+      "value": 1
+    },
+    {
+      "expected": null,
+      "input": {
+        "tracks": [],
+        "type": "track_rows"
+      },
+      "kind": "query",
+      "length": 1000,
+      "name": "track_rows 1000",
+      "path": [
+        "tracks"
+      ],
+      "value": 1
+    },
+    {
+      "expected": {
+        "code": "out_of_range",
+        "outcome": "not_sent",
+        "source": "host"
+      },
+      "input": {
+        "tracks": [],
+        "type": "track_rows"
+      },
+      "kind": "query",
+      "length": 1001,
+      "name": "track_rows 1001",
+      "path": [
+        "tracks"
+      ],
+      "value": 1
+    },
+    {
+      "expected": null,
+      "input": {
+        "context": {
+          "tracks": [],
+          "type": "tracks"
+        },
+        "type": "play"
+      },
+      "kind": "command",
+      "length": 1000,
+      "name": "play 1000",
+      "path": [
+        "context",
+        "tracks"
+      ],
+      "value": 1
+    },
+    {
+      "expected": {
+        "code": "invalid",
+        "outcome": "not_sent",
+        "source": "host"
+      },
+      "input": {
+        "context": {
+          "tracks": [],
+          "type": "tracks"
+        },
+        "type": "play"
+      },
+      "kind": "command",
+      "length": 1001,
+      "name": "play 1001",
+      "path": [
+        "context",
+        "tracks"
+      ],
+      "value": 1
+    }
+  ],
+  "grouping": [
+    {
+      "album": "Album",
+      "album_artist": "",
+      "artist": "Solo",
+      "compilation": false,
+      "expected": {
+        "album_key": "solo\u001falbum",
+        "group_artist": "Solo"
+      }
+    },
+    {
+      "album": "Album",
+      "album_artist": "",
+      "artist": "Guest",
+      "compilation": true,
+      "expected": {
+        "album_key": "various artists\u001falbum",
+        "group_artist": "Various Artists"
+      }
+    },
+    {
+      "album": "Album",
+      "album_artist": " \u0000 ",
+      "artist": "Guest",
+      "compilation": true,
+      "expected": {
+        "album_key": "various artists\u001falbum",
+        "group_artist": "Various Artists"
+      }
+    },
+    {
+      "album": "Album",
+      "album_artist": "  Band \u0000",
+      "artist": "Guest",
+      "compilation": true,
+      "expected": {
+        "album_key": "band\u001falbum",
+        "group_artist": "Band"
+      }
+    },
+    {
+      "album": "Album",
+      "album_artist": "",
+      "artist": null,
+      "compilation": false,
+      "expected": {
+        "album_key": "\u001falbum",
+        "group_artist": null
+      }
+    },
+    {
+      "album": "Album",
+      "album_artist": "Explicit",
+      "artist": "Guest",
+      "compilation": true,
+      "expected": {
+        "album_key": "explicit\u001falbum",
+        "group_artist": "Explicit"
+      }
+    }
+  ],
+  "guards": [
+    {
+      "command": {
+        "type": "next"
+      },
+      "expected": {
+        "current_index": 1,
+        "error": null,
+        "queue": [
+          0,
+          1
+        ]
+      },
+      "name": "navigation does not bump queue revision"
+    },
+    {
+      "command": {
+        "at": "next",
+        "expected_current": "$entry0",
+        "expected_revision": "$queue_revision",
+        "tracks": [
+          "$track2"
+        ],
+        "type": "enqueue"
+      },
+      "expected": {
+        "current_index": 1,
+        "error": {
+          "code": "entry_not_current",
+          "kind": "conflict"
+        },
+        "queue": [
+          0,
+          1
+        ]
+      },
+      "name": "stale anchor despite matching revision"
+    },
+    {
+      "command": {
+        "at": "next",
+        "expected_current": "$entry0",
+        "tracks": [],
+        "type": "enqueue"
+      },
+      "expected": {
+        "current_index": 1,
+        "error": {
+          "code": "entry_not_current",
+          "kind": "conflict"
+        },
+        "queue": [
+          0,
+          1
+        ]
+      },
+      "name": "empty batch still checks anchor"
+    },
+    {
+      "command": {
+        "at": "end",
+        "expected_current": "$entry1",
+        "tracks": [],
+        "type": "enqueue"
+      },
+      "expected": {
+        "current_index": 1,
+        "error": {
+          "code": "invalid_request",
+          "kind": "invalid"
+        },
+        "queue": [
+          0,
+          1
+        ]
+      },
+      "name": "anchor requires next"
+    },
+    {
+      "command": {
+        "at": "next",
+        "expected_current": "$entry1",
+        "expected_revision": "$queue_revision",
+        "tracks": [
+          "$track2"
+        ],
+        "type": "enqueue"
+      },
+      "expected": {
+        "current_index": 1,
+        "error": null,
+        "queue": [
+          0,
+          1,
+          2
+        ]
+      },
+      "name": "matching anchor inserts next"
+    },
+    {
+      "command": {
+        "at": "next",
+        "expected_current": "$entry1",
+        "expected_revision": "$queue_revision",
+        "tracks": [
+          "$track2"
+        ],
+        "type": "enqueue"
+      },
+      "expected": {
+        "current_index": 1,
+        "error": {
+          "code": "queue_conflict",
+          "kind": "conflict"
+        },
+        "queue": [
+          0,
+          1,
+          2
+        ]
+      },
+      "name": "revision still checked with matching anchor"
+    },
+    {
+      "command": {
+        "entries": [
+          "$entry1"
+        ],
+        "type": "remove"
+      },
+      "expected": {
+        "current_index": null,
+        "error": null,
+        "queue": [
+          0,
+          2
+        ]
+      },
+      "name": "remove current"
+    },
+    {
+      "command": {
+        "at": "next",
+        "expected_current": "$entry1",
+        "tracks": [
+          "$track2"
+        ],
+        "type": "enqueue"
+      },
+      "expected": {
+        "current_index": null,
+        "error": {
+          "code": "entry_not_current",
+          "kind": "conflict"
+        },
+        "queue": [
+          0,
+          2
+        ]
+      },
+      "name": "removed current cannot anchor"
+    },
+    {
+      "command": {
+        "context": {
+          "expected_revision": "$playlist_revision",
+          "playlist": "$playlist",
+          "start_item": "$item2",
+          "type": "playlist"
+        },
+        "start": 999,
+        "start_track": "$track1",
+        "type": "play"
+      },
+      "expected": {
+        "current_index": 2,
+        "error": null,
+        "queue": [
+          0,
+          1,
+          0
+        ]
+      },
+      "name": "exact duplicate item overrides other selectors"
+    },
+    {
+      "command": {
+        "index": 0,
+        "playlist": "$playlist",
+        "tracks": [
+          "$track2"
+        ],
+        "type": "add_to_playlist"
+      },
+      "expected": {
+        "current_index": 2,
+        "error": null,
+        "queue": [
+          0,
+          1,
+          0
+        ]
+      },
+      "name": "prepend changes old positions"
+    },
+    {
+      "command": {
+        "context": {
+          "expected_revision": "$playlist_revision",
+          "playlist": "$playlist",
+          "start_item": "$item2",
+          "type": "playlist"
+        },
+        "type": "play"
+      },
+      "expected": {
+        "current_index": 2,
+        "error": {
+          "code": "playlist_conflict",
+          "kind": "conflict"
+        },
+        "queue": [
+          0,
+          1,
+          0
+        ]
+      },
+      "name": "stale playlist revision is atomic"
+    },
+    {
+      "command": {
+        "context": {
+          "playlist": "$playlist",
+          "start_item": "$item2",
+          "type": "playlist"
+        },
+        "type": "play"
+      },
+      "expected": {
+        "current_index": 3,
+        "error": null,
+        "queue": [
+          2,
+          0,
+          1,
+          0
+        ]
+      },
+      "name": "stable item locates shifted duplicate"
+    },
+    {
+      "command": {
+        "context": {
+          "playlist": "$playlist",
+          "start_item": "$other_item",
+          "type": "playlist"
+        },
+        "type": "play"
+      },
+      "expected": {
+        "current_index": 3,
+        "error": {
+          "code": "playlist_conflict",
+          "kind": "conflict"
+        },
+        "queue": [
+          2,
+          0,
+          1,
+          0
+        ]
+      },
+      "name": "foreign item cannot select same track"
+    },
+    {
+      "command": {
+        "items": [
+          "$item2"
+        ],
+        "playlist": "$playlist",
+        "type": "remove_from_playlist"
+      },
+      "expected": {
+        "current_index": 3,
+        "error": null,
+        "queue": [
+          2,
+          0,
+          1,
+          0
+        ]
+      },
+      "name": "remove clicked item"
+    },
+    {
+      "command": {
+        "context": {
+          "playlist": "$playlist",
+          "start_item": "$item2",
+          "type": "playlist"
+        },
+        "type": "play"
+      },
+      "expected": {
+        "current_index": 3,
+        "error": {
+          "code": "playlist_conflict",
+          "kind": "conflict"
+        },
+        "queue": [
+          2,
+          0,
+          1,
+          0
+        ]
+      },
+      "name": "removed item conflicts"
+    },
+    {
+      "command": {
+        "context": {
+          "playlist": "$smart",
+          "start_item": "$item0",
+          "type": "playlist"
+        },
+        "type": "play"
+      },
+      "expected": {
+        "current_index": 3,
+        "error": {
+          "code": "playlist_kind_mismatch",
+          "kind": "invalid"
+        },
+        "queue": [
+          2,
+          0,
+          1,
+          0
+        ]
+      },
+      "name": "smart playlists have no stable items"
+    },
+    {
+      "command": {
+        "context": {
+          "expected_revision": 999,
+          "playlist": "$smart",
+          "type": "playlist"
+        },
+        "type": "play"
+      },
+      "expected": {
+        "current_index": 3,
+        "error": {
+          "code": "playlist_conflict",
+          "kind": "conflict"
+        },
+        "queue": [
+          2,
+          0,
+          1,
+          0
+        ]
+      },
+      "name": "smart revision is guarded"
+    },
+    {
+      "command": {
+        "context": {
+          "playlist": "$playlist",
+          "type": "playlist"
+        },
+        "start_track": "$track0",
+        "type": "play"
+      },
+      "expected": {
+        "current_index": 1,
+        "error": null,
+        "queue": [
+          2,
+          0,
+          1
+        ]
+      },
+      "name": "legacy first track occurrence still works"
+    },
+    {
+      "command": {
+        "type": "clear"
+      },
+      "expected": {
+        "current_index": null,
+        "error": null,
+        "queue": []
+      },
+      "name": "clear removes anchor"
+    },
+    {
+      "command": {
+        "at": "next",
+        "expected_current": "$entry0",
+        "tracks": [],
+        "type": "enqueue"
+      },
+      "expected": {
+        "current_index": null,
+        "error": {
+          "code": "entry_not_current",
+          "kind": "conflict"
+        },
+        "queue": []
+      },
+      "name": "no current cannot satisfy anchor"
+    },
+    {
+      "command": {
+        "at": "next",
+        "tracks": [
+          "$track0"
+        ],
+        "type": "enqueue"
+      },
+      "expected": {
+        "current_index": null,
+        "error": null,
+        "queue": [
+          0
+        ]
+      },
+      "name": "omitted guard preserves enqueue behavior"
+    }
+  ],
+  "queue": [
+    {
+      "name": "remove tail current then Next",
+      "steps": [
+        {
+          "command": {
+            "context": {
+              "tracks": [
+                1,
+                2
+              ],
+              "type": "tracks"
+            },
+            "start": 1,
+            "type": "play"
+          },
+          "expected": {
+            "current": 2,
+            "current_index": 1,
+            "natural_next": null,
+            "next": null,
+            "queue": [
+              1,
+              2
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "entries": [],
+            "type": "remove"
+          },
+          "entries": [
+            1
+          ],
+          "expected": {
+            "current": 2,
+            "current_index": null,
+            "natural_next": null,
+            "next": null,
+            "queue": [
+              1
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "type": "next"
+          },
+          "expected": {
+            "current": null,
+            "current_index": null,
+            "natural_next": null,
+            "next": null,
+            "queue": [
+              1
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "stopped"
+          }
+        },
+        {
+          "command": {
+            "type": "next"
+          },
+          "expected": {
+            "current": null,
+            "current_index": null,
+            "natural_next": null,
+            "next": null,
+            "queue": [
+              1
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "stopped"
+          }
+        }
+      ]
+    },
+    {
+      "name": "remove tail current then Resume",
+      "steps": [
+        {
+          "command": {
+            "context": {
+              "tracks": [
+                1,
+                2
+              ],
+              "type": "tracks"
+            },
+            "start": 1,
+            "type": "play"
+          },
+          "expected": {
+            "current": 2,
+            "current_index": 1,
+            "natural_next": null,
+            "next": null,
+            "queue": [
+              1,
+              2
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "entries": [],
+            "type": "remove"
+          },
+          "entries": [
+            1
+          ],
+          "expected": {
+            "current": 2,
+            "current_index": null,
+            "natural_next": null,
+            "next": null,
+            "queue": [
+              1
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "type": "next"
+          },
+          "expected": {
+            "current": null,
+            "current_index": null,
+            "natural_next": null,
+            "next": null,
+            "queue": [
+              1
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "stopped"
+          }
+        },
+        {
+          "command": {
+            "type": "resume"
+          },
+          "expected": {
+            "current": 1,
+            "current_index": 0,
+            "natural_next": null,
+            "next": null,
+            "queue": [
+              1
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "playing"
+          }
+        }
+      ]
+    },
+    {
+      "name": "remove middle current",
+      "steps": [
+        {
+          "command": {
+            "context": {
+              "tracks": [
+                1,
+                2,
+                3
+              ],
+              "type": "tracks"
+            },
+            "start": 0,
+            "type": "play"
+          },
+          "expected": {
+            "current": 1,
+            "current_index": 0,
+            "natural_next": 2,
+            "next": 2,
+            "queue": [
+              1,
+              2,
+              3
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "entries": [],
+            "type": "remove"
+          },
+          "entries": [
+            0
+          ],
+          "expected": {
+            "current": 1,
+            "current_index": null,
+            "natural_next": 2,
+            "next": 2,
+            "queue": [
+              2,
+              3
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "type": "next"
+          },
+          "expected": {
+            "current": 2,
+            "current_index": 0,
+            "natural_next": 3,
+            "next": 3,
+            "queue": [
+              2,
+              3
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "playing"
+          }
+        }
+      ]
+    },
+    {
+      "name": "remove successor separately",
+      "steps": [
+        {
+          "command": {
+            "context": {
+              "tracks": [
+                1,
+                2,
+                3
+              ],
+              "type": "tracks"
+            },
+            "start": 0,
+            "type": "play"
+          },
+          "expected": {
+            "current": 1,
+            "current_index": 0,
+            "natural_next": 2,
+            "next": 2,
+            "queue": [
+              1,
+              2,
+              3
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "entries": [],
+            "type": "remove"
+          },
+          "entries": [
+            0
+          ],
+          "expected": {
+            "current": 1,
+            "current_index": null,
+            "natural_next": 2,
+            "next": 2,
+            "queue": [
+              2,
+              3
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "entries": [],
+            "type": "remove"
+          },
+          "entries": [
+            0
+          ],
+          "expected": {
+            "current": 1,
+            "current_index": null,
+            "natural_next": null,
+            "next": null,
+            "queue": [
+              3
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "type": "next"
+          },
+          "expected": {
+            "current": null,
+            "current_index": null,
+            "natural_next": null,
+            "next": null,
+            "queue": [
+              3
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "stopped"
+          }
+        }
+      ]
+    },
+    {
+      "name": "remove current and successor together",
+      "steps": [
+        {
+          "command": {
+            "context": {
+              "tracks": [
+                1,
+                2,
+                3
+              ],
+              "type": "tracks"
+            },
+            "start": 0,
+            "type": "play"
+          },
+          "expected": {
+            "current": 1,
+            "current_index": 0,
+            "natural_next": 2,
+            "next": 2,
+            "queue": [
+              1,
+              2,
+              3
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "entries": [],
+            "type": "remove"
+          },
+          "entries": [
+            0,
+            1
+          ],
+          "expected": {
+            "current": 1,
+            "current_index": null,
+            "natural_next": 3,
+            "next": 3,
+            "queue": [
+              3
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "type": "next"
+          },
+          "expected": {
+            "current": 3,
+            "current_index": 0,
+            "natural_next": null,
+            "next": null,
+            "queue": [
+              3
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "playing"
+          }
+        }
+      ]
+    },
+    {
+      "name": "shuffle Next follows independent order",
+      "steps": [
+        {
+          "command": {
+            "context": {
+              "tracks": [
+                1,
+                2
+              ],
+              "type": "tracks"
+            },
+            "start": 1,
+            "type": "play"
+          },
+          "expected": {
+            "current": 2,
+            "current_index": 1,
+            "natural_next": null,
+            "next": null,
+            "queue": [
+              1,
+              2
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "shuffle": true,
+            "type": "set_shuffle"
+          },
+          "expected": {
+            "current": 2,
+            "current_index": 1,
+            "natural_next": 1,
+            "next": 1,
+            "queue": [
+              1,
+              2
+            ],
+            "repeat": "off",
+            "shuffle": true,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "type": "next"
+          },
+          "expected": {
+            "current": 1,
+            "current_index": 0,
+            "natural_next": null,
+            "next": null,
+            "queue": [
+              1,
+              2
+            ],
+            "repeat": "off",
+            "shuffle": true,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "type": "next"
+          },
+          "expected": {
+            "current": 1,
+            "current_index": 0,
+            "natural_next": null,
+            "next": null,
+            "queue": [
+              1,
+              2
+            ],
+            "repeat": "off",
+            "shuffle": true,
+            "state": "stopped"
+          }
+        }
+      ]
+    },
+    {
+      "name": "shuffle current removal uses shuffled successor",
+      "steps": [
+        {
+          "command": {
+            "context": {
+              "tracks": [
+                1,
+                2
+              ],
+              "type": "tracks"
+            },
+            "start": 1,
+            "type": "play"
+          },
+          "expected": {
+            "current": 2,
+            "current_index": 1,
+            "natural_next": null,
+            "next": null,
+            "queue": [
+              1,
+              2
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "shuffle": true,
+            "type": "set_shuffle"
+          },
+          "expected": {
+            "current": 2,
+            "current_index": 1,
+            "natural_next": 1,
+            "next": 1,
+            "queue": [
+              1,
+              2
+            ],
+            "repeat": "off",
+            "shuffle": true,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "entries": [],
+            "type": "remove"
+          },
+          "entries": [
+            1
+          ],
+          "expected": {
+            "current": 2,
+            "current_index": null,
+            "natural_next": 1,
+            "next": 1,
+            "queue": [
+              1
+            ],
+            "repeat": "off",
+            "shuffle": true,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "type": "next"
+          },
+          "expected": {
+            "current": 1,
+            "current_index": 0,
+            "natural_next": null,
+            "next": null,
+            "queue": [
+              1
+            ],
+            "repeat": "off",
+            "shuffle": true,
+            "state": "playing"
+          }
+        }
+      ]
+    },
+    {
+      "name": "shuffle successor removed later",
+      "steps": [
+        {
+          "command": {
+            "context": {
+              "tracks": [
+                1,
+                2
+              ],
+              "type": "tracks"
+            },
+            "start": 1,
+            "type": "play"
+          },
+          "expected": {
+            "current": 2,
+            "current_index": 1,
+            "natural_next": null,
+            "next": null,
+            "queue": [
+              1,
+              2
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "shuffle": true,
+            "type": "set_shuffle"
+          },
+          "expected": {
+            "current": 2,
+            "current_index": 1,
+            "natural_next": 1,
+            "next": 1,
+            "queue": [
+              1,
+              2
+            ],
+            "repeat": "off",
+            "shuffle": true,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "entries": [],
+            "type": "remove"
+          },
+          "entries": [
+            1
+          ],
+          "expected": {
+            "current": 2,
+            "current_index": null,
+            "natural_next": 1,
+            "next": 1,
+            "queue": [
+              1
+            ],
+            "repeat": "off",
+            "shuffle": true,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "entries": [],
+            "type": "remove"
+          },
+          "entries": [
+            0
+          ],
+          "expected": {
+            "current": 2,
+            "current_index": null,
+            "natural_next": null,
+            "next": null,
+            "queue": [],
+            "repeat": "off",
+            "shuffle": true,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "type": "next"
+          },
+          "expected": {
+            "current": null,
+            "current_index": null,
+            "natural_next": null,
+            "next": null,
+            "queue": [],
+            "repeat": "off",
+            "shuffle": true,
+            "state": "stopped"
+          }
+        }
+      ]
+    },
+    {
+      "name": "disabling shuffle returns to display order",
+      "steps": [
+        {
+          "command": {
+            "context": {
+              "tracks": [
+                1,
+                2
+              ],
+              "type": "tracks"
+            },
+            "start": 1,
+            "type": "play"
+          },
+          "expected": {
+            "current": 2,
+            "current_index": 1,
+            "natural_next": null,
+            "next": null,
+            "queue": [
+              1,
+              2
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "shuffle": true,
+            "type": "set_shuffle"
+          },
+          "expected": {
+            "current": 2,
+            "current_index": 1,
+            "natural_next": 1,
+            "next": 1,
+            "queue": [
+              1,
+              2
+            ],
+            "repeat": "off",
+            "shuffle": true,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "shuffle": false,
+            "type": "set_shuffle"
+          },
+          "expected": {
+            "current": 2,
+            "current_index": 1,
+            "natural_next": null,
+            "next": null,
+            "queue": [
+              1,
+              2
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "type": "next"
+          },
+          "expected": {
+            "current": 2,
+            "current_index": 1,
+            "natural_next": null,
+            "next": null,
+            "queue": [
+              1,
+              2
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "stopped"
+          }
+        }
+      ]
+    },
+    {
+      "name": "repeat all does not restart removed tail",
+      "steps": [
+        {
+          "command": {
+            "context": {
+              "tracks": [
+                1,
+                2
+              ],
+              "type": "tracks"
+            },
+            "start": 1,
+            "type": "play"
+          },
+          "expected": {
+            "current": 2,
+            "current_index": 1,
+            "natural_next": null,
+            "next": null,
+            "queue": [
+              1,
+              2
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "mode": "all",
+            "type": "set_repeat"
+          },
+          "expected": {
+            "current": 2,
+            "current_index": 1,
+            "natural_next": 1,
+            "next": 1,
+            "queue": [
+              1,
+              2
+            ],
+            "repeat": "all",
+            "shuffle": false,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "entries": [],
+            "type": "remove"
+          },
+          "entries": [
+            1
+          ],
+          "expected": {
+            "current": 2,
+            "current_index": null,
+            "natural_next": null,
+            "next": null,
+            "queue": [
+              1
+            ],
+            "repeat": "all",
+            "shuffle": false,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "type": "next"
+          },
+          "expected": {
+            "current": null,
+            "current_index": null,
+            "natural_next": null,
+            "next": null,
+            "queue": [
+              1
+            ],
+            "repeat": "all",
+            "shuffle": false,
+            "state": "stopped"
+          }
+        }
+      ]
+    },
+    {
+      "name": "repeat all wraps a current entry",
+      "steps": [
+        {
+          "command": {
+            "context": {
+              "tracks": [
+                1,
+                2
+              ],
+              "type": "tracks"
+            },
+            "start": 1,
+            "type": "play"
+          },
+          "expected": {
+            "current": 2,
+            "current_index": 1,
+            "natural_next": null,
+            "next": null,
+            "queue": [
+              1,
+              2
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "mode": "all",
+            "type": "set_repeat"
+          },
+          "expected": {
+            "current": 2,
+            "current_index": 1,
+            "natural_next": 1,
+            "next": 1,
+            "queue": [
+              1,
+              2
+            ],
+            "repeat": "all",
+            "shuffle": false,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "type": "next"
+          },
+          "expected": {
+            "current": 1,
+            "current_index": 0,
+            "natural_next": 2,
+            "next": 2,
+            "queue": [
+              1,
+              2
+            ],
+            "repeat": "all",
+            "shuffle": false,
+            "state": "playing"
+          }
+        }
+      ]
+    },
+    {
+      "name": "repeat one does not hold Next",
+      "steps": [
+        {
+          "command": {
+            "context": {
+              "tracks": [
+                1,
+                2
+              ],
+              "type": "tracks"
+            },
+            "start": 0,
+            "type": "play"
+          },
+          "expected": {
+            "current": 1,
+            "current_index": 0,
+            "natural_next": 2,
+            "next": 2,
+            "queue": [
+              1,
+              2
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "mode": "one",
+            "type": "set_repeat"
+          },
+          "expected": {
+            "current": 1,
+            "current_index": 0,
+            "natural_next": 1,
+            "next": 2,
+            "queue": [
+              1,
+              2
+            ],
+            "repeat": "one",
+            "shuffle": false,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "type": "next"
+          },
+          "expected": {
+            "current": 2,
+            "current_index": 1,
+            "natural_next": 2,
+            "next": null,
+            "queue": [
+              1,
+              2
+            ],
+            "repeat": "one",
+            "shuffle": false,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "type": "next"
+          },
+          "expected": {
+            "current": 2,
+            "current_index": 1,
+            "natural_next": 2,
+            "next": null,
+            "queue": [
+              1,
+              2
+            ],
+            "repeat": "one",
+            "shuffle": false,
+            "state": "stopped"
+          }
+        }
+      ]
+    },
+    {
+      "name": "paused removed tail has no successor",
+      "steps": [
+        {
+          "command": {
+            "context": {
+              "tracks": [
+                1,
+                2
+              ],
+              "type": "tracks"
+            },
+            "start": 1,
+            "type": "play"
+          },
+          "expected": {
+            "current": 2,
+            "current_index": 1,
+            "natural_next": null,
+            "next": null,
+            "queue": [
+              1,
+              2
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "type": "pause"
+          },
+          "expected": {
+            "current": 2,
+            "current_index": 1,
+            "natural_next": null,
+            "next": null,
+            "queue": [
+              1,
+              2
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "paused"
+          }
+        },
+        {
+          "command": {
+            "entries": [],
+            "type": "remove"
+          },
+          "entries": [
+            1
+          ],
+          "expected": {
+            "current": 2,
+            "current_index": null,
+            "natural_next": null,
+            "next": null,
+            "queue": [
+              1
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "paused"
+          }
+        },
+        {
+          "command": {
+            "type": "next"
+          },
+          "expected": {
+            "current": null,
+            "current_index": null,
+            "natural_next": null,
+            "next": null,
+            "queue": [
+              1
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "stopped"
+          }
+        }
+      ]
+    },
+    {
+      "name": "empty current is not queue head",
+      "steps": [
+        {
+          "command": {
+            "tracks": [
+              1,
+              2
+            ],
+            "type": "enqueue"
+          },
+          "expected": {
+            "current": null,
+            "current_index": null,
+            "natural_next": null,
+            "next": null,
+            "queue": [
+              1,
+              2
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "stopped"
+          }
+        },
+        {
+          "command": {
+            "type": "next"
+          },
+          "expected": {
+            "current": null,
+            "current_index": null,
+            "natural_next": null,
+            "next": null,
+            "queue": [
+              1,
+              2
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "stopped"
+          }
+        },
+        {
+          "command": {
+            "type": "resume"
+          },
+          "expected": {
+            "current": 1,
+            "current_index": 0,
+            "natural_next": 2,
+            "next": 2,
+            "queue": [
+              1,
+              2
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "playing"
+          }
+        }
+      ]
+    },
+    {
+      "name": "undo does not restore removed current selection",
+      "steps": [
+        {
+          "command": {
+            "context": {
+              "tracks": [
+                1,
+                2
+              ],
+              "type": "tracks"
+            },
+            "start": 1,
+            "type": "play"
+          },
+          "expected": {
+            "current": 2,
+            "current_index": 1,
+            "natural_next": null,
+            "next": null,
+            "queue": [
+              1,
+              2
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "entries": [],
+            "type": "remove"
+          },
+          "entries": [
+            1
+          ],
+          "expected": {
+            "current": 2,
+            "current_index": null,
+            "natural_next": null,
+            "next": null,
+            "queue": [
+              1
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "type": "undo"
+          },
+          "expected": {
+            "current": 2,
+            "current_index": null,
+            "natural_next": null,
+            "next": null,
+            "queue": [
+              1,
+              2
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "playing"
+          },
+          "revision": true
+        },
+        {
+          "command": {
+            "type": "next"
+          },
+          "expected": {
+            "current": null,
+            "current_index": null,
+            "natural_next": null,
+            "next": null,
+            "queue": [
+              1,
+              2
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "stopped"
+          }
+        }
+      ]
+    },
+    {
+      "name": "shuffle next insertion is next in play order",
+      "steps": [
+        {
+          "command": {
+            "context": {
+              "tracks": [
+                1,
+                2
+              ],
+              "type": "tracks"
+            },
+            "start": 1,
+            "type": "play"
+          },
+          "expected": {
+            "current": 2,
+            "current_index": 1,
+            "natural_next": null,
+            "next": null,
+            "queue": [
+              1,
+              2
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "shuffle": true,
+            "type": "set_shuffle"
+          },
+          "expected": {
+            "current": 2,
+            "current_index": 1,
+            "natural_next": 1,
+            "next": 1,
+            "queue": [
+              1,
+              2
+            ],
+            "repeat": "off",
+            "shuffle": true,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "at": "next",
+            "tracks": [
+              3
+            ],
+            "type": "enqueue"
+          },
+          "expected": {
+            "current": 2,
+            "current_index": 1,
+            "natural_next": 3,
+            "next": 3,
+            "queue": [
+              1,
+              2,
+              3
+            ],
+            "repeat": "off",
+            "shuffle": true,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "type": "next"
+          },
+          "expected": {
+            "current": 3,
+            "current_index": 2,
+            "natural_next": 1,
+            "next": 1,
+            "queue": [
+              1,
+              2,
+              3
+            ],
+            "repeat": "off",
+            "shuffle": true,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "type": "next"
+          },
+          "expected": {
+            "current": 1,
+            "current_index": 0,
+            "natural_next": null,
+            "next": null,
+            "queue": [
+              1,
+              2,
+              3
+            ],
+            "repeat": "off",
+            "shuffle": true,
+            "state": "playing"
+          }
+        }
+      ]
+    },
+    {
+      "name": "clear undo reconnects fourth current entry and anchors next insertion",
+      "steps": [
+        {
+          "command": {
+            "context": {
+              "tracks": [
+                1,
+                2,
+                1,
+                2,
+                3
+              ],
+              "type": "tracks"
+            },
+            "start": 3,
+            "type": "play"
+          },
+          "expected": {
+            "current": 2,
+            "current_index": 3,
+            "natural_next": 3,
+            "next": 3,
+            "queue": [
+              1,
+              2,
+              1,
+              2,
+              3
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "type": "pause"
+          },
+          "expected": {
+            "current": 2,
+            "current_index": 3,
+            "natural_next": 3,
+            "next": 3,
+            "queue": [
+              1,
+              2,
+              1,
+              2,
+              3
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "paused"
+          }
+        },
+        {
+          "command": {
+            "type": "clear"
+          },
+          "expected": {
+            "current": 2,
+            "current_index": null,
+            "natural_next": null,
+            "next": null,
+            "queue": [],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "paused"
+          }
+        },
+        {
+          "command": {
+            "type": "undo"
+          },
+          "expected": {
+            "current": 2,
+            "current_index": 3,
+            "natural_next": 3,
+            "next": 3,
+            "queue": [
+              1,
+              2,
+              1,
+              2,
+              3
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "paused"
+          },
+          "revision": true
+        },
+        {
+          "command": {
+            "at": "next",
+            "tracks": [
+              1
+            ],
+            "type": "enqueue"
+          },
+          "expected": {
+            "current": 2,
+            "current_index": 3,
+            "natural_next": 1,
+            "next": 1,
+            "queue": [
+              1,
+              2,
+              1,
+              2,
+              1,
+              3
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "paused"
+          }
+        },
+        {
+          "command": {
+            "type": "next"
+          },
+          "expected": {
+            "current": 1,
+            "current_index": 4,
+            "natural_next": 3,
+            "next": 3,
+            "queue": [
+              1,
+              2,
+              1,
+              2,
+              1,
+              3
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "paused"
+          }
+        }
+      ]
+    },
+    {
+      "name": "stopped candidates and repeat modes",
+      "steps": [
+        {
+          "command": {
+            "context": {
+              "tracks": [
+                1,
+                2,
+                3
+              ],
+              "type": "tracks"
+            },
+            "type": "play"
+          },
+          "expected": {
+            "current": 1,
+            "current_index": 0,
+            "natural_next": 2,
+            "next": 2,
+            "queue": [
+              1,
+              2,
+              3
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "playing"
+          }
+        },
+        {
+          "command": {
+            "type": "stop"
+          },
+          "expected": {
+            "current": 1,
+            "current_index": 0,
+            "natural_next": 2,
+            "next": 2,
+            "queue": [
+              1,
+              2,
+              3
+            ],
+            "repeat": "off",
+            "shuffle": false,
+            "state": "stopped"
+          }
+        },
+        {
+          "command": {
+            "mode": "one",
+            "type": "set_repeat"
+          },
+          "expected": {
+            "current": 1,
+            "current_index": 0,
+            "natural_next": 1,
+            "next": 2,
+            "queue": [
+              1,
+              2,
+              3
+            ],
+            "repeat": "one",
+            "shuffle": false,
+            "state": "stopped"
+          }
+        },
+        {
+          "command": {
+            "type": "next"
+          },
+          "expected": {
+            "current": 2,
+            "current_index": 1,
+            "natural_next": 2,
+            "next": 3,
+            "queue": [
+              1,
+              2,
+              3
+            ],
+            "repeat": "one",
+            "shuffle": false,
+            "state": "stopped"
+          }
+        },
+        {
+          "command": {
+            "type": "next"
+          },
+          "expected": {
+            "current": 3,
+            "current_index": 2,
+            "natural_next": 3,
+            "next": null,
+            "queue": [
+              1,
+              2,
+              3
+            ],
+            "repeat": "one",
+            "shuffle": false,
+            "state": "stopped"
+          }
+        },
+        {
+          "command": {
+            "mode": "all",
+            "type": "set_repeat"
+          },
+          "expected": {
+            "current": 3,
+            "current_index": 2,
+            "natural_next": 1,
+            "next": 1,
+            "queue": [
+              1,
+              2,
+              3
+            ],
+            "repeat": "all",
+            "shuffle": false,
+            "state": "stopped"
+          }
+        },
+        {
+          "command": {
+            "type": "next"
+          },
+          "expected": {
+            "current": 1,
+            "current_index": 0,
+            "natural_next": 2,
+            "next": 2,
+            "queue": [
+              1,
+              2,
+              3
+            ],
+            "repeat": "all",
+            "shuffle": false,
+            "state": "stopped"
+          }
+        },
+        {
+          "command": {
+            "type": "clear"
+          },
+          "expected": {
+            "current": null,
+            "current_index": null,
+            "natural_next": null,
+            "next": null,
+            "queue": [],
+            "repeat": "all",
+            "shuffle": false,
+            "state": "stopped"
+          }
+        }
+      ]
+    }
+  ],
+  "root_release": [
+    {
+      "name": "current folder",
+      "play": [
+        1
+      ],
+      "state": "stopped"
+    },
+    {
+      "name": "preloaded folder",
+      "play": [
+        2,
+        1
+      ],
+      "state": "stopped"
+    },
+    {
+      "name": "unrelated folder",
+      "play": [
+        2
+      ],
+      "state": "playing"
+    }
+  ],
+  "smart": [
+    {
+      "empty": true,
+      "name": "year text empty",
+      "query": {
+        "filter": {
+          "field": {
+            "type": "year"
+          },
+          "op": "eq",
+          "type": "compare",
+          "value": {
+            "type": "text",
+            "value": "2020"
+          }
+        }
+      },
+      "valid": false
+    },
+    {
+      "empty": false,
+      "name": "year text populated",
+      "query": {
+        "filter": {
+          "field": {
+            "type": "year"
+          },
+          "op": "eq",
+          "type": "compare",
+          "value": {
+            "type": "text",
+            "value": "2020"
+          }
+        }
+      },
+      "valid": false
+    },
+    {
+      "empty": true,
+      "name": "bool ordering empty",
+      "query": {
+        "filter": {
+          "field": {
+            "type": "loved"
+          },
+          "op": "lt",
+          "type": "compare",
+          "value": {
+            "type": "bool",
+            "value": true
+          }
+        }
+      },
+      "valid": false
+    },
+    {
+      "empty": false,
+      "name": "bool ordering populated",
+      "query": {
+        "filter": {
+          "field": {
+            "type": "loved"
+          },
+          "op": "lt",
+          "type": "compare",
+          "value": {
+            "type": "bool",
+            "value": true
+          }
+        }
+      },
+      "valid": false
+    },
+    {
+      "empty": true,
+      "name": "valid empty query empty",
+      "query": {},
+      "valid": true
+    },
+    {
+      "empty": false,
+      "name": "valid empty query populated",
+      "query": {},
+      "valid": true
+    }
+  ]
+}

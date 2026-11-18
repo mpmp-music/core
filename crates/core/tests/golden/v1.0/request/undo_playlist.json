@@ -1,0 +1,9 @@
+{
+  "request_id": 46,
+  "idempotency_key": null,
+  "command": {
+    "type": "undo_playlist",
+    "playlist": 12,
+    "revision": 11
+  }
+}

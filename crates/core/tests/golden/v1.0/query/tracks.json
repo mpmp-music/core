@@ -1,0 +1,388 @@
+{
+  "type": "tracks",
+  "query": {
+    "filter": {
+      "type": "and",
+      "all": [
+        {
+          "type": "or",
+          "any": [
+            {
+              "type": "text",
+              "field": {
+                "type": "title"
+              },
+              "op": "contains",
+              "text": "blue"
+            },
+            {
+              "type": "text",
+              "field": {
+                "type": "artist"
+              },
+              "op": "equals",
+              "text": "miren dalen"
+            },
+            {
+              "type": "text",
+              "field": {
+                "type": "album"
+              },
+              "op": "starts_with",
+              "text": "kind of"
+            },
+            {
+              "type": "text",
+              "field": {
+                "type": "album_artist"
+              },
+              "op": "contains",
+              "text": "davis"
+            },
+            {
+              "type": "text",
+              "field": {
+                "type": "genre"
+              },
+              "op": "equals",
+              "text": "jazz"
+            },
+            {
+              "type": "text",
+              "field": {
+                "type": "tag",
+                "key": "COMPOSER"
+              },
+              "op": "contains",
+              "text": "elven"
+            },
+            {
+              "type": "search",
+              "text": "modal"
+            }
+          ]
+        },
+        {
+          "type": "compare",
+          "field": {
+            "type": "year"
+          },
+          "op": "ge",
+          "value": {
+            "type": "int",
+            "value": 1955
+          }
+        },
+        {
+          "type": "compare",
+          "field": {
+            "type": "year"
+          },
+          "op": "lt",
+          "value": {
+            "type": "int",
+            "value": 1970
+          }
+        },
+        {
+          "type": "compare",
+          "field": {
+            "type": "track_no"
+          },
+          "op": "le",
+          "value": {
+            "type": "int",
+            "value": 12
+          }
+        },
+        {
+          "type": "compare",
+          "field": {
+            "type": "disc_no"
+          },
+          "op": "eq",
+          "value": {
+            "type": "int",
+            "value": 1
+          }
+        },
+        {
+          "type": "compare",
+          "field": {
+            "type": "compilation"
+          },
+          "op": "eq",
+          "value": {
+            "type": "bool",
+            "value": false
+          }
+        },
+        {
+          "type": "compare",
+          "field": {
+            "type": "duration_ms"
+          },
+          "op": "gt",
+          "value": {
+            "type": "int",
+            "value": 120000
+          }
+        },
+        {
+          "type": "compare",
+          "field": {
+            "type": "codec"
+          },
+          "op": "eq",
+          "value": {
+            "type": "text",
+            "value": "flac"
+          }
+        },
+        {
+          "type": "compare",
+          "field": {
+            "type": "sample_rate"
+          },
+          "op": "ge",
+          "value": {
+            "type": "int",
+            "value": 44100
+          }
+        },
+        {
+          "type": "compare",
+          "field": {
+            "type": "bits_per_sample"
+          },
+          "op": "ge",
+          "value": {
+            "type": "int",
+            "value": 16
+          }
+        },
+        {
+          "type": "compare",
+          "field": {
+            "type": "channels"
+          },
+          "op": "eq",
+          "value": {
+            "type": "int",
+            "value": 2
+          }
+        },
+        {
+          "type": "compare",
+          "field": {
+            "type": "lossless"
+          },
+          "op": "eq",
+          "value": {
+            "type": "bool",
+            "value": true
+          }
+        },
+        {
+          "type": "compare",
+          "field": {
+            "type": "bitrate_kbps"
+          },
+          "op": "ge",
+          "value": {
+            "type": "int",
+            "value": 320
+          }
+        },
+        {
+          "type": "text",
+          "field": {
+            "type": "path"
+          },
+          "op": "starts_with",
+          "text": "miren dalen/"
+        },
+        {
+          "type": "compare",
+          "field": {
+            "type": "root"
+          },
+          "op": "ne",
+          "value": {
+            "type": "int",
+            "value": 3
+          }
+        },
+        {
+          "type": "compare",
+          "field": {
+            "type": "size_bytes"
+          },
+          "op": "lt",
+          "value": {
+            "type": "int",
+            "value": 200000000
+          }
+        },
+        {
+          "type": "compare",
+          "field": {
+            "type": "modified_at"
+          },
+          "op": "ge",
+          "value": {
+            "type": "timestamp",
+            "value": 1600000000000
+          }
+        },
+        {
+          "type": "compare",
+          "field": {
+            "type": "added_at"
+          },
+          "op": "ge",
+          "value": {
+            "type": "days_ago",
+            "value": 365
+          }
+        },
+        {
+          "type": "compare",
+          "field": {
+            "type": "available"
+          },
+          "op": "eq",
+          "value": {
+            "type": "bool",
+            "value": true
+          }
+        },
+        {
+          "type": "compare",
+          "field": {
+            "type": "has_cover"
+          },
+          "op": "eq",
+          "value": {
+            "type": "bool",
+            "value": true
+          }
+        },
+        {
+          "type": "compare",
+          "field": {
+            "type": "play_count"
+          },
+          "op": "ge",
+          "value": {
+            "type": "int",
+            "value": 3
+          }
+        },
+        {
+          "type": "compare",
+          "field": {
+            "type": "skip_count"
+          },
+          "op": "le",
+          "value": {
+            "type": "int",
+            "value": 1
+          }
+        },
+        {
+          "type": "compare",
+          "field": {
+            "type": "last_played_at"
+          },
+          "op": "lt",
+          "value": {
+            "type": "days_ago",
+            "value": 30
+          }
+        },
+        {
+          "type": "compare",
+          "field": {
+            "type": "first_played_at"
+          },
+          "op": "ge",
+          "value": {
+            "type": "timestamp",
+            "value": 1700000000000
+          }
+        },
+        {
+          "type": "compare",
+          "field": {
+            "type": "rating"
+          },
+          "op": "ge",
+          "value": {
+            "type": "int",
+            "value": 4
+          }
+        },
+        {
+          "type": "not",
+          "filter": {
+            "type": "or",
+            "any": [
+              {
+                "type": "compare",
+                "field": {
+                  "type": "loved"
+                },
+                "op": "eq",
+                "value": {
+                  "type": "bool",
+                  "value": false
+                }
+              },
+              {
+                "type": "missing",
+                "field": {
+                  "type": "genre"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "all"
+        }
+      ]
+    },
+    "sort": [
+      {
+        "field": {
+          "type": "rating"
+        },
+        "descending": true
+      },
+      {
+        "field": {
+          "type": "album_artist"
+        },
+        "descending": false
+      },
+      {
+        "field": {
+          "type": "group_artist"
+        },
+        "descending": false
+      },
+      {
+        "field": {
+          "type": "year"
+        },
+        "descending": false
+      }
+    ]
+  },
+  "offset": 0,
+  "limit": 1000,
+  "tags": [
+    "COMPOSER"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "seq": 4255,
+  "origin": {
+    "type": "agent",
+    "name": "claude"
+  },
+  "event": {
+    "type": "confirmation_resolved",
+    "outcome": {
+      "token": "c-9a4b7d21",
+      "approved": true,
+      "result": {
+        "type": "ok",
+        "changed": true,
+        "queue_revision": 1792500000018
+      },
+      "reason": "approved"
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "type": "output_device_capabilities",
+  "selection": {
+    "type": "system_default"
+  }
+}

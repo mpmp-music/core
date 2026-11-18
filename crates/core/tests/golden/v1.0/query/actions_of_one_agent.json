@@ -1,0 +1,9 @@
+{
+  "type": "actions",
+  "origin": {
+    "type": "agent",
+    "name": "claude"
+  },
+  "offset": 0,
+  "limit": 100
+}

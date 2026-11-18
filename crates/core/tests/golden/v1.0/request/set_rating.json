@@ -1,0 +1,12 @@
+{
+  "request_id": 25,
+  "idempotency_key": "agent-rate-3",
+  "command": {
+    "type": "set_rating",
+    "tracks": [
+      1201,
+      1202
+    ],
+    "rating": 5
+  }
+}

@@ -1,0 +1,79 @@
+[package]
+name = "mpmp-core"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[features]
+default = ["desktop-fs"]
+desktop-fs = ["dep:mpmp-fs-desktop", "mpmp-library/desktop-fs"]
+
+[dependencies]
+mpmp-storage.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+schemars.workspace = true
+fastrand.workspace = true
+mpmp-engine.workspace = true
+mpmp-media-io.workspace = true
+arc-swap.workspace = true
+crossbeam-channel.workspace = true
+tracing.workspace = true
+getrandom.workspace = true
+sha2.workspace = true
+
+mpmp-library = { workspace = true, default-features = false }
+mpmp-fs-desktop = { workspace = true, optional = true }
+
+[dev-dependencies]
+mpmp-test-support = { workspace = true, features = ["core"] }
+hound.workspace = true
+lofty.workspace = true
+encoding_rs.workspace = true
+tempfile.workspace = true
+# Writes library rows directly in the permission tests (records from another build).
+rusqlite.workspace = true
+# Validates the golden contract examples against docs/contract.schema.json (tests only).
+jsonschema = { version = "=0.58.6", default-features = false }
+
+[[test]]
+name = "core"
+path = "tests/core/main.rs"
+required-features = ["desktop-fs"]
+
+[[test]]
+name = "jobs"
+required-features = ["desktop-fs"]
+
+[[test]]
+name = "library"
+path = "tests/library/main.rs"
+required-features = ["desktop-fs"]
+
+[[test]]
+name = "loudness"
+required-features = ["desktop-fs"]
+
+[[test]]
+name = "mock_query_parity"
+required-features = ["desktop-fs"]
+
+[[test]]
+name = "permissions"
+path = "tests/permissions/main.rs"
+required-features = ["desktop-fs"]
+
+[[test]]
+name = "shutdown"
+required-features = ["desktop-fs"]
+
+[[test]]
+name = "tag_edit"
+path = "tests/tag_edit/main.rs"
+required-features = ["desktop-fs"]
+
+[[test]]
+name = "contract_golden"
+path = "tests/contract_golden/main.rs"
+required-features = ["desktop-fs"]

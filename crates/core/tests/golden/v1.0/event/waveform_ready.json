@@ -1,0 +1,8 @@
+{
+  "seq": 5010,
+  "origin": null,
+  "event": {
+    "type": "waveform_ready",
+    "track": 42
+  }
+}

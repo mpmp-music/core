@@ -1,0 +1,39 @@
+{
+  "type": "output_state",
+  "settings": {
+    "selection": {
+      "type": "system_default"
+    },
+    "settings_revision": 0,
+    "mode": "exclusive",
+    "fallback": "shared",
+    "rate_policy": "source"
+  },
+  "state": {
+    "settings_revision": 0,
+    "generation": 0,
+    "status": "ready",
+    "actual": {
+      "device_id": "cpal:fixed-1",
+      "name": "Speakers",
+      "share_mode": "shared",
+      "backend": "wasapi",
+      "format": {
+        "sample_rate": 48000,
+        "channels": 2,
+        "bits_per_sample": 32,
+        "sample_format": "f32",
+        "valid_bits_per_sample": null
+      },
+      "physical_device_id": "physical:example",
+      "exclusive_verified": false,
+      "sample_integrity": "verified"
+    },
+    "failure": null,
+    "fallback": {
+      "reason": "format_unsupported",
+      "requested_mode": "exclusive",
+      "actual_mode": "shared"
+    }
+  }
+}

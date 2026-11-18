@@ -1,0 +1,9 @@
+{
+  "seq": 4258,
+  "origin": {
+    "type": "ui"
+  },
+  "event": {
+    "type": "agents_changed"
+  }
+}

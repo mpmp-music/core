@@ -1,0 +1,9 @@
+{
+  "seq": 4257,
+  "origin": {
+    "type": "ui"
+  },
+  "event": {
+    "type": "permissions_changed"
+  }
+}

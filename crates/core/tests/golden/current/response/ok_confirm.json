@@ -1,0 +1,21 @@
+{
+  "request_id": 27,
+  "result": {
+    "type": "ok",
+    "changed": true,
+    "queue_revision": 1792500000021,
+    "confirmed": {
+      "token": "c-5f0e2a9b",
+      "approved": true,
+      "result": {
+        "type": "ok",
+        "changed": true,
+        "queue_revision": 1792500000021,
+        "root": 4,
+        "job": 8,
+        "action": 5126
+      },
+      "reason": "approved"
+    }
+  }
+}

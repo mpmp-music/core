@@ -1,0 +1,14 @@
+{
+  "request_id": 74,
+  "result": {
+    "type": "err",
+    "error": {
+      "kind": "invalid",
+      "code": "location_not_normal",
+      "message": "grant location is not normal; normalize and review the scope again",
+      "details": {
+        "field": "command.scope.location"
+      }
+    }
+  }
+}

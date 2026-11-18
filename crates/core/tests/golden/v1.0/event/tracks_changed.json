@@ -1,0 +1,14 @@
+{
+  "seq": 4197,
+  "origin": {
+    "type": "agent",
+    "name": "claude"
+  },
+  "event": {
+    "type": "tracks_changed",
+    "tracks": [
+      1201,
+      1202
+    ]
+  }
+}

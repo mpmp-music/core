@@ -1,0 +1,10 @@
+{
+  "request_id": 17,
+  "idempotency_key": null,
+  "command": {
+    "type": "move",
+    "entry": 1792500000006,
+    "to": 0,
+    "expected_revision": 1792500000019
+  }
+}

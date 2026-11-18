@@ -1,0 +1,20 @@
+{
+  "type": "jobs",
+  "jobs": [
+    {
+      "id": 51,
+      "kind": "cover_edit",
+      "state": "completed",
+      "counts": {
+        "type": "cover_edit",
+        "written_count": 1,
+        "unchanged_count": 1,
+        "skipped_count": 1,
+        "failed_count": 1
+      }
+    }
+  ],
+  "offset": 0,
+  "total": 1,
+  "next_offset": null
+}

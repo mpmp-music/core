@@ -1,0 +1,8 @@
+{
+  "request_id": 52,
+  "idempotency_key": null,
+  "command": {
+    "type": "remove_agent",
+    "agent": "codex"
+  }
+}

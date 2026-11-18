@@ -1,0 +1,8 @@
+{
+  "request_id": 49,
+  "idempotency_key": "agent-undo-2",
+  "command": {
+    "type": "undo_action",
+    "action": 5121
+  }
+}

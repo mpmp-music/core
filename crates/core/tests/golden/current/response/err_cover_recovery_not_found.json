@@ -1,0 +1,11 @@
+{
+  "request_id": 90,
+  "result": {
+    "type": "err",
+    "error": {
+      "kind": "not_found",
+      "code": "cover_recovery_not_found",
+      "message": "cover_recovery_not_found"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "request_id": 1,
+  "idempotency_key": "ui-play-1",
+  "command": {
+    "type": "play",
+    "context": {
+      "type": "album",
+      "key": "miren dalen\u001fkites of brass"
+    },
+    "start": 0,
+    "start_track": null
+  }
+}

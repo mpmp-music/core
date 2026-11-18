@@ -1,0 +1,9 @@
+{
+  "type": "actions",
+  "origin": {
+    "type": "remote",
+    "device": null
+  },
+  "offset": 0,
+  "limit": 100
+}

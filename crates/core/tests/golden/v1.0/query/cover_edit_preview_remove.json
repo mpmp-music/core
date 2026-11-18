@@ -1,0 +1,9 @@
+{
+  "type": "cover_edit_preview",
+  "tracks": [
+    42
+  ],
+  "change": {
+    "type": "remove"
+  }
+}

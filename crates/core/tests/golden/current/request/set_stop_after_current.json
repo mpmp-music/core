@@ -1,0 +1,9 @@
+{
+  "request_id": 61,
+  "idempotency_key": null,
+  "command": {
+    "type": "set_stop_after_current",
+    "enabled": true,
+    "expected_entry": 500
+  }
+}

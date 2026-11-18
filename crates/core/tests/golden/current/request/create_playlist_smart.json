@@ -1,0 +1,49 @@
+{
+  "request_id": 36,
+  "idempotency_key": null,
+  "command": {
+    "type": "create_playlist",
+    "name": "Forgotten favourites",
+    "kind": {
+      "type": "smart",
+      "query": {
+        "filter": {
+          "type": "and",
+          "all": [
+            {
+              "type": "compare",
+              "field": {
+                "type": "rating"
+              },
+              "op": "ge",
+              "value": {
+                "type": "int",
+                "value": 4
+              }
+            },
+            {
+              "type": "compare",
+              "field": {
+                "type": "last_played_at"
+              },
+              "op": "lt",
+              "value": {
+                "type": "days_ago",
+                "value": 30
+              }
+            }
+          ]
+        },
+        "sort": [
+          {
+            "field": {
+              "type": "play_count"
+            },
+            "descending": true
+          }
+        ]
+      },
+      "max_tracks": 100
+    }
+  }
+}

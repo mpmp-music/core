@@ -1,0 +1,17 @@
+{
+  "seq": 4193,
+  "origin": {
+    "type": "agent",
+    "name": "claude"
+  },
+  "event": {
+    "type": "queue_changed",
+    "queue": {
+      "revision": 1792500000018,
+      "entry_count": 11,
+      "current_index": 3,
+      "next_entry": 1792500000005,
+      "natural_next_entry": 1792500000005
+    }
+  }
+}

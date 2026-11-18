@@ -1,0 +1,10 @@
+{
+  "request_id": 37,
+  "idempotency_key": null,
+  "command": {
+    "type": "rename_playlist",
+    "playlist": 12,
+    "name": "Late night jazz",
+    "expected_revision": 8
+  }
+}

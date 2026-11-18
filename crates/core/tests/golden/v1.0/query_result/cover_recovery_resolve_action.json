@@ -1,0 +1,28 @@
+{
+  "type": "actions",
+  "actions": [
+    {
+      "id": 5162,
+      "recorded_at_ms": 1792540800000,
+      "origin": {
+        "type": "ui"
+      },
+      "kind": "cover_recovery_resolve",
+      "summary": "Accept current file and abandon pending cover recovery",
+      "target_count": 1,
+      "undone_by": null,
+      "undo_of": null,
+      "undoable": false,
+      "grant": null,
+      "details": {
+        "type": "cover_recovery_resolve",
+        "track": 42,
+        "resolution": "accept_current",
+        "intent_count": 1
+      }
+    }
+  ],
+  "offset": 0,
+  "total": 1,
+  "next_offset": null
+}

@@ -1,0 +1,11 @@
+{
+  "request_id": 22,
+  "result": {
+    "type": "err",
+    "error": {
+      "kind": "forbidden",
+      "code": "path_not_allowed",
+      "message": "remote may not name local paths (add_root)"
+    }
+  }
+}

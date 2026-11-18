@@ -1,0 +1,9 @@
+/target/
+node_modules/
+**/dist/
+**/dist-preview/
+**/test-results/
+**/playwright-report/
+**/.dist-receipt.json
+/core-checkout/
+/.core-checkout/

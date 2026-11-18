@@ -1,0 +1,9 @@
+{
+  "request_id": 48,
+  "idempotency_key": null,
+  "command": {
+    "type": "export_m3u",
+    "playlist": 12,
+    "path": "/home/me/Playlists/late night.m3u8"
+  }
+}

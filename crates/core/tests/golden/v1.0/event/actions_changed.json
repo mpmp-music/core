@@ -1,0 +1,10 @@
+{
+  "seq": 4198,
+  "origin": {
+    "type": "agent",
+    "name": "claude"
+  },
+  "event": {
+    "type": "actions_changed"
+  }
+}

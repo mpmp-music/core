@@ -1,0 +1,165 @@
+{
+  "type": "snapshot",
+  "snapshot": {
+    "seq": 4182,
+    "contract_version": 1,
+    "contract_minor": 0,
+    "features": [
+      "multi_artist",
+      "cover_edit",
+      "playback_limits",
+      "output_devices",
+      "output_mode_contract",
+      "permissions",
+      "lyrics",
+      "waveform",
+      "cue",
+      "edit_tags",
+      "automatic_loudness",
+      "paused_navigation",
+      "track_rows",
+      "album_paging",
+      "search_paging",
+      "enqueue_expected_current",
+      "playlist_playback_guards",
+      "release_root",
+      "queue_candidates",
+      "structured_signal_path",
+      "job_queries",
+      "action_details",
+      "scan_error_codes"
+    ],
+    "now_ms": 3605250,
+    "state": "playing",
+    "current": {
+      "entry": 1792500000002,
+      "track": {
+        "id": 1201,
+        "title": "Soft Wheels",
+        "title_from_file": false,
+        "artist": "Miren Dalen",
+        "artists": [
+          {
+            "key": "person:v1:9534d53acedcff35f87de4c0d30a5eb5427b91bd3a14145bb7492ec103f86876",
+            "name": "Miren Dalen"
+          }
+        ],
+        "artists_source": "artist_values",
+        "artists_complete": true,
+        "album": "Kites of Brass",
+        "album_artist": "Miren Dalen",
+        "group_artist": "Miren Dalen",
+        "album_key": "miren dalen\u001fkites of brass",
+        "track_no": 1,
+        "track_total": 5,
+        "disc_no": 1,
+        "disc_total": 1,
+        "year": 1959,
+        "genre": "Jazz",
+        "compilation": false,
+        "duration_ms": 562000,
+        "codec": "flac",
+        "sample_rate": 44100,
+        "channels": 2,
+        "bits_per_sample": 16,
+        "bitrate_kbps": 912,
+        "lossless": true,
+        "root": 1,
+        "path": "Miren Dalen/Kites of Brass/01 Soft Wheels.flac",
+        "size_bytes": 61234567,
+        "modified_at_ms": 1700000000000,
+        "added_at_ms": 1745000000000,
+        "available": true,
+        "has_cover": true,
+        "cover_revision": "sha256:example",
+        "rating": 5,
+        "loved": true,
+        "play_count": 42,
+        "skip_count": 1,
+        "last_played_at_ms": 1792454400000,
+        "first_played_at_ms": 1745100000000,
+        "replay_gain": {
+          "track_gain_db": -7.9,
+          "track_peak": 0.98,
+          "album_gain_db": -8.4,
+          "album_peak": 1.0,
+          "track_source": "tags",
+          "album_source": "tags"
+        }
+      },
+      "signal_path": {
+        "codec": "flac",
+        "lossless": true,
+        "source_rate": 44100,
+        "source_channels": 2,
+        "source_bits_per_sample": 16,
+        "stages": [],
+        "output_rate": 44100,
+        "output_channels": 2,
+        "output_format": "f32",
+        "bit_perfect": {
+          "type": "no",
+          "reasons": [
+            "Samples are altered"
+          ]
+        },
+        "reason_codes": [
+          "dither"
+        ],
+        "share_mode": "exclusive",
+        "output_device_id": "cpal:example",
+        "backend": "wasapi",
+        "sample_integrity": "unverified"
+      }
+    },
+    "position": {
+      "entry": 1792500000002,
+      "position_ms": 83250,
+      "at_ms": 3605000,
+      "rate": 1.0
+    },
+    "queue": {
+      "revision": 1792500000017,
+      "entry_count": 9,
+      "current_index": 1,
+      "next_entry": 1792500000007,
+      "natural_next_entry": 1792500000007
+    },
+    "shuffle": true,
+    "repeat": "all",
+    "audio": {
+      "volume": 0.8,
+      "volume_db": -5.81,
+      "muted": false,
+      "volume_mode": "software",
+      "replay_gain": {
+        "mode": "smart",
+        "preamp_db": 0.0,
+        "fallback_preamp_db": -6.0,
+        "prevent_clipping": true
+      },
+      "output": {
+        "selection": {
+          "type": "system_default"
+        },
+        "settings_revision": 0,
+        "mode": "shared",
+        "fallback": "pause",
+        "rate_policy": "mix"
+      }
+    },
+    "playback_limits": {
+      "stop_after_current": null,
+      "sleep_timer": null
+    },
+    "output": {
+      "settings_revision": 0,
+      "generation": 0,
+      "status": "idle",
+      "actual": null,
+      "failure": null,
+      "fallback": null
+    },
+    "problems": []
+  }
+}

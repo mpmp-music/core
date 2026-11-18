@@ -1,0 +1,62 @@
+[package]
+name = "mpmp-agent-mcp"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[features]
+default = ["desktop-endpoint", "server"]
+desktop-endpoint = ["dep:mpmp-fs-desktop", "dep:libc", "dep:windows-sys"]
+# The host enables server (and desktop-endpoint/core desktop-fs). The bridge enables
+# desktop-endpoint alone; with no features this crate exposes no transport.
+server = [
+    "desktop-endpoint",
+    "mpmp-core/desktop-fs",
+    "dep:rmcp",
+    "dep:mpmp-core",
+    "dep:serde",
+    "dep:serde_json",
+    "dep:getrandom",
+    "tokio/rt-multi-thread",
+    "tokio/sync",
+    "tokio/macros",
+]
+
+[dependencies]
+mpmp-fs-desktop = { workspace = true, optional = true }
+tokio = { workspace = true, features = ["rt", "net", "io-util", "time"] }
+tracing.workspace = true
+rmcp = { workspace = true, optional = true, features = ["server"] }
+mpmp-core = { workspace = true, default-features = false, optional = true }
+serde = { workspace = true, optional = true }
+serde_json = { workspace = true, optional = true }
+getrandom = { workspace = true, optional = true }
+
+[target.'cfg(unix)'.dependencies]
+libc = { workspace = true, optional = true }
+
+[target.'cfg(windows)'.dependencies]
+windows-sys = { workspace = true, optional = true, features = [
+    "Win32_Foundation",
+    "Win32_Security",
+    "Win32_Security_Authorization",
+    "Win32_System_Pipes",
+    "Win32_System_Threading",
+] }
+
+[dev-dependencies]
+# An MCP client to drive the service in tests (never in the app).
+rmcp = { workspace = true, features = ["client"] }
+tokio = { workspace = true, features = ["rt-multi-thread", "macros", "time", "sync", "io-util"] }
+mpmp-engine.workspace = true
+mpmp-media-io.workspace = true
+mpmp-library = { workspace = true, features = ["desktop-fs"] }
+mpmp-fs-desktop.workspace = true
+hound.workspace = true
+tempfile.workspace = true
+
+[[test]]
+name = "mcp"
+path = "tests/mcp/main.rs"
+required-features = ["server"]

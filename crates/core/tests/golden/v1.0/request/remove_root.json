@@ -1,0 +1,8 @@
+{
+  "request_id": 23,
+  "idempotency_key": null,
+  "command": {
+    "type": "remove_root",
+    "root": 2
+  }
+}

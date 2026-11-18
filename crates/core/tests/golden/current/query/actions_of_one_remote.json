@@ -1,0 +1,9 @@
+{
+  "type": "actions",
+  "origin": {
+    "type": "remote",
+    "device": "living-room-tablet"
+  },
+  "offset": 0,
+  "limit": 100
+}

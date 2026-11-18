@@ -1,0 +1,15 @@
+{
+  "type": "job",
+  "job": {
+    "id": 8,
+    "kind": "loudness_scan",
+    "state": "cancelled",
+    "progress": {
+      "done": 3,
+      "total": null
+    },
+    "outcome": {
+      "type": "cancelled"
+    }
+  }
+}

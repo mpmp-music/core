@@ -1,0 +1,35 @@
+{
+  "type": "jobs",
+  "jobs": [
+    {
+      "id": 12,
+      "kind": "tag_edit",
+      "state": "completed",
+      "progress": {
+        "done": 1000,
+        "total": 1000
+      },
+      "counts": {
+        "type": "tag_edit",
+        "written_count": 997,
+        "skipped_count": 2,
+        "failed_count": 1
+      }
+    },
+    {
+      "id": 11,
+      "kind": "loudness_scan",
+      "state": "completed",
+      "counts": {
+        "type": "loudness_scan",
+        "measured_count": 3,
+        "album_count": 1,
+        "silent_count": 0,
+        "failed_count": 0
+      }
+    }
+  ],
+  "offset": 0,
+  "total": 2,
+  "next_offset": null
+}

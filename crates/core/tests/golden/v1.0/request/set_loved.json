@@ -1,0 +1,11 @@
+{
+  "request_id": 27,
+  "idempotency_key": null,
+  "command": {
+    "type": "set_loved",
+    "tracks": [
+      3050
+    ],
+    "loved": true
+  }
+}

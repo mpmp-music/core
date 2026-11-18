@@ -1,0 +1,39 @@
+{
+  "type": "job",
+  "job": {
+    "id": 51,
+    "kind": "cover_edit",
+    "state": "completed",
+    "progress": {
+      "done": 4,
+      "total": 4
+    },
+    "outcome": {
+      "type": "completed",
+      "report": {
+        "type": "cover_edit",
+        "written": [
+          42
+        ],
+        "unchanged": [
+          43
+        ],
+        "skipped": [
+          {
+            "track": 44,
+            "code": "cue_track",
+            "message": "CUE track"
+          }
+        ],
+        "failed": [
+          {
+            "track": 45,
+            "code": "cover_recovery_required",
+            "message": "Recovery required"
+          }
+        ],
+        "action": 5160
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "request_id": 60,
+  "result": {
+    "type": "ok",
+    "changed": true,
+    "queue_revision": 1792500000021,
+    "agent_token": "pmpa_3f9c1e7a5b2d4c6e8f0a1b3c5d7e9f2a4b6c8d0e1f3a5b7c9d2e4f6a8b0c1d3e"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "type": "artists",
+  "artists": [
+    {
+      "name": "Miren Dalen",
+      "album_count": 2,
+      "track_count": 10
+    },
+    {
+      "name": "Soren Glen & João Galveno",
+      "album_count": 1,
+      "track_count": 8
+    }
+  ],
+  "offset": 0,
+  "total": 230,
+  "next_offset": 2
+}

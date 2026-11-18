@@ -1,0 +1,11 @@
+{
+  "seq": 4253,
+  "origin": null,
+  "event": {
+    "type": "track_failed",
+    "entry": 1792500000005,
+    "code": "file_missing",
+    "message": "/home/me/Music/old rips/track03.mp3 no longer exists",
+    "upcoming": true
+  }
+}

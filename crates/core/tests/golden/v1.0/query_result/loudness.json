@@ -1,0 +1,10 @@
+{
+  "type": "loudness",
+  "loudness": {
+    "integrated_lufs": -24.5,
+    "sample_peak": 0.5,
+    "album_lufs": -20.0,
+    "album_peak": 0.9,
+    "measured_at_ms": 1792540800000
+  }
+}

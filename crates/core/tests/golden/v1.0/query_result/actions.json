@@ -1,0 +1,324 @@
+{
+  "type": "actions",
+  "actions": [
+    {
+      "id": 5141,
+      "recorded_at_ms": 1792540800000,
+      "origin": {
+        "type": "agent",
+        "name": "claude"
+      },
+      "kind": "root_resume",
+      "summary": "request root_resume for library root 1",
+      "target_count": 1,
+      "undone_by": null,
+      "undo_of": null,
+      "undoable": false,
+      "grant": 32,
+      "details": {
+        "type": "root",
+        "root": 1,
+        "path": "/home/me/Music"
+      }
+    },
+    {
+      "id": 5140,
+      "recorded_at_ms": 1792540800000,
+      "origin": {
+        "type": "agent",
+        "name": "claude"
+      },
+      "kind": "root_release",
+      "summary": "request root_release for library root 1",
+      "target_count": 1,
+      "undone_by": null,
+      "undo_of": null,
+      "undoable": false,
+      "grant": 32,
+      "details": {
+        "type": "root",
+        "root": 1,
+        "path": "/home/me/Music"
+      }
+    },
+    {
+      "id": 5139,
+      "recorded_at_ms": 1792540800000,
+      "origin": {
+        "type": "agent",
+        "name": "claude"
+      },
+      "kind": "file_write",
+      "summary": "write the new file /home/me/Music/Playlists/road trip.m3u8 from playlist \"Road trip\"",
+      "target_count": 1,
+      "undone_by": null,
+      "undo_of": null,
+      "undoable": false,
+      "grant": 32
+    },
+    {
+      "id": 5138,
+      "recorded_at_ms": 1792540800000,
+      "origin": {
+        "type": "agent",
+        "name": "claude"
+      },
+      "kind": "file_write",
+      "summary": "replace the file /home/me/Music/Playlists/late night.m3u8 with playlist \"Late night\"",
+      "target_count": 1,
+      "undone_by": null,
+      "undo_of": null,
+      "undoable": false,
+      "grant": 32
+    },
+    {
+      "id": 5137,
+      "recorded_at_ms": 1792540800000,
+      "origin": {
+        "type": "ui"
+      },
+      "kind": "purge",
+      "summary": "permanently delete playlist \"Old mix\"",
+      "target_count": 1,
+      "undone_by": null,
+      "undo_of": null,
+      "undoable": false,
+      "grant": null
+    },
+    {
+      "id": 5136,
+      "recorded_at_ms": 1792540740000,
+      "origin": {
+        "type": "agent",
+        "name": "claude"
+      },
+      "kind": "root_add",
+      "summary": "add library folder /home/me/Music/Jazz",
+      "target_count": 1,
+      "undone_by": null,
+      "undo_of": null,
+      "undoable": true,
+      "grant": 31
+    },
+    {
+      "id": 5135,
+      "recorded_at_ms": 1792540740000,
+      "origin": {
+        "type": "agent",
+        "name": "claude"
+      },
+      "kind": "redo",
+      "summary": "redo: rate 2 tracks 5 stars",
+      "target_count": 2,
+      "undone_by": null,
+      "undo_of": 5134,
+      "undoable": true,
+      "grant": null
+    },
+    {
+      "id": 5134,
+      "recorded_at_ms": 1792540680000,
+      "origin": {
+        "type": "ui"
+      },
+      "kind": "undo",
+      "summary": "undo: rate 2 tracks 5 stars",
+      "target_count": 2,
+      "undone_by": 5135,
+      "undo_of": 5127,
+      "undoable": false,
+      "grant": null
+    },
+    {
+      "id": 5133,
+      "recorded_at_ms": 1792540620000,
+      "origin": {
+        "type": "system"
+      },
+      "kind": "root_remove",
+      "summary": "remove the music folder /mnt/usb",
+      "target_count": 1,
+      "undone_by": null,
+      "undo_of": null,
+      "undoable": true,
+      "grant": null
+    },
+    {
+      "id": 5132,
+      "recorded_at_ms": 1792540560000,
+      "origin": {
+        "type": "ui"
+      },
+      "kind": "root_add",
+      "summary": "add the music folder /mnt/nas/hires",
+      "target_count": 1,
+      "undone_by": null,
+      "undo_of": null,
+      "undoable": true,
+      "grant": null
+    },
+    {
+      "id": 5131,
+      "recorded_at_ms": 1792540500000,
+      "origin": {
+        "type": "remote",
+        "device": "living-room-tablet"
+      },
+      "kind": "playlist_restore",
+      "summary": "restore the playlist Old mix",
+      "target_count": 1,
+      "undone_by": null,
+      "undo_of": null,
+      "undoable": true,
+      "grant": null
+    },
+    {
+      "id": 5130,
+      "recorded_at_ms": 1792540440000,
+      "origin": {
+        "type": "remote",
+        "device": "living-room-tablet"
+      },
+      "kind": "playlist_delete",
+      "summary": "move the playlist Old mix to the trash",
+      "target_count": 1,
+      "undone_by": null,
+      "undo_of": null,
+      "undoable": true,
+      "grant": null
+    },
+    {
+      "id": 5129,
+      "recorded_at_ms": 1792540380000,
+      "origin": {
+        "type": "agent",
+        "name": "claude"
+      },
+      "kind": "playlist_set_query",
+      "summary": "change the query of Forgotten favourites",
+      "target_count": 1,
+      "undone_by": null,
+      "undo_of": null,
+      "undoable": true,
+      "grant": null
+    },
+    {
+      "id": 5128,
+      "recorded_at_ms": 1792540320000,
+      "origin": {
+        "type": "agent",
+        "name": "claude"
+      },
+      "kind": "playlist_move",
+      "summary": "move 1 item in Late night",
+      "target_count": 1,
+      "undone_by": null,
+      "undo_of": null,
+      "undoable": true,
+      "grant": null
+    },
+    {
+      "id": 5127,
+      "recorded_at_ms": 1792540260000,
+      "origin": {
+        "type": "agent",
+        "name": "claude"
+      },
+      "kind": "set_rating",
+      "summary": "rate 2 tracks 5 stars",
+      "target_count": 2,
+      "undone_by": 5134,
+      "undo_of": null,
+      "undoable": false,
+      "grant": null
+    },
+    {
+      "id": 5126,
+      "recorded_at_ms": 1792540200000,
+      "origin": {
+        "type": "media_controls"
+      },
+      "kind": "set_loved",
+      "summary": "love 1 track",
+      "target_count": 1,
+      "undone_by": null,
+      "undo_of": null,
+      "undoable": true,
+      "grant": null
+    },
+    {
+      "id": 5125,
+      "recorded_at_ms": 1792540140000,
+      "origin": {
+        "type": "ui"
+      },
+      "kind": "playlist_import",
+      "summary": "import the playlist Road trip (2 tracks)",
+      "target_count": 1,
+      "undone_by": null,
+      "undo_of": null,
+      "undoable": true,
+      "grant": null
+    },
+    {
+      "id": 5124,
+      "recorded_at_ms": 1792540080000,
+      "origin": {
+        "type": "ui"
+      },
+      "kind": "playlist_remove",
+      "summary": "remove 1 item from Late night",
+      "target_count": 1,
+      "undone_by": null,
+      "undo_of": null,
+      "undoable": true,
+      "grant": null
+    },
+    {
+      "id": 5123,
+      "recorded_at_ms": 1792540020000,
+      "origin": {
+        "type": "remote",
+        "device": "living-room-tablet"
+      },
+      "kind": "playlist_add",
+      "summary": "add 2 tracks to Late night",
+      "target_count": 1,
+      "undone_by": null,
+      "undo_of": null,
+      "undoable": true,
+      "grant": null
+    },
+    {
+      "id": 5122,
+      "recorded_at_ms": 1792539960000,
+      "origin": {
+        "type": "ui"
+      },
+      "kind": "playlist_create",
+      "summary": "create the playlist Late night",
+      "target_count": 1,
+      "undone_by": null,
+      "undo_of": null,
+      "undoable": true,
+      "grant": null
+    },
+    {
+      "id": 5121,
+      "recorded_at_ms": 1792539900000,
+      "origin": {
+        "type": "ui"
+      },
+      "kind": "playlist_rename",
+      "summary": "rename the playlist Late night",
+      "target_count": 1,
+      "undone_by": null,
+      "undo_of": null,
+      "undoable": true,
+      "grant": null
+    }
+  ],
+  "offset": 0,
+  "total": 2310,
+  "next_offset": 15
+}

@@ -1,0 +1,14 @@
+{
+  "request_id": 42,
+  "idempotency_key": "remote-add-11",
+  "command": {
+    "type": "add_to_playlist",
+    "playlist": 12,
+    "tracks": [
+      2310,
+      3050
+    ],
+    "index": 1,
+    "expected_revision": 8
+  }
+}

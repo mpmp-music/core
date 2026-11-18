@@ -1,0 +1,14 @@
+{
+  "request_id": 48,
+  "result": {
+    "type": "err",
+    "error": {
+      "kind": "failed",
+      "code": "io",
+      "message": "reading the playlist file failed: busy",
+      "details": {
+        "retryable": true
+      }
+    }
+  }
+}
