@@ -295,7 +295,7 @@ impl Actor {
                         .retired_decodes
                         .entry(root)
                         .or_default()
-                        .push(Arc::new(Mutex::new(Some(thread))));
+                        .push(Arc::new(RetiredDecode::new(thread)));
                 }
             }
             receipt.root = Some(root);

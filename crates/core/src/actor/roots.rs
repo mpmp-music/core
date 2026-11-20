@@ -1,6 +1,53 @@
 use super::*;
+use std::sync::atomic::{AtomicBool, Ordering};
+use std::thread::JoinHandle;
 
-pub(super) type RetiredDecode = Arc<Mutex<Option<std::thread::JoinHandle<()>>>>;
+pub(super) struct RetiredDecode {
+    thread: Mutex<Option<JoinHandle<()>>>,
+    joined: AtomicBool,
+}
+
+impl RetiredDecode {
+    pub(super) fn new(thread: JoinHandle<()>) -> Self {
+        Self {
+            thread: Mutex::new(Some(thread)),
+            joined: AtomicBool::new(false),
+        }
+    }
+
+    fn is_finished(&self) -> bool {
+        self.joined.load(Ordering::Acquire)
+            || self
+                .thread
+                .try_lock()
+                .is_ok_and(|thread| thread.as_ref().is_some_and(JoinHandle::is_finished))
+    }
+
+    fn join(&self) {
+        let thread = self
+            .thread
+            .lock()
+            .unwrap_or_else(PoisonError::into_inner)
+            .take();
+        if let Some(thread) = thread {
+            let _ = thread.join();
+            self.joined.store(true, Ordering::Release);
+        }
+    }
+}
+
+pub(super) fn wait_for_retired_decodes(decodes: &[Arc<RetiredDecode>], deadline: Instant) -> bool {
+    loop {
+        if decodes.iter().all(|decode| decode.is_finished()) {
+            return true;
+        }
+        let left = deadline.saturating_duration_since(Instant::now());
+        if left.is_zero() {
+            return false;
+        }
+        std::thread::sleep(left.min(Duration::from_millis(5)));
+    }
+}
 
 pub(super) struct ReleaseStart {
     pub(super) audit: Option<ActionId>,
@@ -43,17 +90,26 @@ impl Actor {
     pub(super) fn reap_retired_decodes(&mut self) {
         self.roots.retired_decodes.retain(|_, handles| {
             handles.retain(|decode| {
-                if let Ok(mut thread) = decode.try_lock() {
-                    if thread.as_ref().is_some_and(|t| t.is_finished()) {
-                        let _ = thread.take().unwrap().join();
-                    }
-                    thread.is_some()
+                if decode.is_finished() {
+                    decode.join();
+                    false
                 } else {
                     true
                 }
             });
             !handles.is_empty()
         });
+    }
+
+    pub(super) fn join_retired_decodes(&mut self) {
+        for decode in self
+            .roots
+            .retired_decodes
+            .drain()
+            .flat_map(|(_, handles)| handles)
+        {
+            decode.join();
+        }
     }
 
     /// Removal has already committed. Keep failed recovery work retryable even though
@@ -83,7 +139,7 @@ impl Actor {
             return;
         };
         if result.is_ok() {
-            self.roots.retired_decodes.remove(&root);
+            self.reap_retired_decodes();
         }
         self.publication.cause = Some(start.origin);
         let result = result.map(|()| Receipt {
@@ -112,5 +168,40 @@ impl Actor {
     pub(super) fn folders_changed(&mut self) {
         self.generation += 1;
         self.emit(Event::LibraryChanged);
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn root_drain_deadline_survives_shutdown_join() {
+        let (unblock, blocked) = crossbeam_channel::bounded::<()>(1);
+        let decode = Arc::new(RetiredDecode::new(std::thread::spawn(move || {
+            let _ = blocked.recv();
+        })));
+        let retire = Arc::clone(&decode);
+        let joiner = std::thread::spawn(move || retire.join());
+        let deadline = Instant::now() + Duration::from_secs(2);
+        while !decode
+            .thread
+            .try_lock()
+            .is_ok_and(|thread| thread.is_none())
+        {
+            assert!(
+                Instant::now() < deadline,
+                "join did not take the decoder handle"
+            );
+            std::thread::yield_now();
+        }
+        let decodes = [decode];
+        assert!(!wait_for_retired_decodes(
+            &decodes,
+            Instant::now() + Duration::from_millis(20)
+        ));
+        unblock.send(()).unwrap();
+        joiner.join().unwrap();
+        assert!(wait_for_retired_decodes(&decodes, Instant::now()));
     }
 }

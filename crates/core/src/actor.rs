@@ -27,6 +27,7 @@ use crate::contract::{
     StageInfo, StopAfterCurrentInfo, TrackId, TrackInfo, VolumeMode,
 };
 use crate::gain::TrackGain;
+use crate::handle::ShutdownStage;
 use crate::permissions::checks::{self, Check, CheckContext, Checked, Recheck, View};
 use crate::permissions::fs_deadline::Limits;
 use crate::permissions::{
@@ -264,6 +265,7 @@ pub(crate) struct Actor {
     workers: WorkerState,
     /// Actual decoder/open-task leases, including paused and retired prefetch sources.
     pub(super) open_files: Arc<Mutex<Vec<mpmp_media_io::MediaUri>>>,
+    pub(crate) shutdown_stage: Arc<Mutex<ShutdownStage>>,
     root_access: Arc<crate::root_access::RootAccess>,
 }
 
@@ -341,6 +343,7 @@ impl Actor {
         let mut actor = Self {
             job_history,
             root_access,
+            shutdown_stage: Arc::default(),
             rx,
             tx,
             engine,
@@ -498,6 +501,7 @@ impl Actor {
         }
         self.tell_waveforms();
         let mut stopping = false;
+        let mut shutdown_decode = None;
         loop {
             if stopping && self.workers.tag_jobs.is_empty() && self.scans.jobs.is_empty() {
                 break;
@@ -526,16 +530,19 @@ impl Actor {
                 },
                 recv(self.rx) -> msg => {
                     match msg {
-                        Ok(Msg::Shutdown) => {
+                        Ok(Msg::Shutdown) if !stopping => {
                             stopping = true;
+                            self.set_shutdown_stage(ShutdownStage::FreezingOutput);
                             self.cancel_output_reads();
-                            self.freeze_for_shutdown();
+                            shutdown_decode = self.freeze_for_shutdown();
                             self.engine_events = crossbeam_channel::never();
                             self.output.output_events = crossbeam_channel::never();
+                            self.workers.waveforms.cancel();
                             self.workers.loudness.cancel();
                             // No asynchronous check may start a command during shutdown.
                             self.requests.waiting.clear();
                             self.roots.releasing.clear();
+                            self.set_shutdown_stage(ShutdownStage::WaitingForJobs);
                         }
                         Err(_) => break,
                         Ok(msg) if stopping => match msg {
@@ -582,13 +589,39 @@ impl Actor {
             self.publish();
             self.tell_waveforms();
         }
+        // Drop the last receiver and every queued reply sender before joining workers.
+        // While draining jobs above, their completion notifications still use this queue.
+        self.rx = crossbeam_channel::never();
         self.cancel_output_reads();
+        self.workers.waveforms.cancel();
         self.workers.loudness.cancel();
-        self.freeze_for_shutdown();
+        if !stopping {
+            self.set_shutdown_stage(ShutdownStage::FreezingOutput);
+            shutdown_decode = self.freeze_for_shutdown();
+        }
+        self.set_shutdown_stage(ShutdownStage::SavingState);
         self.save_now();
         if let Some(file) = &mut self.persistence.state_file {
             file.finish();
         }
+        // Close output and save the rendered position before waiting on slow media. Every
+        // decoder must exit before we can take the final list of prefetch threads to join.
+        if let Some(thread) = shutdown_decode {
+            self.set_shutdown_stage(ShutdownStage::JoiningDecoder);
+            let _ = thread.join();
+        }
+        self.set_shutdown_stage(ShutdownStage::JoiningRetiredDecoders);
+        self.join_retired_decodes();
+        self.set_shutdown_stage(ShutdownStage::JoiningPrefetch);
+        self.engine.stop_and_wait();
+        self.set_shutdown_stage(ShutdownStage::DroppingActor);
+    }
+
+    fn set_shutdown_stage(&self, stage: ShutdownStage) {
+        *self
+            .shutdown_stage
+            .lock()
+            .unwrap_or_else(PoisonError::into_inner) = stage;
     }
 
     fn startup_scan_required(&self) -> Result<bool, ContractError> {

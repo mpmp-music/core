@@ -2,8 +2,7 @@
 
 use std::collections::HashMap;
 use std::sync::atomic::{AtomicBool, Ordering};
-use std::sync::{Arc, Mutex, OnceLock};
-use std::thread::JoinHandle;
+use std::sync::{Arc, Mutex, OnceLock, Weak};
 use std::time::{Duration, Instant};
 
 use arc_swap::ArcSwap;
@@ -50,8 +49,10 @@ pub enum FileUndoOccupancy {
     External,
 }
 
-/// A handle to the running core. Cheap to clone; the core stops when the last handle
-/// is dropped (or on [`CoreHandle::shutdown`]).
+/// A handle to the running core. Cheap to clone. Dropping the last handle requests
+/// shutdown and waits within the first explicit wait's deadline, or for up to 15 seconds
+/// (the desktop host's normal core exit budget). On timeout, shutdown continues in
+/// the background. Drop handles outside locks needed by the media or catalog workers.
 #[derive(Clone)]
 pub struct CoreHandle {
     inner: Arc<Inner>,
@@ -76,6 +77,21 @@ impl std::fmt::Display for ShutdownError {
 }
 
 impl std::error::Error for ShutdownError {}
+
+#[derive(Clone, Copy, Debug, Default)]
+pub(crate) enum ShutdownStage {
+    #[default]
+    Actor,
+    FreezingOutput,
+    WaitingForJobs,
+    SavingState,
+    JoiningDecoder,
+    JoiningRetiredDecoders,
+    JoiningPrefetch,
+    DroppingActor,
+    ClosingCatalog,
+    ReleasingCatalog,
+}
 
 /// An authenticated connection's registration identity, bound before any request is queued.
 #[derive(Clone)]
@@ -124,7 +140,8 @@ struct Inner {
     root_access: Arc<root_access::RootAccess>,
     tx: Sender<Msg>,
     published: Arc<ArcSwap<Published>>,
-    catalog: Arc<dyn Catalog>,
+    // Keep the catalog's final release on the actor, where it is covered by the wait.
+    catalog: Weak<dyn Catalog>,
     permissions: Arc<Mutex<Permissions>>,
     /// Waveforms a query found missing go here, to be computed in the background.
     waveforms: WaveformQueue,
@@ -132,19 +149,59 @@ struct Inner {
     stopping: Arc<AtomicBool>,
     stopped: Receiver<()>,
     shutdown_result: Arc<OnceLock<Result<(), ShutdownError>>>,
-    thread: std::sync::Mutex<Option<JoinHandle<()>>>,
+    shutdown_stage: Arc<Mutex<ShutdownStage>>,
+    shutdown_deadline: OnceLock<Instant>,
 }
 
 impl Drop for Inner {
     fn drop(&mut self) {
+        let deadline = self
+            .shutdown_deadline
+            .get()
+            .copied()
+            .unwrap_or_else(|| Instant::now() + CoreHandle::DEFAULT_SHUTDOWN_TIMEOUT);
         let _ = self.tx.send(Msg::Shutdown);
-        if let Some(thread) = self.thread.lock().ok().and_then(|mut t| t.take()) {
-            let _ = thread.join();
+        if self.wait_for_shutdown(Some(deadline)) == Err(ShutdownError::TimedOut) {
+            let stage = *self
+                .shutdown_stage
+                .lock()
+                .unwrap_or_else(|e| e.into_inner());
+            tracing::warn!(
+                ?stage,
+                "core shutdown incomplete at deadline; actor left running"
+            );
         }
     }
 }
 
+impl Inner {
+    fn catalog(&self) -> Result<Arc<dyn Catalog>, ContractError> {
+        self.catalog.upgrade().ok_or_else(core_stopped)
+    }
+
+    fn wait_for_shutdown(&self, deadline: Option<Instant>) -> Result<(), ShutdownError> {
+        let stopped = deadline.map_or_else(
+            || self.stopped.recv().is_err(),
+            |deadline| {
+                self.stopped.recv_deadline(deadline)
+                    == Err(crossbeam_channel::RecvTimeoutError::Disconnected)
+            },
+        );
+        if !stopped {
+            return Err(ShutdownError::TimedOut);
+        }
+        self.shutdown_result
+            .get()
+            .cloned()
+            .unwrap_or(Err(ShutdownError::ActorPanicked))
+    }
+}
+
 impl CoreHandle {
+    /// Last-handle shutdown budget when no explicit wait has set a deadline. The
+    /// desktop host uses the same budget for the core stage of an ordinary exit.
+    pub const DEFAULT_SHUTDOWN_TIMEOUT: Duration = Duration::from_secs(15);
+
     /// Register a trusted platform participant in root release. `released=true` must
     /// synchronously close the folder's handles and prevent reopening until false.
     /// Callbacks must not execute commands or wait for this core's actor. They may
@@ -160,6 +217,12 @@ impl CoreHandle {
     /// from the platform's assembly root. Returns an error if a thread cannot start
     /// or Locations is missing without `desktop-fs`. Problems with core's data are
     /// reported in `Snapshot.problems`, for the app to handle.
+    ///
+    /// Resolver and byte-source callbacks can run on the actor or on threads it waits
+    /// for. They must not synchronously call back into APIs that wait for this core,
+    /// such as executing commands, reading pending confirmations or waiting for shutdown.
+    /// Release any locks these callbacks need before waiting for shutdown or dropping
+    /// the last handle.
     pub fn start(
         backend: Box<dyn OutputBackend>,
         resolver: Arc<dyn SourceResolver>,
@@ -261,22 +324,32 @@ impl CoreHandle {
         let (completion, stopped) = crossbeam_channel::bounded::<()>(0);
         let shutdown_result = Arc::new(OnceLock::new());
         let result = Arc::clone(&shutdown_result);
-        let closing_catalog = Arc::clone(&catalog);
+        let catalog_ref = Arc::downgrade(&catalog);
+        let shutdown_stage = Arc::clone(&actor.shutdown_stage);
+        let stage = Arc::clone(&shutdown_stage);
         let stopping = Arc::new(AtomicBool::new(false));
         let explicit_shutdown = Arc::clone(&stopping);
-        let thread = std::thread::Builder::new()
+        // Completion is sent by dropping the channel after the actor and its catalog
+        // reference are gone, including during unwinding. No caller has to join the OS thread.
+        std::thread::Builder::new()
             .name("core".into())
             .spawn(move || {
+                let complete = completion;
+                let closing_catalog = catalog;
                 actor.run(config.startup_scan_by_host);
                 // Actor::run consumes the actor. Its workers and state writer are joined
                 // before closing shared catalog storage.
                 let closed = if explicit_shutdown.load(Ordering::Acquire) {
+                    *stage.lock().unwrap_or_else(|e| e.into_inner()) =
+                        ShutdownStage::ClosingCatalog;
                     closing_catalog.close().map_err(ShutdownError::Library)
                 } else {
                     Ok(())
                 };
+                *stage.lock().unwrap_or_else(|e| e.into_inner()) = ShutdownStage::ReleasingCatalog;
+                drop(closing_catalog);
                 let _ = result.set(closed);
-                drop(completion);
+                drop(complete);
             })?;
         Ok(Self {
             inner: Arc::new(Inner {
@@ -285,14 +358,15 @@ impl CoreHandle {
                 root_access,
                 tx,
                 published,
-                catalog,
+                catalog: catalog_ref,
                 permissions,
                 waveforms: waveform_queue,
                 epoch,
                 stopping,
                 stopped,
                 shutdown_result,
-                thread: std::sync::Mutex::new(Some(thread)),
+                shutdown_stage,
+                shutdown_deadline: OnceLock::new(),
             }),
         })
     }
@@ -347,7 +421,8 @@ impl CoreHandle {
         &self,
         action: contract::ActionId,
     ) -> Result<(QueryResult, Option<FileUndoOccupancy>), ContractError> {
-        let preview = self.inner.catalog.preview_undo(action)?;
+        let catalog = self.inner.catalog()?;
+        let preview = catalog.preview_undo(action)?;
         let external = match &preview {
             QueryResult::TagEditPreview { skipped, .. } => skipped
                 .iter()
@@ -357,7 +432,7 @@ impl CoreHandle {
                 .any(|row| row.code == contract::ErrorCode::FileInUse),
             _ => false,
         };
-        let (preview, playback) = self.available_preview(preview);
+        let (preview, playback) = self.available_preview(preview, catalog.as_ref());
         let occupancy = if external {
             Some(FileUndoOccupancy::External)
         } else {
@@ -370,7 +445,7 @@ impl CoreHandle {
         &self,
         action: contract::ActionId,
     ) -> Result<mpmp_library::UndoDescription, ContractError> {
-        self.inner.catalog.describe_undo(action)
+        self.inner.catalog()?.describe_undo(action)
     }
     /// Execute a previously described undo, checking it again on the actor and in the
     /// library transaction / serialized tag job. No new wire command or approval token.
@@ -400,7 +475,7 @@ impl CoreHandle {
         &self,
         ids: Option<&[contract::PlaylistId]>,
     ) -> Result<mpmp_library::PurgeGuard, ContractError> {
-        self.inner.catalog.describe_purge(ids)
+        self.inner.catalog()?.describe_purge(ids)
     }
     /// Ui-only execution of exactly a reviewed trash selection, checked atomically.
     /// A null selection is accepted only with an all-trash guard; the transaction still
@@ -520,7 +595,11 @@ impl CoreHandle {
         result
     }
 
-    fn available_preview(&self, mut result: QueryResult) -> (QueryResult, bool) {
+    fn available_preview(
+        &self,
+        mut result: QueryResult,
+        catalog: &dyn Catalog,
+    ) -> (QueryResult, bool) {
         let open = self
             .inner
             .open_files
@@ -528,8 +607,7 @@ impl CoreHandle {
             .unwrap_or_else(std::sync::PoisonError::into_inner)
             .clone();
         let in_use = |track| {
-            self.inner
-                .catalog
+            catalog
                 .uri_of(track)
                 .ok()
                 .flatten()
@@ -594,14 +672,49 @@ impl CoreHandle {
                     now_ms: snapshot.now_ms,
                 }
             }
-            query @ (Query::CoverEditPreview { .. } | Query::TagEditPreview { .. }) => {
-                self.available_preview(self.inner.catalog.query(&query)).0
-            }
             Query::Job { job } => jobs::get(&self.inner.jobs, job),
             Query::Jobs { offset, limit } => jobs::lock(&self.inner.jobs).page(offset, limit),
             Query::Snapshot => QueryResult::Snapshot {
                 snapshot: Box::new(self.inner.published.load().snapshot.clone()),
             },
+            Query::Agents | Query::Permissions { .. }
+                if !actor::lock_permissions(&self.inner.permissions).available() =>
+            {
+                QueryResult::Err {
+                    error: permissions_unavailable(),
+                }
+            }
+            Query::Agents => QueryResult::Agents {
+                agents: actor::lock_permissions(&self.inner.permissions).agents(),
+            },
+            Query::Permissions {
+                agent,
+                offset,
+                limit,
+            } => actor::lock_permissions(&self.inner.permissions).page(
+                agent.as_deref(),
+                offset,
+                limit,
+                unix_ms(),
+            ),
+            Query::Unknown => QueryResult::Err {
+                error: ContractError::unsupported(
+                    ErrorCode::UnknownQuery,
+                    "this core does not know that query",
+                ),
+            },
+            other => match self.inner.catalog() {
+                Ok(catalog) => self.answer_catalog(other, catalog.as_ref()),
+                Err(error) => QueryResult::Err { error },
+            },
+        }
+    }
+
+    fn answer_catalog(&self, query: Query, catalog: &dyn Catalog) -> QueryResult {
+        match query {
+            query @ (Query::CoverEditPreview { .. } | Query::TagEditPreview { .. }) => {
+                self.available_preview(catalog.query(&query), catalog).0
+            }
             Query::QueuePage { offset, limit } => {
                 let published = self.inner.published.load();
                 let slice: Vec<_> = published
@@ -611,7 +724,7 @@ impl CoreHandle {
                     .take(limit as usize)
                     .collect();
                 let ids: Vec<_> = slice.iter().map(|(_, track)| *track).collect();
-                match self.inner.catalog.tracks(&ids) {
+                match catalog.tracks(&ids) {
                     Ok(tracks) => {
                         let by_id: HashMap<_, _> = tracks.into_iter().map(|t| (t.id, t)).collect();
                         let total = u32::try_from(published.queue.len()).unwrap_or(u32::MAX);
@@ -636,56 +749,30 @@ impl CoreHandle {
                     Err(error) => QueryResult::Err { error },
                 }
             }
-            Query::Agents | Query::Permissions { .. }
-                if !actor::lock_permissions(&self.inner.permissions).available() =>
-            {
-                QueryResult::Err {
-                    error: permissions_unavailable(),
-                }
-            }
-            Query::Agents => QueryResult::Agents {
-                agents: actor::lock_permissions(&self.inner.permissions).agents(),
-            },
-            Query::Permissions {
-                agent,
-                offset,
-                limit,
-            } => actor::lock_permissions(&self.inner.permissions).page(
-                agent.as_deref(),
-                offset,
-                limit,
-                unix_ms(),
-            ),
             // Read from disk on the caller's thread, like the cover.
-            Query::Lyrics { track } => match self.inner.catalog.lyrics(track) {
+            Query::Lyrics { track } => match catalog.lyrics(track) {
                 Ok(lyrics) => QueryResult::Lyrics { lyrics },
                 Err(error) => QueryResult::Err { error },
             },
             // The cache is read on the caller's thread; a missing waveform is queued for the
             // waveform thread, and `WaveformReady` follows.
-            Query::Waveform { track } => match self.inner.catalog.waveform(track) {
+            Query::Waveform { track } => match catalog.waveform(track) {
                 Ok(Some(waveform)) => QueryResult::Waveform {
                     waveform: Some(waveform),
                 },
                 Ok(None) => {
-                    if self.inner.catalog.waveform_accessible(track) {
+                    if catalog.waveform_accessible(track) {
                         self.inner.waveforms.ask(track);
                     }
                     QueryResult::Waveform { waveform: None }
                 }
                 Err(error) => QueryResult::Err { error },
             },
-            Query::Loudness { track } => match self.inner.catalog.loudness(track) {
+            Query::Loudness { track } => match catalog.loudness(track) {
                 Ok(loudness) => QueryResult::Loudness { loudness },
                 Err(error) => QueryResult::Err { error },
             },
-            Query::Unknown => QueryResult::Err {
-                error: ContractError::unsupported(
-                    ErrorCode::UnknownQuery,
-                    "this core does not know that query",
-                ),
-            },
-            other => self.inner.catalog.query(&other),
+            other => catalog.query(&other),
         }
     }
 
@@ -736,9 +823,12 @@ impl CoreHandle {
             let registration = permissions.registration(&name)?;
             (name, write, registration)
         };
-        if write && let Err(err) = self.inner.catalog.set_agent_seen(&name, now) {
-            tracing::warn!("cannot record that agent {name} was seen: {err}");
-            self.note(&err);
+        if write {
+            let catalog = self.inner.catalog().ok()?;
+            if let Err(err) = catalog.set_agent_seen(&name, now) {
+                tracing::warn!("cannot record that agent {name} was seen: {err}");
+                self.note(&err);
+            }
         }
         if self.inner.stopping.load(Ordering::Acquire) {
             return None;
@@ -776,7 +866,7 @@ impl CoreHandle {
     /// Cover image of a track (see [`Catalog::cover_art`](crate::catalog::MediaResources::cover_art)).
     pub fn cover_art(&self, track: contract::TrackId) -> Result<Option<CoverArt>, ContractError> {
         self.inner
-            .catalog
+            .catalog()?
             .cover_art(track)
             .inspect_err(|e| self.note(e))
     }
@@ -789,7 +879,7 @@ impl CoreHandle {
         max_edge: u32,
     ) -> Result<Option<CoverArt>, ContractError> {
         self.inner
-            .catalog
+            .catalog()?
             .cover_thumbnail(track, max_edge)
             .inspect_err(|e| self.note(e))
     }
@@ -920,30 +1010,18 @@ impl CoreHandle {
         self.shutdown_with_result(timeout).is_ok()
     }
 
-    /// Waits for running jobs, the final state save and catalog close. A timeout leaves
-    /// shutdown in progress. Keep a handle alive if the caller must avoid joining on drop.
+    /// Waits for running jobs, playback and prefetch, the final state save and catalog close.
+    /// Success confirms release of core's media sources, leases and catalog storage.
+    /// A timeout leaves shutdown incomplete and it continues in the background. The first
+    /// explicit wait also sets the last handle's drop deadline. Later calls can wait again
+    /// with their own timeout. Release locks needed by core or its workers before waiting.
     pub fn shutdown_with_result(&self, timeout: Duration) -> Result<(), ShutdownError> {
+        let deadline = Instant::now().checked_add(timeout);
+        if let Some(deadline) = deadline {
+            self.inner.shutdown_deadline.get_or_init(|| deadline);
+        }
         self.shutdown();
-        if !matches!(
-            self.inner.stopped.recv_timeout(timeout),
-            Err(crossbeam_channel::RecvTimeoutError::Disconnected)
-        ) {
-            return Err(ShutdownError::TimedOut);
-        }
-        if let Some(thread) = self
-            .inner
-            .thread
-            .lock()
-            .unwrap_or_else(|e| e.into_inner())
-            .take()
-        {
-            let _ = thread.join();
-        }
-        self.inner
-            .shutdown_result
-            .get()
-            .cloned()
-            .unwrap_or(Err(ShutdownError::ActorPanicked))
+        self.inner.wait_for_shutdown(deadline)
     }
 }
 

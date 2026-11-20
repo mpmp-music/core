@@ -86,6 +86,7 @@ pub(super) struct Worker {
     pub(super) commands: Receiver<Command>,
     pub(super) opened_tx: Sender<Opened>,
     pub(super) opened_rx: Receiver<Opened>,
+    pub(super) prefetch_threads: Arc<Mutex<Vec<JoinHandle<()>>>>,
     pub(super) resolver: Arc<dyn SourceResolver>,
     pub(super) file_access: Option<Arc<FileAccess>>,
     pub(super) stop: Arc<AtomicU32>,
@@ -516,9 +517,18 @@ impl Worker {
                             result,
                         });
                     });
-                if let Err(err) = spawned {
-                    tracing::error!("cannot spawn prefetch thread: {err}");
-                    self.next = Next::None;
+                match spawned {
+                    Ok(thread) => {
+                        let mut threads = lock(&self.prefetch_threads);
+                        for finished in threads.extract_if(.., |thread| thread.is_finished()) {
+                            let _ = finished.join();
+                        }
+                        threads.push(thread);
+                    }
+                    Err(err) => {
+                        tracing::error!("cannot spawn prefetch thread: {err}");
+                        self.next = Next::None;
+                    }
                 }
             }
             None => self.next = Next::None,

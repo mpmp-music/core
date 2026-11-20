@@ -437,26 +437,34 @@ fn begin_release(
     (rx, thread)
 }
 
-struct MainReadGate {
+struct ReadGate {
+    thread_name: &'static str,
     entered: crossbeam_channel::Sender<()>,
     gate: crossbeam_channel::Receiver<()>,
+    timeout: Option<Duration>,
     armed: std::sync::atomic::AtomicBool,
     closed: std::sync::atomic::AtomicBool,
 }
 
 struct GatedBytes {
     source: Option<Arc<dyn mpmp_media_io::ByteSource>>,
-    gate: Arc<MainReadGate>,
+    gate: Arc<ReadGate>,
     held: std::sync::atomic::AtomicBool,
 }
 
 impl mpmp_media_io::ByteSource for GatedBytes {
     fn read_at(&self, offset: u64, bytes: &mut [u8]) -> std::io::Result<usize> {
         use std::sync::atomic::Ordering::SeqCst;
-        if std::thread::current().name() == Some("decode") && self.gate.armed.swap(false, SeqCst) {
+        if std::thread::current().name() == Some(self.gate.thread_name)
+            && self.gate.armed.swap(false, SeqCst)
+        {
             self.held.store(true, SeqCst);
             self.gate.entered.send(()).unwrap();
-            self.gate.gate.recv_timeout(TIMEOUT).unwrap();
+            if let Some(timeout) = self.gate.timeout {
+                self.gate.gate.recv_timeout(timeout).unwrap();
+            } else {
+                self.gate.gate.recv().unwrap();
+            }
         }
         let len = bytes.len().min(512); // probing must not buffer the entire small fixture
         self.source
@@ -482,9 +490,9 @@ impl Drop for GatedBytes {
     }
 }
 
-struct MainReadResolver(Arc<MainReadGate>);
+struct GatedReadResolver(Arc<ReadGate>);
 
-impl mpmp_media_io::SourceResolver for MainReadResolver {
+impl mpmp_media_io::SourceResolver for GatedReadResolver {
     fn resolve(
         &self,
         uri: &mpmp_media_io::MediaUri,
@@ -503,22 +511,38 @@ impl mpmp_media_io::SourceResolver for MainReadResolver {
     }
 }
 
-fn main_read_fixture() -> (Fixture, Arc<MainReadGate>, crossbeam_channel::Sender<()>) {
+fn main_read_fixture() -> (Fixture, Arc<ReadGate>, crossbeam_channel::Sender<()>) {
+    gated_read_fixture("decode", &["01.flac"])
+}
+
+fn gated_read_fixture(
+    thread_name: &'static str,
+    files: &[&str],
+) -> (Fixture, Arc<ReadGate>, crossbeam_channel::Sender<()>) {
+    gated_read_fixture_with_timeout(thread_name, files, Some(TIMEOUT))
+}
+
+fn gated_read_fixture_with_timeout(
+    thread_name: &'static str,
+    files: &[&str],
+    timeout: Option<Duration>,
+) -> (Fixture, Arc<ReadGate>, crossbeam_channel::Sender<()>) {
     let (tx, entered) = crossbeam_channel::bounded(1);
     let (open, gate) = crossbeam_channel::bounded(1);
-    let state = Arc::new(MainReadGate {
+    let state = Arc::new(ReadGate {
+        thread_name,
         entered: tx,
         gate,
+        timeout,
         armed: true.into(),
         closed: false.into(),
     });
-    let f = fixture_with_resolver(Arc::new(MainReadResolver(Arc::clone(&state))));
+    let f = fixture_with_resolver(Arc::new(GatedReadResolver(Arc::clone(&state))));
+    let tracks = files.iter().map(|name| f.id(name)).collect();
     ok(run(
         &f.core,
         Command::Play {
-            context: PlayContext::Tracks {
-                tracks: vec![f.id("01.flac")],
-            },
+            context: PlayContext::Tracks { tracks },
             start: 0,
             start_track: None,
         },
@@ -526,7 +550,7 @@ fn main_read_fixture() -> (Fixture, Arc<MainReadGate>, crossbeam_channel::Sender
     ));
     entered
         .recv_timeout(TIMEOUT)
-        .expect("main decode read did not block");
+        .unwrap_or_else(|error| panic!("{thread_name} read did not block: {error}"));
     (f, state, open)
 }
 

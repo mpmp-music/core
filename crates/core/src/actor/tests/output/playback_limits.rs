@@ -744,7 +744,9 @@ fn paused_anchor_survives_arming_freezing_and_rebuilding_after_the_full_ramp() {
     assert_eq!(actor.position().unwrap().position_ms, position);
     assert_eq!(actor.limits.stop_after_current, Some(instance));
     // Closing again before the rebuilt stream has rendered must retain both anchors.
-    actor.freeze_for_shutdown();
+    if let Some(thread) = actor.freeze_for_shutdown() {
+        thread.join().unwrap();
+    }
     assert_eq!(actor.output.output_at, Some((instance, submitted.frame)));
     assert_eq!(actor.position().unwrap().position_ms, position);
 }

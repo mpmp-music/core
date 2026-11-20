@@ -94,12 +94,17 @@ impl WaveformWorker {
     pub fn queue(&self) -> WaveformQueue {
         self.queue.clone()
     }
+
+    pub fn cancel(&self) {
+        if !self.cancel.swap(true, Ordering::Relaxed) {
+            let _ = self.queue.tx.send(Job::Stop);
+        }
+    }
 }
 
 impl Drop for WaveformWorker {
     fn drop(&mut self) {
-        self.cancel.store(true, Ordering::Relaxed);
-        let _ = self.queue.tx.send(Job::Stop);
+        self.cancel();
         if let Some(thread) = self.thread.take() {
             let _ = thread.join();
         }

@@ -117,7 +117,7 @@ pub(super) struct RequestState {
 pub(super) struct RootState {
     pub(super) release_start: Option<ReleaseStart>,
     pub(super) releasing: HashMap<RootId, Releasing>,
-    pub(super) retired_decodes: HashMap<RootId, Vec<RetiredDecode>>,
+    pub(super) retired_decodes: HashMap<RootId, Vec<Arc<RetiredDecode>>>,
     pub(super) removed_root_notifications: HashMap<RootId, RemovalRecovery>,
 }
 

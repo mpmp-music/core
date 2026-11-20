@@ -4031,7 +4031,9 @@ fn shutdown_with_running_job_replaces_disconnected_engine_receiver_and_finishes(
             diagnostics: None,
         },
     );
-    actor.freeze_for_shutdown();
+    if let Some(thread) = actor.freeze_for_shutdown() {
+        thread.join().unwrap();
+    }
     assert!(matches!(
         actor.engine_events.try_recv(),
         Err(crossbeam_channel::TryRecvError::Empty)
@@ -4063,6 +4065,37 @@ fn shutdown_with_running_job_replaces_disconnected_engine_receiver_and_finishes(
 }
 
 #[test]
+fn shutdown_disconnects_queued_and_late_requests_before_joining_a_decoder() {
+    let (mut actor, _, _) = actor();
+    let tx = actor.tx.clone();
+    let callback_tx = tx.clone();
+    let (probe, blocked) = crossbeam_channel::bounded(1);
+    let (done, outcome) = crossbeam_channel::bounded(1);
+    let decoder = std::thread::spawn(move || {
+        if blocked.recv().is_ok() {
+            let (reply, _) = crossbeam_channel::bounded(1);
+            done.send(callback_tx.send(Msg::Pending { reply }).is_err())
+                .unwrap();
+        }
+    });
+    actor
+        .roots
+        .retired_decodes
+        .insert(RootId(1), vec![Arc::new(RetiredDecode::new(decoder))]);
+    let (reply, queued) = crossbeam_channel::bounded(1);
+    tx.send(Msg::Shutdown).unwrap();
+    tx.send(Msg::Pending { reply }).unwrap();
+    let thread = std::thread::spawn(move || actor.run(false));
+    assert!(matches!(
+        queued.recv_timeout(Duration::from_secs(2)),
+        Err(crossbeam_channel::RecvTimeoutError::Disconnected)
+    ));
+    probe.send(()).unwrap();
+    assert!(outcome.recv_timeout(Duration::from_secs(2)).unwrap());
+    thread.join().unwrap();
+}
+
+#[test]
 fn retired_decodes_are_reaped_without_waiting_for_blocked_sources() {
     let (mut actor, _, _) = actor();
     for root in 1..=3 {
@@ -4077,8 +4110,8 @@ fn retired_decodes_are_reaped_without_waiting_for_blocked_sources() {
         actor.roots.retired_decodes.insert(
             RootId(root),
             vec![
-                Arc::new(Mutex::new(Some(handle))),
-                Arc::new(Mutex::new(Some(finished))),
+                Arc::new(RetiredDecode::new(handle)),
+                Arc::new(RetiredDecode::new(finished)),
             ],
         );
         actor.reap_retired_decodes();

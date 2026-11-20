@@ -163,6 +163,8 @@ pub struct Engine {
     device_sink: OutputEventSink,
     output_generation: u64,
     session: Option<Session>,
+    // Opens can outlive the session that requested them, even after Stop.
+    prefetch_threads: Arc<Mutex<Vec<JoinHandle<()>>>>,
     /// Kept here too, so a pause before the first `play` is not lost.
     paused: bool,
     playback_deadline: Option<Arc<crate::PlaybackDeadline>>,
@@ -194,6 +196,7 @@ impl Engine {
             device_sink: output_sink,
             output_generation: 0,
             session: None,
+            prefetch_threads: Arc::default(),
             paused: false,
             playback_deadline: None,
             volume: AtomicU32::new(1.0f32.to_bits()),
@@ -576,6 +579,16 @@ impl Engine {
         self.close_session(false);
     }
 
+    /// Stops playback and waits for prefetch opens from all sessions to release their
+    /// sources. Join any threads returned by [`Self::freeze_output_detached`] first.
+    pub fn stop_and_wait(&mut self) {
+        self.stop();
+        let threads = std::mem::take(&mut *lock(&self.prefetch_threads));
+        for thread in threads {
+            let _ = thread.join();
+        }
+    }
+
     /// Closes the output before joining decoding. No old callback can advance the
     /// returned position. Recovery uses rendered frames, exactly like heard history;
     /// device-queued latency is committed once rather than replayed after rebuilding.
@@ -823,6 +836,7 @@ impl Engine {
             commands: commands_rx,
             opened_tx,
             opened_rx,
+            prefetch_threads: Arc::clone(&self.prefetch_threads),
             resolver: Arc::clone(&self.resolver),
             file_access: self.file_access.clone(),
             stop: Arc::clone(&stop),

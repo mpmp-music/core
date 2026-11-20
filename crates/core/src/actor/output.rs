@@ -228,17 +228,16 @@ impl Actor {
         self.reduce_frozen(frozen, transport);
     }
 
-    pub(super) fn freeze_for_shutdown(&mut self) {
+    pub(super) fn freeze_for_shutdown(&mut self) -> Option<std::thread::JoinHandle<()>> {
         self.remember_pause_anchor();
         if self.playback.state == PlayState::Playing {
             self.playback.state = PlayState::Paused;
         }
         let (frozen, thread) = self.engine.freeze_output_detached();
         self.engine_events = self.engine.events();
-        // Drop a JoinHandle detaches it; the source and its lease remain worker-owned.
-        drop(thread);
         self.reduce_frozen_inner(frozen, self.playback.state, false);
         self.rebase_hint(false);
+        thread
     }
 
     pub(super) fn reduce_frozen(

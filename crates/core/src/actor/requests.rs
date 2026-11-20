@@ -264,20 +264,7 @@ impl Actor {
                         root,
                         armed: true,
                     };
-                    let joined = loop {
-                        let joined = decodes.iter().all(|decode| {
-                            let mut thread = decode.lock().unwrap_or_else(|e| e.into_inner());
-                            if thread.as_ref().is_some_and(|t| t.is_finished()) {
-                                let _ = thread.take().unwrap().join();
-                            }
-                            thread.is_none()
-                        });
-                        if joined || Instant::now() >= deadline {
-                            break joined;
-                        }
-                        std::thread::sleep(Duration::from_millis(5));
-                    };
-                    let drained = if joined {
+                    let drained = if super::roots::wait_for_retired_decodes(&decodes, deadline) {
                         catalog.wait_root_idle(
                             root,
                             deadline.saturating_duration_since(Instant::now()),
@@ -285,11 +272,8 @@ impl Actor {
                     } else {
                         Ok(false)
                     };
-                    let result = match drained {
-                        Ok(true) =>
-                        catalog
-                            .root_location(root)
-                            .and_then(|path| native.notify(&path.unwrap_or_default(), true)),
+                    let path = match drained {
+                        Ok(true) => catalog.root_location(root),
                         Err(error) => Err(error),
                         Ok(false) => Err(ContractError::failed(ErrorCode::Io,
                         concat!(
@@ -297,6 +281,10 @@ impl Actor {
 "seconds; access remains suspended",
 )).retryable()),
                     };
+                    // Once the path is known, native notification owns no catalog storage.
+                    drop(catalog);
+                    let result =
+                        path.and_then(|path| native.notify(&path.unwrap_or_default(), true));
                     let _ = guard.tx.send(Msg::RootDrained { root, result });
                     guard.armed = false;
                 });

@@ -704,26 +704,113 @@ fn remove_released_root_clears_suspension_and_revival_is_enabled() {
 }
 
 #[test]
-fn shutdown_during_main_decode_release_never_joins_blocked_source() {
+fn shutdown_during_main_decode_release_waits_for_the_source_to_close() {
     use std::sync::atomic::Ordering::SeqCst;
     let (f, gate, open) = main_read_fixture();
     let (released, thread) = begin_release(&f);
-    assert!(f.core.shutdown_and_wait(Duration::from_secs(2)));
+    f.core.shutdown();
     assert_eq!(
         err(released.recv_timeout(Duration::from_secs(1)).unwrap()).code,
         ErrorCode::CoreStopped
     );
+    assert_eq!(
+        f.core.shutdown_with_result(Duration::from_millis(50)),
+        Err(mpmp_core::ShutdownError::TimedOut)
+    );
     assert!(!gate.closed.load(SeqCst));
     open.send(()).unwrap();
     thread.join().unwrap();
-    // The detached decoder can still be closing the source after the request returned.
-    let deadline = Instant::now() + TIMEOUT;
-    while !gate.closed.load(SeqCst) {
+    f.core.shutdown_with_result(TIMEOUT).unwrap();
+    assert!(gate.closed.load(SeqCst));
+}
+
+#[test]
+fn dropping_core_waits_for_prefetch_from_a_stopped_session() {
+    use std::sync::atomic::Ordering::SeqCst;
+    let (f, gate, open) = gated_read_fixture("prefetch", &["01.flac", "02.flac"]);
+    ok(run(&f.core, Command::Stop, Origin::Ui));
+    let (started, dropping) = crossbeam_channel::bounded(1);
+    let (done, dropped) = crossbeam_channel::bounded(1);
+    let thread = std::thread::spawn(move || {
+        started.send(()).unwrap();
+        drop(f);
+        done.send(()).unwrap();
+    });
+    dropping.recv_timeout(TIMEOUT).unwrap();
+    assert_eq!(
+        dropped.recv_timeout(Duration::from_millis(100)),
+        Err(crossbeam_channel::RecvTimeoutError::Timeout)
+    );
+    assert!(!gate.closed.load(SeqCst));
+    open.send(()).unwrap();
+    dropped.recv_timeout(TIMEOUT).unwrap();
+    thread.join().unwrap();
+    assert!(gate.closed.load(SeqCst));
+}
+
+#[test]
+fn shutdown_deadline_bounds_process_exit() {
+    use std::sync::atomic::Ordering::SeqCst;
+
+    const MODE: &str = "MPMP_SHUTDOWN_WATCHDOG_CHILD";
+    const TEST: &str = "root_access::shutdown_deadline_bounds_process_exit";
+    const EXIT_MARGIN: Duration = Duration::from_secs(6);
+
+    if let Ok(mode) = std::env::var(MODE) {
+        let (f, gate, open) = gated_read_fixture_with_timeout("decode", &["01.flac"], None);
+        let Fixture {
+            core, _dir: dir, ..
+        } = f;
+        // The parent cleans up this fixture after the child has exited and the OS
+        // has released the files. Keep the gate shut for the child's entire lifetime.
+        std::mem::forget(dir);
+        std::mem::forget(open);
+        let expected = if mode == "explicit" {
+            assert_eq!(
+                core.shutdown_with_result(Duration::from_millis(75)),
+                Err(mpmp_core::ShutdownError::TimedOut)
+            );
+            Duration::ZERO
+        } else {
+            CoreHandle::DEFAULT_SHUTDOWN_TIMEOUT
+        };
+        let started = Instant::now();
+        drop(core);
+        let elapsed = started.elapsed();
         assert!(
-            Instant::now() < deadline,
-            "decoder did not close its source"
+            elapsed >= expected && elapsed < expected + EXIT_MARGIN,
+            "drop took {elapsed:?}"
         );
-        std::thread::sleep(Duration::from_millis(1));
+        assert!(!gate.closed.load(SeqCst));
+        return;
+    }
+
+    for (mode, expected) in [
+        ("explicit", Duration::ZERO),
+        ("drop", CoreHandle::DEFAULT_SHUTDOWN_TIMEOUT),
+    ] {
+        let dir = mpmp_test_support::TempDir::new().unwrap();
+        let mut child = std::process::Command::new(std::env::current_exe().unwrap())
+            .args(["--exact", TEST, "--nocapture"])
+            .env(MODE, mode)
+            .env("TMPDIR", dir.path())
+            .env("TMP", dir.path())
+            .env("TEMP", dir.path())
+            .spawn()
+            .unwrap();
+        let deadline = Instant::now() + expected + EXIT_MARGIN;
+        loop {
+            if let Some(status) = child.try_wait().unwrap() {
+                assert!(status.success(), "{mode} shutdown child: {status}");
+                break;
+            }
+            if Instant::now() >= deadline {
+                let _ = child.kill();
+                child.wait().unwrap();
+                panic!("{mode} shutdown child exceeded its watchdog deadline");
+            }
+            std::thread::sleep(Duration::from_millis(10));
+        }
     }
 }
 
