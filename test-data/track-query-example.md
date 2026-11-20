@@ -1,6 +1,6 @@
-# 查询回归样本
+# Query regression example
 
-供查询解析与执行测试使用的合成示例。
+Synthetic input for query parsing and execution tests.
 
 ```json
 {

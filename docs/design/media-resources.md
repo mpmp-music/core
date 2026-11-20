@@ -1,30 +1,44 @@
-# 标签、CUE、封面、歌词与波形
+[中文](../zh-CN/design/media-resources.md)
 
-接口由 [契约 Schema](../contract.schema.json) 定义；文件语义由 library 实现，播放和 PCM 分析由 engine 提供。所有测试使用可再分发的合成信号和构造元数据。
+# Tags, CUE sheets, covers, lyrics, and waveforms
 
-core 的库模型适配位于 `crates/core/src/catalog/`，后台波形计算位于 `crates/core/src/waveform_worker.rs`。
+The [contract schema](../contract.schema.json) defines the interface. The library implements file semantics, and the engine provides playback and PCM analysis. All tests use redistributable synthetic signals and constructed metadata.
 
-## CUE 与标签
+Core's library adapters live in `crates/core/src/catalog/`. Background waveform computation lives in `crates/core/src/waveform_worker.rs`.
 
-CUE 将一个音频文件映射为有界子曲目；扫描保存来源、范围和版本，浏览以有效子曲目替代被拆分的整文件。播放、跳转、时长、响度和波形使用子曲目范围；CUE 或音频版本变化使相应派生数据失效。
+## CUE sheets
 
-标签编辑先预览再执行后台作业，最多 1000 首。仅修改明确请求的键，按格式转换并检查值是否可表示。显示值不等于原始编码；编码转换、changed 和 skipped 要读取结构化字段。无实际修改不写文件；before/after 展示裁剪不能用来推断写入结果。撤销保存可还原的原始值并控制预算，不能保存逆值的编辑提前拒绝。只读标签文件仍出现在预览 files，执行按 failed/write_failed 报告；不能套用封面预览的跳过规则。
+A CUE sheet maps one audio file to bounded subtracks. Scans store the source, range, and version. Browsing shows valid subtracks in place of the split file. Playback, seeking, duration, loudness, and waveforms use the subtrack ranges. Changes to the CUE sheet or audio version invalidate the corresponding derived data.
 
-## 封面写入的持久协议
+A sidecar sheet can also supply missing `TITLE` and `ARTIST` for a whole-file track. It does not override audio tags. A scan after reopening may reread the audio to confirm the supplement. If effective metadata is unchanged, it does not rewrite the track's library row or tags. While the library is running, a scan can clear a supplement after a known sheet or its supplied fields are removed. The source is tracked in memory. If the entire sheet is removed while the library is closed and the audio signature is unchanged, old supplemental values may persist until the audio is reread.
 
-只编辑所选文件主图片容器中的约定前封面，保留其它图片、无关标签和音频；无法保证时拒绝。输入仅 JPEG/PNG，限制为 1 MiB、单边 8192、总 16,777,216 像素。读取缩略图与写入原图分别处理；移除内嵌封面后可能显示目录封面。`cover_revision` 仅比较相等，null 表示未核实；收到 CoversChanged/TracksChanged 必须失效缓存。
+## Tag edits and byte-for-byte undo
 
-`file_write_intents` 是 DB v13 的恢复协议。building、prepared、replaced、finalized 以及 retained 等状态必须结合目标内容和候选身份解释，不能只凭文件名或状态数字决定覆盖。
+Tag edits start with a preview and run as a background job for up to 1,000 tracks. Only explicitly requested keys change. Values are converted to the file's format and checked for representability. Display values may differ from the original encoding. Read the structured fields for encoding conversion, `changed`, and `skipped`. Unchanged files are left alone. Truncated before/after displays cannot establish write results. A read-only tag file can still appear in the preview's `files` and fail with `write_failed` at execution. A volume capability check can also reject a file during preview.
 
-1. 以 building intent 登记授权、目标规范位置、整文件摘要、before image、候选/备份名字与初始身份；新候选创建后、写入前保存实际身份。此时不把尚未生成的备份当成已持久副本。
-2. 写候选，复制普通权限/属性并避免 TEMPORARY 等临时属性泄漏，再同步候选；重验目标身份、完整内容、授权和文件租约。
-3. 候选 prepared 后，通过 `DurableReplace` 准备备份并执行替换。Unix 备份实际创建后、复制/同步前登记其身份及 copied 标志，再完成备份和原子发布；Windows 备份由 ReplaceFile 内生成。保留 Unix 文件/父目录屏障、受控回滚，以及 Windows share mode 和 write-through 封口语义，不能降级为普通复制后删除。
-4. 同步目标及备份、封口并验证属性；文件效果对应的曲库更新与 journal 事实共同提交，再按协议清理登记候选和 intent。DB 提交不能替代文件持久化。
+New edits record reversible metadata deltas. Unchanged audio bytes are read back from the file during reconstruction. The job verifies whole-file SHA-256 digests before and after publication. Undo restores the original file byte for byte, and redo restores the edited file byte for byte. Development records that contain only tag values still use the legacy value-level undo. Where recorded, their protected-byte checks still apply.
 
-任一步失败都按已持久事实恢复。自动恢复只协调已知 before/after；目标缺失时可补缺，但不能覆盖恢复途中出现的新文件。未知候选、外部改动、摘要不符、同步或回滚失败必须保留证据并报告 `cover_recovery_required`。不能为了“清理干净”删除最后副本。
+Both directions count toward the 8 MiB per-file and 32 MiB per-job charges, including delta accounting overhead. Encoded deltas in unfinished intents are capped at 48 MiB. The combined budget across unfinished intents and journal inverses is 256 MiB. If the corresponding inverse cannot be proved or would exceed the budget, the job refuses that write. Older inverses can expire or be pruned within the journal's limits.
 
-可信 UI 的恢复清单展示角色、摘要及当前身份；用户选择版本或 cleanup 后仍须 core 的绑定确认和重新核验。清理最后副本要明确提示且额外确认。主题/MCP 不获得恢复路径或调用 UI 专属 ResolveCoverRecovery。恢复结果仍与 action/undo/redo 一致；测试覆盖各持久边界中断、身份调换、硬链接、属性、同步/封口失败和恢复后的撤销。
+On supported Unix volumes the file job stages a sibling candidate and atomically exchanges it with the target. Windows uses `ReplaceFileW` with a displaced-copy path and a source handle that denies writes while allowing replacement. When a Unix volume lacks atomic exchange, the supported fallback moves the original aside with an exclusive rename and installs the candidate without overwriting an existing name, by exclusive rename or hard link. This fallback can have a brief gap at the original name. The job and recovery validate both versions and preserve a conflicting external version. Pending and retained copies are visible in trusted Diagnostics. A failed or unverified publication never becomes a successful action.
 
-## 读取资源
+An edit skips files held by playback or preloading, or files with a detected Windows sharing or lock violation from another program, as `file_in_use`. Edits are never queued to run when the file is released. Undo checks the entire batch before any write. Missing files and changed stamps produce `action_conflict`. A same-stamp digest mismatch reports `file_changed` without writing the batch. In-use targets fail preflight with retryable `file_in_use`. A conflict found after publication begins can leave already completed files, which the journal records separately from the remainder.
 
-封面读取优先使用媒体及目录候选，经缩略图缓存和受控资源入口提供。歌词区分内嵌与旁置、纯文本与带时间文本，解析失败按结构化结果处理。波形按版本缓存，后台解码与响度共享分析闸门；播放解码独立。资源 URL、缓存和完整文件路径不能作为永久身份。读取不能绕过访问范围，也不能把完整媒体文件任意提供给主题。
+## Durable cover writes
+
+Edits affect only the designated front cover in the selected file's primary picture container. Other pictures, unrelated tags, and audio are preserved. Reject the edit if this cannot be guaranteed. Accept only JPEG or PNG, at most 1 MiB, 8,192 pixels per side, and 16,777,216 pixels in total. Thumbnail reads and original-image writes are handled separately. Removing an embedded cover can reveal a folder cover. Compare `cover_revision` only for equality. A null revision means it has not been verified. Invalidate the cache on CoversChanged and TracksChanged.
+
+`file_write_intents` stores cover recovery state in published schema 1. Interpret states such as `building`, `prepared`, `replaced`, `finalized`, and `retained` alongside target contents and candidate identity. Filenames and state values alone cannot authorize an overwrite.
+
+1. Record the authorization, canonical target location, whole-file digest, before image, candidate and backup names, and initial identity in a `building` intent. Record the candidate's actual identity after creation and before writing. A backup is counted as durable only once it exists and has been made durable.
+2. Write the candidate, copy ordinary permissions and attributes without carrying over temporary attributes such as TEMPORARY, and sync the candidate. Recheck the target identity, complete contents, authorization, and file lease.
+3. Once the candidate is `prepared`, use `DurableReplace` to prepare the backup and perform the replacement. On Unix, record the backup identity and `copied` flag after creation and before copying or syncing, then complete the backup and publish atomically. On Windows, ReplaceFile creates the backup. Preserve Unix file and parent-directory barriers, controlled rollback, and Windows share modes and write-through sealing. An ordinary copy followed by deletion lacks these guarantees.
+4. Sync the target and backup, seal the replacement, and verify its attributes. Commit the library updates and journal facts that reflect the file effects together, then clean up registered candidates and the intent as the protocol specifies. A database commit cannot substitute for file durability.
+
+Recover from any failure according to durable facts. Automatic recovery reconciles only known before and after images. It can fill a missing target while preserving a new file that appears during recovery. Unknown candidates, external edits, digest mismatches, or sync or rollback failures require preserving evidence and reporting `cover_recovery_required`. Cleanup must preserve the last copy.
+
+The trusted UI's recovery list shows roles, digests, and current identities. A user's choice of version or cleanup still requires confirmation bound to the core request and revalidation. Removing the last copy requires an explicit warning and separate confirmation. Themes and MCP have access neither to recovery paths nor to the UI-only ResolveCoverRecovery. Recovery remains consistent with actions, undo, and redo. Tests cover interruptions at each durability boundary, identity swaps, hard links, attributes, sync and seal failures, and undo after recovery.
+
+## Reading resources
+
+Cover reads prefer media and folder candidates and use a thumbnail cache and a controlled resource entry point. Lyrics distinguish embedded and sidecar sources and plain and timed text. Parse failures are conveyed in structured results. Waveforms are cached by version. Background decoding shares the analysis gate with loudness, and playback uses a separate decoder. Resource URLs, caches, and full file paths cannot serve as permanent identities. Reads respect the access scope, and themes cannot request arbitrary complete media files.

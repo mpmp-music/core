@@ -10,15 +10,18 @@ rows; test seed data is inserted after construction. This fixture tests only
 recognition/reset of the final baseline, never support for historical upgrades.
 
 SHA-256 (raw fixture bytes): `0829e24744a220e7b0ef26ca58f2477187495c2aebb627f324f6fcd48ff0625f`.
-The schema fingerprint must independently equal the author's v13 fingerprint.
+The final development fixture must independently match the published schema 1 DDL fingerprint.
 No author's private rows or paths are included.
 
 ## Reflection CUE fixture
 
-`reflection.cue` 源自作者真实专辑 CUE 的结构，经逐项虚构替换。曲名、艺人、
-日期、DISCID 和 `INDEX 00` 时间均为虚构。第 2–11 轨的 `INDEX 00` 位于前一个
-`FILE` 下。测试从仓库自带的合成 FLAC 创建音频，并在临时目录生成其余伴随文件。
+`reflection.cue` is based on the structure of a real album CUE sheet from the
+author, with each data item replaced by fictional values. Titles, artists,
+dates, DISCID, and `INDEX 00` times are fictional. Tracks 2–11 place
+`INDEX 00` under the preceding `FILE`. Tests create audio from the repository's
+synthetic FLAC and generate the remaining companion files in a temporary directory. The regression checks that scans after reopening preserve unchanged whole-file track rows and tags.
 
-文件为 UTF-8 无 BOM，使用 CRLF，共 2,123 字节。
-原始字节的 SHA-256 为 `0be7f3aaee607433e4c944fe8dc796c647e703858ed498c6c907d0d48e970c21`。
-`.gitattributes` 对该文件使用 `-text`，使 Git 的行尾转换设置不影响夹具字节。
+The file is 2,123 bytes in UTF-8 without BOM, with CRLF line endings.
+SHA-256 of the original bytes is `0be7f3aaee607433e4c944fe8dc796c647e703858ed498c6c907d0d48e970c21`.
+`.gitattributes` applies `-text` to prevent Git line-ending conversion from
+changing the fixture bytes.

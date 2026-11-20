@@ -1,4 +1,4 @@
-All three fixtures use a generated 440 Hz sine wave at 16 kHz.
+All four fixtures use a generated 440 Hz sine wave at 16 kHz. The Speex file is a metadata fixture. The player does not decode Speex.
 
 - `tone.aac` uses FFmpeg's AAC encoder with a 24 kb/s target and a 0.2 s input.
 - `tone-faststart.m4a` remuxes `tone.aac` with `-c:a copy -movflags faststart`.

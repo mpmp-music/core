@@ -1,21 +1,23 @@
-# 查询、歌单与撤销
+[中文](../zh-CN/design/queries-playlists-undo.md)
 
-当前实现入口为 `crates/library/src/track_query.rs`、`playlist.rs`、`journal.rs` 和 core 的 `catalog.rs` 领域接口及 `catalog/` 适配（`library.rs`、`query.rs`、`playlists.rs`、`convert.rs`、`errors.rs`）。JSON 形状见 [Schema](../contract.schema.json)，独立回归示例见 [查询样本](../../test-data/track-query-example.md)。
+# Queries, playlists, and undo
 
-## 查询
+Implementation entry points include `crates/library/src/track_query.rs`, `playlist.rs`, `journal.rs`, core's domain interfaces in `catalog.rs`, and its adapters in `catalog/` (`library.rs`, `query.rs`, `playlists.rs`, `convert.rs`, and `errors.rs`). See the [schema](../contract.schema.json) for JSON shapes and the [standalone regression example](../../test-data/track-query-example.md).
 
-TrackQuery 使用有类型的字段、过滤树和排序表；在访问数据前验证字段、运算符、值类型、深度及大小。空库与短路分支也必须验证。文本搜索使用统一 Unicode 清洗/搜索键，不能用简单小写或删除全部组合标记替代；人物姓名精确过滤与旧专辑分组视图分别协商。
+## Queries
 
-分页的 offset、total、next_offset 来自同一读取快照；limit=0 只计数且 next_offset=null。无显式排序使用稳定默认顺序，同值排序有稳定决胜项。浏览默认只显示可用曲目，显式 available 条件可以改变范围；队列、历史和手动歌单保留不可用占位。查询不是文件句柄或未来执行的预留。
+TrackQuery uses typed fields, a filter tree, and a list of sort keys. Validate fields, operators, value types, depth, and size before reading data. Validation also applies to empty libraries and short-circuited branches. Text search uses shared Unicode cleanup and search keys. Simple lowercasing or removing all combining marks is insufficient. Negotiate exact person-name filtering and the legacy album grouping view separately.
 
-## 歌单与文件
+Pagination returns `offset`, `total`, and `next_offset` from the same read snapshot. With `limit=0` it only counts and gives `next_offset=null`. Queries without explicit sorting use a stable default, and ties have a stable tie-breaker. Browsing shows available tracks by default. An explicit `available` predicate can change the scope. Queue, history, and manual playlists retain unavailable placeholders. A query acquires no file handle and reserves nothing for later execution.
 
-手动歌单保存有序项目，重复曲目用不同 item ID 区分；智能歌单保存经校验的查询并动态求值。删除先进入回收站，可以恢复；永久清理不可撤销，需绑定确切选择、数量及用户确认。选择变化必须重新预览，不以旧计数批准新集合。
+## Playlists and files
 
-M3U 导入/导出只经规定的本地路径接口；导出会替换目标文件。Agent 的目标先规范化，确认后与实际打开/替换前再验身份。拒绝特殊文件，防止 FIFO 阻塞；导入回报给 Agent 的未匹配内容只保留像媒体的行，不能借它读取任意文本。未知位置、外部替换或授权变化均不能继续写入。
+Manual playlists store ordered items and distinguish repeated tracks by item ID. Smart playlists store a validated query and evaluate it dynamically. Deletion first moves playlists to the trash, where they can be restored. Permanent removal is irreversible and requires user confirmation bound to the exact selection and count. Preview changes to the selection again before approval.
 
-## 操作记录
+M3U import and export use the designated local-path interface. Export replaces the target file. Canonicalize Agent targets and verify their identities again after confirmation and before opening or replacing them. Reject special files so FIFOs cannot block the operation. Unmatched import lines returned to an Agent are limited to those that look like media entries to prevent arbitrary text reads. Unknown locations, external replacement, or authorization changes prevent writes.
 
-有效修改与 journal 在数据库事务内一起提交；无变化不制造 action 或事件。ActionId 持久且不复用，recorded_at_ms 是 Unix 时间；位置事件的 at_ms 则是单调时钟。details 保存结构化操作事实，不以当前查询结果反推历史。
+## Action history
 
-UndoAction 执行记录中的逆操作，redo 通过撤销相应 action 完成。不可读的历史 inverse 不能阻断更旧的可用动作；已裁剪原 action 的撤销记录仍要保存足够的目录/文件分类事实。标签和封面写回按每文件实际成功项更新 inverse；部分失败仍保留剩余可撤销部分，不能把失败文件标为已恢复。外部文件改动或恢复证据不完整时拒绝覆盖。永久删除和显式恢复中的清理没有通用撤销保证。
+Commit effective changes and journal entries in the same database transaction. A no-op produces no action or event. ActionId persists and is never reused. `recorded_at_ms` is Unix time, whereas position events use a monotonic clock for `at_ms`. The `details` field records structured facts about the action. Use these facts for history instead of reconstructing it from current query results.
+
+UndoAction runs the inverse recorded for an action. To redo, undo the corresponding undo action. An unreadable historical inverse cannot block older usable actions. Undo records retain enough facts to classify directory and file effects even after the original action is pruned. New tag edits use a whole-file inverse for byte-for-byte undo and redo. Undo preflights the entire batch before writing any file. Tag and cover writes update the inverse according to which files were successfully written. See [media resources](media-resources.md) for the limits and legacy tag undo behavior. Preserve what can still be undone after partial failure and mark only successful files as restored. Reject overwrites when a file has changed externally or recovery evidence is incomplete. Permanent deletion and cleanup in explicit recovery have no general undo guarantee.

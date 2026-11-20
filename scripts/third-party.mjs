@@ -19,14 +19,14 @@ function unusualTokens(license) {
 }
 // Every license outside the common permissive set needs one of these reviewed explanations;
 // an unexplained one fails generation (and CI's --check) instead of entering the list silently.
-const MPL = 'MPL-2.0，未修改';
-const CHOICE = '多许可，选用 MIT 或 Apache-2.0';
-const BUILD = '仅构建工具，不分发';
+const MPL = 'MPL-2.0, unmodified';
+const CHOICE = 'Multiple licenses, MIT or Apache-2.0 selected';
+const BUILD = 'Build tool only, not distributed';
 function note(row) {
   if (!row.license || /^(unknown|unlicensed)$/i.test(row.license)) return null;
   const unusual = unusualTokens(row.license);
   if (!unusual.length) return '';
-  if (row.ecosystem === 'npm' && ![...row.scopes].some(s => s.endsWith('(生产)'))) return BUILD;
+  if (row.ecosystem === 'npm' && ![...row.scopes].some(s => s.endsWith('(production)'))) return BUILD;
   if (/(^|\sOR\s)\(?(MIT|Apache-2\.0)\)?(\s|$)/.test(row.license) && /\sOR\s/.test(row.license)) return CHOICE;
   if (unusual.every(t => t === 'MPL-2.0')) return MPL;
   return null;
@@ -83,12 +83,12 @@ for (const prefix of npmRoots) {
     if (pkg.link) throw new Error(`Linked npm package needs explicit handling: ${prefix}/${location}`);
     const name = pkg.name || location.split('node_modules/').at(-1);
     if (!pkg.version || !name) throw new Error(`Incomplete npm package: ${prefix}/${location}`);
-    record(npm, {name, version: pkg.version, license: pkg.license || 'unknown', source: pkg.resolved || 'unknown', scopes: new Set([`${prefix} (${pkg.dev === true ? '仅构建工具' : '生产'})`])});
+    record(npm, {name, version: pkg.version, license: pkg.license || 'unknown', source: pkg.resolved || 'unknown', scopes: new Set([`${prefix} (${pkg.dev === true ? 'build only' : 'production'})`])});
   }
 }
 const sorted = map => [...map.values()].sort((a, b) => compare(a.name, b.name) || compare(a.version, b.version) || compare(a.source, b.source));
 const rustRows = sorted(cargo), npmRows = sorted(npm);
-const production = npmRows.filter(r => [...r.scopes].some(s => s.endsWith('(生产)')));
+const production = npmRows.filter(r => [...r.scopes].some(s => s.endsWith('(production)')));
 const buildOnly = npmRows.filter(r => !production.includes(r));
 const all = [...rustRows.map(r => ({...r, ecosystem: 'Cargo'})), ...npmRows.map(r => ({...r, ecosystem: 'npm'}))];
 const unexplained = all.filter(r => note(r) === null);
@@ -97,35 +97,41 @@ if (unexplained.length)
 const noted = all.filter(r => note(r));
 const cell = value => String(value).replace(/\|/g, '&#124;').replace(/[\r\n]+/g, ' ');
 function table(rows, ecosystem = false) {
-  const headers = [...(ecosystem ? ['生态'] : []), 'name', 'version', 'license 表达式', '来源', '范围', ...(ecosystem ? ['说明'] : [])];
+  const headers = [...(ecosystem ? ['Ecosystem'] : []), 'Name', 'Version', 'License expression', 'Source', 'Scope', ...(ecosystem ? ['Explanation'] : [])];
   return `| ${headers.join(' | ')} |\n|${headers.map(() => '---').join('|')}|\n` + rows.map(r => `| ${[...(ecosystem ? [r.ecosystem] : []), r.name, r.version, r.license, r.source, [...r.scopes].sort(compare).join('; '), ...(ecosystem ? [note(r)] : [])].map(cell).join(' | ')} |`).join('\n') + '\n';
 }
-const output = `# 第三方依赖许可清单
+const npmCoverage = npmRoots.length
+  ? 'Includes every package entry in the three v3 package-lock.json files, including platform-specific optional packages. Packages are grouped by the dev flag and merged by name, version, license, and source, with scopes retained. Build-only classification follows the lockfiles. Svelte, Lucide, and others may still be bundled in the theme. Carry their notices with the built theme. See the [default theme notices](../apps/desktop/theme-default/notices/third-party-notices.txt).'
+  : 'This repository has no npm packages.';
+const noProduction = npmRoots.length
+  ? 'All three lockfiles mark dependencies as dev. There are no production entries.'
+  : npmCoverage;
+const output = `# Third-party dependency licenses
 
-由 \`node scripts/third-party.mjs\` 离线生成；核对：\`node scripts/third-party.mjs --check\`。
-数据来自本仓库锁文件和本地 Cargo 缓存，不联网核验许可证全文；字段仅是上游元数据声明，不是分发许可结论。
+Generate offline with \`node scripts/third-party.mjs\` and verify with \`node scripts/third-party.mjs --check\`.
+The inventory uses the repository lockfiles and local Cargo cache without checking full license texts online. Fields report upstream metadata and do not determine whether distribution is permitted.
 
-- Cargo：本仓库 workspace，\`cargo metadata --offline --locked --format-version 1 --all-features\`，从各 workspace 成员递归遍历 normal 边，包含所有 target 条件（未传 --filter-platform），排除 build/dev 边及本仓库自有 path 包。仅有 build/dev 路径可达的 Rust 工具不在本表内。
-- npm：本仓库没有 npm 包。
-- 说明规则：常见宽松许可（${[...common].join(', ')}）无需说明；其他许可都在“需要说明的许可”中逐项给出已审阅的说明。出现没有说明的许可时，生成与 CI 检查直接失败。
-- 来源为锁文件 tarball URL 或 Cargo source ID，不读取本机绝对路径。FFmpeg 是外部夹具生成工具，仓库不分发其可执行文件，不在依赖表中。
+- **Cargo.** Reads ${manifests.length === 1 ? 'this repository’s workspace manifest' : 'three manifests'} with \`cargo metadata --offline --locked --format-version 1 --all-features\`. Traverses normal dependency edges recursively from each workspace member across all targets, without \`--filter-platform\`. Excludes build and dev edges and the repository's own path packages. Rust tools reachable only through build or dev edges are outside the inventory.
+- **npm.** ${npmCoverage}
+- **Review.** Common permissive licenses (${[...common].join(', ')}) require no explanation. Each other license has a reviewed explanation under “Licenses requiring explanation.” Generation and CI checks fail if an explanation is missing.
+- **Sources.** Sources are lockfile tarball URLs or Cargo source IDs. The inventory does not read local absolute paths. FFmpeg is an external fixture generation tool. The repository does not distribute its executable, so it is outside the inventory.
 
-统计（按上述合并键）：Cargo normal **${rustRows.length}**；npm 生产 **${production.length}**；npm 仅构建工具 **${buildOnly.length}**；需要说明 **${noted.length}**。
+Totals after merging are **${rustRows.length}** Cargo normal, **${production.length}** npm production, **${buildOnly.length}** npm build only, and **${noted.length}** requiring explanation.
 
-## 需要说明的许可
+## Licenses requiring explanation
 
-- **MPL-2.0，未修改**：MPL-2.0 是文件级弱 copyleft。本项目未修改这些文件，源码可从上游获取，与本项目的 MIT OR Apache-2.0 兼容；若将来修改其中文件，修改后的文件须继续以 MPL-2.0 提供源码。
-- **多许可，选用 MIT 或 Apache-2.0**：上游允许在几种许可中任选，本项目选用其中的 MIT 或 Apache-2.0。
-- **仅构建工具，不分发**：只在构建时使用，不进入发布的程序或主题。
+- **${MPL}.** MPL-2.0 is a file-level weak copyleft license. This project leaves these files unmodified. Their source is available upstream, and their license is compatible with this project's MIT OR Apache-2.0. Any future modifications to these files must continue to be made available in source form under MPL-2.0.
+- **${CHOICE}.** Upstream offers a choice of licenses. This project selects MIT or Apache-2.0.
+- **${BUILD}.** Used only during the build and excluded from the distributed application and theme.
 
 ${table(noted, true)}
-## Cargo normal 依赖（所有平台）
+## Cargo normal dependencies (all platforms)
 
 ${table(rustRows)}
-## npm 生产依赖
+## npm production dependencies
 
-${production.length ? table(production) : '本仓库没有 npm 包。\n'}
-## npm 仅构建工具
+${production.length ? table(production) : noProduction + '\n'}
+## npm build-only dependencies
 
 ${table(buildOnly)}`;
 const destination = resolve(root, 'docs/THIRD-PARTY.md');

@@ -1,22 +1,24 @@
-# 响度与音量
+[中文](../zh-CN/design/loudness-volume.md)
 
-相关实现为 core 的 `gain.rs` / `loudness_scan.rs`、engine 的增益与分析路径，以及 library 的响度缓存。现行接口见 [Schema](../contract.schema.json)。
+# Loudness and volume
 
-默认后台自动补齐缺失/失效的响度数据，播放不等待全库测量；不提供日常扫描、清空和重算按钮。有效文件标签可先供播放，有效派生缓存优先。结果只写数据库，不修改音乐文件标签。文件、CUE、范围或版本变化使缓存失效；文件大小/mtime 模型不能识别刻意保持两者的内容替换。
+The implementation spans core's `gain.rs` and `loudness_scan.rs`, the engine's gain and analysis paths, and the library's loudness cache. See the [contract schema](../contract.schema.json) for the current interface.
 
-自动遍历按 ID 分批读取；波形与响度共享单分析解码闸门，actor 只调度和发布事件。曲目结果分批提交，专辑必须等所有当前可用可见成员具有有效统计后，从持久化门限统计聚合，不平均 LUFS。静音/有效块不足记录为已测量但无综合值，不制造有限 LUFS。永久解码错误按版本记忆，暂时错误有退避；版本变化才重新分析。后台事件 origin=null；自动 LoudnessScan 的 total=null，done 包含缓存命中，不是新增结果数。JobId 不跨 core 运行有效。
+By default, background analysis backfills missing or stale loudness data. Playback can start before the whole library has been measured. There are no routine scan, clear, or recalculate controls. Playback can start with valid file tags and prefers valid derived cache entries. Results go only into the database and leave the music file tags intact. Changes to the file, CUE sheet, range, or version invalidate the cache. The file size and mtime model cannot detect a replacement that deliberately preserves both values.
 
-## 增益
+Automatic traversal reads batches by ID. Waveform and loudness analysis share a single analysis decoder gate. The actor schedules work and publishes events. Track results are committed in batches. Album results wait for valid statistics for every currently available and visible member, then aggregate the stored gating statistics without averaging LUFS. Silence or an insufficient number of valid blocks is recorded as measured without an integrated value. Permanent decoding errors are remembered by version and retried only after the version changes. Transient errors use backoff. Background events have `origin=null`. An automatic LoudnessScan has `total=null` and `done` counts cache hits as well as new results. JobId values are scoped to a single core run.
 
-软件音量默认启用，滑块 volume∈[0,1]，实际倍数为 volume³；静音单独控制。系统音量模式目前返回 unsupported/not_implemented。ReplayGain 有关闭、单曲、专辑、智能四种，默认智能；智能在非随机且专辑上下文或相邻同专辑时用专辑增益，其余用单曲，缺失时回退另一种。
+## Gain
+
+Software volume is on by default. The slider takes `volume∈[0,1]` and the actual multiplier is `volume³`. Mute is independent. System volume mode currently returns `unsupported/not_implemented`. ReplayGain has off, track, album, and smart modes, with smart as the default. When shuffle is off and playback is in an album context or adjacent tracks are from the same album, smart uses album gain. Otherwise it uses track gain. If the chosen gain is missing, it falls back to the other mode.
 
 ```text
-有数据：dB = 所选增益 + preamp_db
-无数据：dB = fallback_preamp_db
-防削波：有峰值时限制 dB ≤ -20 log10(peak)
-最终倍数 = 10^(dB/20) × volume³
+With data: dB = selected gain + preamp_db
+Without data: dB = fallback_preamp_db
+Clipping prevention: when a peak is available, cap dB at -20 log10(peak)
+Final multiplier = 10^(dB/20) × volume³
 ```
 
-SetReplayGain 是局部更新，省略项保持原值。无 RG 数据、有效零增益与关闭是不同状态；信号路径要分别展示，不能因最终倍数为 1 就隐藏数据来源。音量/增益过渡约 10 ms 平滑，已缓冲音频可能保留旧增益。相邻曲目降低增益在前一首末尾过渡，提高增益在后一首开头，避免放大后一首的起音。
+SetReplayGain updates only the supplied fields. Missing ReplayGain data, valid zero gain, and disabled ReplayGain are distinct states. The signal path shows each state and preserves the source of the data even when the final multiplier is 1. Volume and gain transitions are smoothed over about 10 ms. Buffered audio can still use the old gain. For adjacent tracks, transition to lower gain at the end of the preceding track and to higher gain at the start of the next track. This avoids amplifying the next track's attack.
 
-单位倍数可跳过乘法，但 bit_perfect 是完整路径的唯一结论，不能只从音量推断。重采样、混音、量化、dither、后端和未验证设备路径都会影响结论。16 位输出按实际处理/源精度决定 TPDF dither；I24 为三字节，24-in-32 用 I32 和 valid_bits_per_sample=24。verified/exclusive_verified 只覆盖端点驱动边界，不能证明 DAC 内部逐位一致。当前 CPAL 路径不因契约有 exclusive 枚举就获得独占能力；运行时设备故障保留用户偏好并通过 OutputState 报告。
+A multiplier of 1 can bypass multiplication. Determine `bit_perfect` from the complete signal path. Resampling, mixing, quantization, dither, backends, and unverified device paths all affect the result. For 16-bit output, TPDF dither depends on actual processing and source precision. I24 occupies three bytes. For 24-in-32, use I32 and `valid_bits_per_sample=24`. The `verified` and `exclusive_verified` results cover only the endpoint driver boundary and cannot prove bit-for-bit identity inside the DAC. The current CPAL path does not gain exclusive-mode support from the contract's exclusive enum. Runtime device failures preserve user preferences and are reported in OutputState.

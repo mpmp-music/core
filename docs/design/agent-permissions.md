@@ -1,25 +1,27 @@
-# 权限、Agent 与 MCP
+[中文](../zh-CN/design/agent-permissions.md)
 
-core 持有播放器状态、权限和确认；适配器只认证连接并转发请求。当前为 API 1.0。消息结构以 [Schema](../contract.schema.json) 为准，来源、顺序和重试规则见 [语义保证](../../crates/core/src/guarantees.md)。
+# Permissions, agents, and MCP
 
-实现入口为 `crates/core/src/handle.rs`、`permissions.rs`、`permissions/checks.rs` 和 `permissions/fs_deadline.rs`。
+Core owns player state, permissions, and confirmations. Adapters authenticate connections and forward requests. This document describes API 1.0. The [schema](../contract.schema.json) defines the message structure, and the [semantic guarantees](../../crates/core/src/guarantees.md) cover origin, ordering, and retries.
 
-## 身份与来源
+Implementation entry points include `crates/core/src/handle.rs`, `permissions.rs`, `permissions/checks.rs`, and `permissions/fs_deadline.rs`.
 
-命令来源为 UI、System、MediaControls、Remote 或认证 Agent。适配器不能相信客户端自己填写的 Origin；Agent 必须通过登记凭证取得 `AgentHandle`。凭证只显示一次，数据库保存哈希；换发或删除立即使旧连接失效。登记、换发、授权管理及确认由可信 UI 完成，不能暴露给主题或 MCP。
+## Identity and origin
 
-授权按 Agent 身份、操作、范围及期限决定；长期授权跨连接，本次会话授权只属于一条连接。禁止优先于允许。目录范围同时检查库内相对位置和实际规范位置；重叠的禁止可以拒绝整个目录操作，返回规则编号和 all/part，不泄露被禁止的具体路径。未知位置不能推定安全。永久删除始终确认；撤销按实际效果重新分类，撤销目录变更仍受目录规则约束，撤销文件改写仍受 file_write 约束。
+A command originates from UI, System, MediaControls, Remote, or an authenticated Agent. Adapters must derive the Origin without trusting a value supplied by the client. An Agent obtains an `AgentHandle` using a registered credential. The credential is shown once and stored as a hash. Rotation or removal immediately invalidates old connections. Registration, credential rotation, grant management, and confirmations belong exclusively to the trusted UI.
 
-## 有界检查与确认
+Grants depend on the Agent identity, operation, scope, and lifetime. Long-lived grants apply across connections, while session grants belong to one connection. Deny takes precedence over allow. Directory scope checks both the library-relative location and the actual canonical location. An overlapping deny can block the entire directory operation and return the rule ID and `all` or `part` without exposing the denied paths. Unknown locations cannot be assumed safe. Permanent deletion always requires confirmation. Undo is classified by its actual effects. Directory undo still follows directory rules, and undo that writes files still requires `file_write`.
 
-路径解析、目录身份、文件预览等阻塞检查在 actor 外执行，按命令期限和并发预算限制。检查结果携带所依赖的代数；根目录、授权或 Agent 状态变化时重新检查。慢文件系统不能占住播放器控制线程。FIFO、设备、符号链接和硬链接按平台语义处理，不通过普通字符串前缀判断授权。
+## Bounded checks and confirmation
 
-确认展示规范目标、数量、跳过原因和实际效果，不预留文件。批准后再次验证身份、内容和授权，变化返回 `location_changed` 等结构化错误。会话结束、Agent 删除或重新登记使尚未执行的命令撤回；已经启动的作业按作业生命周期完成。确认令牌绑定请求、来源和会话，有期限且不可重放。主题中的点击不能替代可信窗口中的批准。
+Blocking checks such as path resolution, directory identity, and file previews run outside the actor within command deadlines and concurrency budgets. Results carry the generations they depend on. Recheck when roots, grants, or the Agent state change. A slow filesystem cannot block the player control thread. Handle FIFOs, devices, symlinks, and hard links according to platform semantics and avoid authorizing paths by string prefix alone.
 
-## MCP 边界
+Confirmation displays canonical targets, counts, skip reasons, and actual effects. It reserves no files. After approval, revalidate identity, contents, and authorization. Changes produce structured errors such as `location_changed`. Ending a session, removing an Agent, or registering one again withdraws commands that have yet to execute. Jobs already started follow their own lifecycle. A confirmation token is bound to the request, origin, and session, expires, and cannot be replayed. Approval must come from the trusted window rather than the theme.
 
-`mpmp-agent-mcp` 在同用户的本机 Unix socket / Windows SID 命名管道提供服务；`player-mcp` 使用 stdio 连接 MCP 客户端。每条连接独立认证并建立会话，同一客户端可以建立多条连接，不能把对话数当作会话数。桥接先核对通道用户再发送凭证；不提供网络监听入口。
+## MCP boundary
 
-工具覆盖状态、查询、队列、评分、歌单、目录、操作记录及契约查询/命令。它们仍执行 core 的来源策略、权限和确认。确认等待默认 25 秒、上限 50 秒，pending 可以继续等待；超时或断线不证明命令未执行。用幂等键和权威查询恢复，不能盲目重复写入。作业 ID 只在一次 core 运行中有效；`job_not_found` 不证明从未执行。
+`mpmp-agent-mcp` serves the same local user over a Unix socket or a Windows named pipe keyed by SID. `player-mcp` connects to the MCP client over stdio. Each connection authenticates and opens its own session. A client can make several connections, so the conversation count does not indicate the session count. The bridge verifies the endpoint user before sending credentials and offers no network listener.
 
-接入、诊断模式、环境变量及客户端配置见 [MCP 使用说明](../agents/mcp-setup.md)。
+Tools cover status, queries, the queue, ratings, playlists, directories, action history, and contract queries and commands. Core origin policies, permissions, and confirmations still apply. A confirmation wait defaults to 25 seconds and is capped at 50. If it is pending, wait again. A timeout or disconnection cannot establish that a command did not execute. Use idempotency keys and authoritative queries to recover before retrying writes. Job IDs are valid only for one core run. `job_not_found` does not establish that a job never ran.
+
+See the [MCP setup guide](../agents/mcp-setup.md) for connection details, diagnostic mode, environment variables, and client configuration.

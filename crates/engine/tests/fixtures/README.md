@@ -1,7 +1,7 @@
 # Encoded audio fixtures
 
-Backing files for the gapless seam tests and seek-accuracy tests (ARCHITECTURE.md 5.4, 5.5, 11).
-Generated, deterministic; do not edit by hand. Regenerate with:
+Fixtures for playback seams, seeks, metadata, and unsupported-format tests. In desktop, this source record accompanies the two FLAC files listed in the adjacent `SOURCE.md`; the full corpus and regeneration tools live in core.
+The signals are deterministic. To regenerate the corpus from the core repository root, run the following command.
 
     FFMPEG=/path/to/ffmpeg scripts/gen-fixtures.sh      # from the repo root
 
@@ -40,8 +40,8 @@ license describes that tool, not the license declaration for these original sign
 | `sine44_{a,b,c}.wav` | WAV PCM s16le |
 | `sine44_{a,b,c}.mp3`, `sine44_full.mp3`, `sine48.mp3` | MP3 libmp3lame CBR 192k, Xing/Info + LAME tag (delay 576, padding per file) |
 | `sine44_{a,b,c}.ogg`, `sine44_full.ogg` | Ogg Vorbis libvorbis -q:a 5 (gapless via final granule position) |
-| `sine44_{a,b,c}.m4a`, `sine44_full.m4a` | AAC-LC in MP4, native `aac` 192k (for M3; has `elst` edit list, no iTunSMPB) |
-| `sine44_{a,b,c}.opus` | Opus in Ogg, libopus 128k (for M3). Opus is always 48 kHz: ffmpeg resamples the 44.1k source, so expected length is about 37123*48/44.1 = 40407 / 48255 / 55340 frames at 48k, pre-skip 312 |
+| `sine44_{a,b,c}.m4a`, `sine44_full.m4a` | AAC-LC in MP4, native `aac` 192k (has an `elst` edit list, no iTunSMPB) |
+| `sine44_{a,b,c}.opus` | Opus in Ogg, libopus 128k. FFmpeg resamples the source to 48 kHz. The parts are about 40,407 / 48,255 / 55,340 frames, with pre-skip 312. The player has no Opus decoder. These files also serve metadata and tag-editing tests. |
 
 Each part is encoded separately from its own WAV, so gapless metadata is per file.
 

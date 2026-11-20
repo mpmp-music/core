@@ -553,15 +553,17 @@ currently uses at most 32 probes; syntax message text currently comes from serde
     **Implementation notes (non-normative; may change).** The scheduler currently
     permits at most 16 concurrent root barriers.
 
-20. **Tag files in use.** Only files actually held by engine decoder/open-task
-    leases are in use, including playback, preloading and paused decoders that
-    remain open. A retained current selection while stopped, or paused without an
-    open decoder, is not in use. Failed or cancelled prefetch tasks remain in use
-    until their sources close. These files are skipped with `file_in_use`. An accepted edit may therefore finish with zero written
-    files. Core never queues these edits for later writing and stopping playback
-    does not apply them. Clients may display “retry later” and must submit a new
-    explicit edit after the file is released. CUE selections retain their `cue_track` skip; tag undo retains its existing
-    all-or-none in-use failure.
+20. **Tag files in use.** Engine decoder and open-task leases cover files held
+    by playback, preloading, and paused decoders that remain open. A retained
+    selection while stopped or paused without an open decoder does not hold a lease.
+    Failed or canceled prefetch tasks keep their lease until their sources close.
+    Windows sharing and lock violations also report `file_in_use`, including
+    external programs holding incompatible handles. Tag edits skip in-use files
+    and may finish with zero files written. Files are never queued for a later edit.
+    Clients can ask the user to retry explicitly after the file is released. CUE
+    selections retain their `cue_track` skip. Tag undo checks the entire batch
+    and fails with retryable `file_in_use` if a target is in use at preflight.
+    A sharing race after preflight can leave already-completed files in the batch.
 
 21. **Structured signal path (`structured_signal_path`).** English stage
     name/detail and bit-perfect reason/reasons remain display text, not a parsing
@@ -764,8 +766,13 @@ currently uses at most 32 probes; syntax message text currently comes from serde
     Transient stat failures therefore do not remove and later restore indexed tracks;
     a subsequent readable scan can establish an actual disappearance.
     Only currently available CUE cuts preserve audio ownership on an unknown read.
-    Historical unavailable cuts do not hide an available whole-file track again;
-    a currently readable, valid CUE sheet can establish new ownership normally.
+    Historical unavailable cuts do not hide an available whole-file track again.
+    A currently readable, valid CUE sheet can establish new ownership. A sidecar
+    can also supply missing title or artist on a whole-file track. Reopening can
+    cause a read to verify the supplement without rewriting unchanged track rows
+    or tags. If the whole sidecar was deleted while the library was closed and
+    the audio signature is unchanged, the old supplement can persist until the
+    next audio reread.
 
     Scan error messages are at most 1024 UTF-8 bytes. Missing-file CUE diagnostics show
     at most ten names, each at most 256 bytes on character boundaries, followed by

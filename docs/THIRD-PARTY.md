@@ -1,44 +1,44 @@
-# 第三方依赖许可清单
+# Third-party dependency licenses
 
-由 `node scripts/third-party.mjs` 离线生成；核对：`node scripts/third-party.mjs --check`。
-数据来自本仓库锁文件和本地 Cargo 缓存，不联网核验许可证全文；字段仅是上游元数据声明，不是分发许可结论。
+Generate offline with `node scripts/third-party.mjs` and verify with `node scripts/third-party.mjs --check`.
+The inventory uses the repository lockfiles and local Cargo cache without checking full license texts online. Fields report upstream metadata and do not determine whether distribution is permitted.
 
-- Cargo：本仓库 workspace，`cargo metadata --offline --locked --format-version 1 --all-features`，从各 workspace 成员递归遍历 normal 边，包含所有 target 条件（未传 --filter-platform），排除 build/dev 边及本仓库自有 path 包。仅有 build/dev 路径可达的 Rust 工具不在本表内。
-- npm：本仓库没有 npm 包。
-- 说明规则：常见宽松许可（MIT, MIT-0, 0BSD, Apache-2.0, BSD-2-Clause, BSD-3-Clause, ISC, Zlib, BSL-1.0, CC0-1.0, Unlicense, Unicode-3.0）无需说明；其他许可都在“需要说明的许可”中逐项给出已审阅的说明。出现没有说明的许可时，生成与 CI 检查直接失败。
-- 来源为锁文件 tarball URL 或 Cargo source ID，不读取本机绝对路径。FFmpeg 是外部夹具生成工具，仓库不分发其可执行文件，不在依赖表中。
+- **Cargo.** Reads this repository’s workspace manifest with `cargo metadata --offline --locked --format-version 1 --all-features`. Traverses normal dependency edges recursively from each workspace member across all targets, without `--filter-platform`. Excludes build and dev edges and the repository's own path packages. Rust tools reachable only through build or dev edges are outside the inventory.
+- **npm.** This repository has no npm packages.
+- **Review.** Common permissive licenses (MIT, MIT-0, 0BSD, Apache-2.0, BSD-2-Clause, BSD-3-Clause, ISC, Zlib, BSL-1.0, CC0-1.0, Unlicense, Unicode-3.0) require no explanation. Each other license has a reviewed explanation under “Licenses requiring explanation.” Generation and CI checks fail if an explanation is missing.
+- **Sources.** Sources are lockfile tarball URLs or Cargo source IDs. The inventory does not read local absolute paths. FFmpeg is an external fixture generation tool. The repository does not distribute its executable, so it is outside the inventory.
 
-统计（按上述合并键）：Cargo normal **227**；npm 生产 **0**；npm 仅构建工具 **0**；需要说明 **17**。
+Totals after merging are **227** Cargo normal, **0** npm production, **0** npm build only, and **17** requiring explanation.
 
-## 需要说明的许可
+## Licenses requiring explanation
 
-- **MPL-2.0，未修改**：MPL-2.0 是文件级弱 copyleft。本项目未修改这些文件，源码可从上游获取，与本项目的 MIT OR Apache-2.0 兼容；若将来修改其中文件，修改后的文件须继续以 MPL-2.0 提供源码。
-- **多许可，选用 MIT 或 Apache-2.0**：上游允许在几种许可中任选，本项目选用其中的 MIT 或 Apache-2.0。
-- **仅构建工具，不分发**：只在构建时使用，不进入发布的程序或主题。
+- **MPL-2.0, unmodified.** MPL-2.0 is a file-level weak copyleft license. This project leaves these files unmodified. Their source is available upstream, and their license is compatible with this project's MIT OR Apache-2.0. Any future modifications to these files must continue to be made available in source form under MPL-2.0.
+- **Multiple licenses, MIT or Apache-2.0 selected.** Upstream offers a choice of licenses. This project selects MIT or Apache-2.0.
+- **Build tool only, not distributed.** Used only during the build and excluded from the distributed application and theme.
 
-| 生态 | name | version | license 表达式 | 来源 | 范围 | 说明 |
+| Ecosystem | Name | Version | License expression | Source | Scope | Explanation |
 |---|---|---|---|---|---|---|
-| Cargo | linux-raw-sys | 0.12.1 | Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT | registry+https://github.com/rust-lang/crates.io-index | Cargo.toml | 多许可，选用 MIT 或 Apache-2.0 |
-| Cargo | r-efi | 6.0.0 | MIT OR Apache-2.0 OR LGPL-2.1-or-later | registry+https://github.com/rust-lang/crates.io-index | Cargo.toml | 多许可，选用 MIT 或 Apache-2.0 |
-| Cargo | rustix | 1.1.5 | Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT | registry+https://github.com/rust-lang/crates.io-index | Cargo.toml | 多许可，选用 MIT 或 Apache-2.0 |
-| Cargo | symphonia | 0.6.1 | MPL-2.0 | registry+https://github.com/rust-lang/crates.io-index | Cargo.toml | MPL-2.0，未修改 |
-| Cargo | symphonia-bundle-flac | 0.6.1 | MPL-2.0 | registry+https://github.com/rust-lang/crates.io-index | Cargo.toml | MPL-2.0，未修改 |
-| Cargo | symphonia-bundle-mp3 | 0.6.1 | MPL-2.0 | registry+https://github.com/rust-lang/crates.io-index | Cargo.toml | MPL-2.0，未修改 |
-| Cargo | symphonia-codec-aac | 0.6.1 | MPL-2.0 | registry+https://github.com/rust-lang/crates.io-index | Cargo.toml | MPL-2.0，未修改 |
-| Cargo | symphonia-codec-alac | 0.6.1 | MPL-2.0 | registry+https://github.com/rust-lang/crates.io-index | Cargo.toml | MPL-2.0，未修改 |
-| Cargo | symphonia-codec-pcm | 0.6.1 | MPL-2.0 | registry+https://github.com/rust-lang/crates.io-index | Cargo.toml | MPL-2.0，未修改 |
-| Cargo | symphonia-codec-vorbis | 0.6.1 | MPL-2.0 | registry+https://github.com/rust-lang/crates.io-index | Cargo.toml | MPL-2.0，未修改 |
-| Cargo | symphonia-common | 0.6.1 | MPL-2.0 | registry+https://github.com/rust-lang/crates.io-index | Cargo.toml | MPL-2.0，未修改 |
-| Cargo | symphonia-core | 0.6.1 | MPL-2.0 | registry+https://github.com/rust-lang/crates.io-index | Cargo.toml | MPL-2.0，未修改 |
-| Cargo | symphonia-format-isomp4 | 0.6.1 | MPL-2.0 | registry+https://github.com/rust-lang/crates.io-index | Cargo.toml | MPL-2.0，未修改 |
-| Cargo | symphonia-format-ogg | 0.6.1 | MPL-2.0 | registry+https://github.com/rust-lang/crates.io-index | Cargo.toml | MPL-2.0，未修改 |
-| Cargo | symphonia-format-riff | 0.6.1 | MPL-2.0 | registry+https://github.com/rust-lang/crates.io-index | Cargo.toml | MPL-2.0，未修改 |
-| Cargo | symphonia-metadata | 0.6.1 | MPL-2.0 | registry+https://github.com/rust-lang/crates.io-index | Cargo.toml | MPL-2.0，未修改 |
-| Cargo | wasi | 0.11.1+wasi-snapshot-preview1 | Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT | registry+https://github.com/rust-lang/crates.io-index | Cargo.toml | 多许可，选用 MIT 或 Apache-2.0 |
+| Cargo | linux-raw-sys | 0.12.1 | Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT | registry+https://github.com/rust-lang/crates.io-index | Cargo.toml | Multiple licenses, MIT or Apache-2.0 selected |
+| Cargo | r-efi | 6.0.0 | MIT OR Apache-2.0 OR LGPL-2.1-or-later | registry+https://github.com/rust-lang/crates.io-index | Cargo.toml | Multiple licenses, MIT or Apache-2.0 selected |
+| Cargo | rustix | 1.1.5 | Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT | registry+https://github.com/rust-lang/crates.io-index | Cargo.toml | Multiple licenses, MIT or Apache-2.0 selected |
+| Cargo | symphonia | 0.6.1 | MPL-2.0 | registry+https://github.com/rust-lang/crates.io-index | Cargo.toml | MPL-2.0, unmodified |
+| Cargo | symphonia-bundle-flac | 0.6.1 | MPL-2.0 | registry+https://github.com/rust-lang/crates.io-index | Cargo.toml | MPL-2.0, unmodified |
+| Cargo | symphonia-bundle-mp3 | 0.6.1 | MPL-2.0 | registry+https://github.com/rust-lang/crates.io-index | Cargo.toml | MPL-2.0, unmodified |
+| Cargo | symphonia-codec-aac | 0.6.1 | MPL-2.0 | registry+https://github.com/rust-lang/crates.io-index | Cargo.toml | MPL-2.0, unmodified |
+| Cargo | symphonia-codec-alac | 0.6.1 | MPL-2.0 | registry+https://github.com/rust-lang/crates.io-index | Cargo.toml | MPL-2.0, unmodified |
+| Cargo | symphonia-codec-pcm | 0.6.1 | MPL-2.0 | registry+https://github.com/rust-lang/crates.io-index | Cargo.toml | MPL-2.0, unmodified |
+| Cargo | symphonia-codec-vorbis | 0.6.1 | MPL-2.0 | registry+https://github.com/rust-lang/crates.io-index | Cargo.toml | MPL-2.0, unmodified |
+| Cargo | symphonia-common | 0.6.1 | MPL-2.0 | registry+https://github.com/rust-lang/crates.io-index | Cargo.toml | MPL-2.0, unmodified |
+| Cargo | symphonia-core | 0.6.1 | MPL-2.0 | registry+https://github.com/rust-lang/crates.io-index | Cargo.toml | MPL-2.0, unmodified |
+| Cargo | symphonia-format-isomp4 | 0.6.1 | MPL-2.0 | registry+https://github.com/rust-lang/crates.io-index | Cargo.toml | MPL-2.0, unmodified |
+| Cargo | symphonia-format-ogg | 0.6.1 | MPL-2.0 | registry+https://github.com/rust-lang/crates.io-index | Cargo.toml | MPL-2.0, unmodified |
+| Cargo | symphonia-format-riff | 0.6.1 | MPL-2.0 | registry+https://github.com/rust-lang/crates.io-index | Cargo.toml | MPL-2.0, unmodified |
+| Cargo | symphonia-metadata | 0.6.1 | MPL-2.0 | registry+https://github.com/rust-lang/crates.io-index | Cargo.toml | MPL-2.0, unmodified |
+| Cargo | wasi | 0.11.1+wasi-snapshot-preview1 | Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT | registry+https://github.com/rust-lang/crates.io-index | Cargo.toml | Multiple licenses, MIT or Apache-2.0 selected |
 
-## Cargo normal 依赖（所有平台）
+## Cargo normal dependencies (all platforms)
 
-| name | version | license 表达式 | 来源 | 范围 |
+| Name | Version | License expression | Source | Scope |
 |---|---|---|---|---|
 | adler2 | 2.0.1 | 0BSD OR MIT OR Apache-2.0 | registry+https://github.com/rust-lang/crates.io-index | Cargo.toml |
 | aho-corasick | 1.1.5 | Unlicense OR MIT | registry+https://github.com/rust-lang/crates.io-index | Cargo.toml |
@@ -268,12 +268,12 @@
 | zune-core | 0.5.3 | MIT OR Apache-2.0 OR Zlib | registry+https://github.com/rust-lang/crates.io-index | Cargo.toml |
 | zune-jpeg | 0.5.15 | MIT OR Apache-2.0 OR Zlib | registry+https://github.com/rust-lang/crates.io-index | Cargo.toml |
 
-## npm 生产依赖
+## npm production dependencies
 
-本仓库没有 npm 包。
+This repository has no npm packages.
 
-## npm 仅构建工具
+## npm build-only dependencies
 
-| name | version | license 表达式 | 来源 | 范围 |
+| Name | Version | License expression | Source | Scope |
 |---|---|---|---|---|
 

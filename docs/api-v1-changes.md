@@ -1,14 +1,16 @@
-# API 1.0 变更记录
+[中文](zh-CN/api-v1-changes.md)
 
-当前 API **1.0**（`CONTRACT_VERSION=1`、`CONTRACT_MINOR=0`），SDK 工具包 **1.0.0**，应用 **0.1.0**。这是首次公开的完整基线；发布后的变更记录为空。
+# API 1.0 changelog
 
-当前能力与规范见 [guarantees](../crates/core/src/guarantees.md)，消息结构与错误码见 [Schema](contract.schema.json)，示例见 [current](../crates/core/tests/golden/current/)。`Snapshot.features` 回报当前构建/后端实际支持的能力，功能可用性仍取决于权限、命令/查询清单与实际设备。
+The current versions are API **1.0** (`CONTRACT_VERSION=1`, `CONTRACT_MINOR=0`), SDK **1.0.0**, and application **0.1.0**. This is the complete first public baseline. There are no changes since release.
 
-以后兼容新增统一升 API minor，并使 SDK 包的 major/minor 与 API 一致；破坏性修改升 major。应用包版本独立。发布记录必须说明行为、兼容性与验证结果，并在保留既有冻结字节的前提下新增冻结集。规则见[冻结说明](api-v1-freeze.md)。
+See the [guarantees](../crates/core/src/guarantees.md) for current capabilities and semantics, the [schema](contract.schema.json) for messages and error codes, and [current](../crates/core/tests/golden/current/) for examples. `Snapshot.features` reports the capabilities supported by the current build and backend. Availability also depends on permissions, the command and query lists, and the actual device.
 
-## API 1.0 错误码索引
+Bump the shared API minor for compatible additions and align the SDK package's major and minor with the API. Breaking changes bump the major. The application package is versioned independently. Release notes must cover behavior, compatibility, and validation results. Keep existing frozen bytes when adding a frozen set. See the [freeze policy](api-v1-freeze.md).
 
-此表描述首次发布基线，不是发布后的变更条目。ContractError 按 code/kind 与结构化 details 分支，不解析 message；ErrorCode 开放，ErrorKind 封闭。完整清单与 Rust/Schema 逐项核对。
+## API 1.0 error code index
+
+This table describes the first public baseline. Branch on ContractError code, kind, and structured details. Do not parse the message. ErrorCode is open and ErrorKind is closed. The complete list is checked entry by entry against Rust and the schema.
 
 <!-- error-kinds:start -->
 | Kind | Codes |

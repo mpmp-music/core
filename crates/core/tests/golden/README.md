@@ -1,21 +1,21 @@
-# API 1.0 黄金示例
+# API 1.0 golden examples
 
-规则见 [冻结说明](../../../../docs/api-v1-freeze.md)，测试位于 `../contract_golden/`。
+See the [freeze policy](../../../../docs/api-v1-freeze.md). Tests live in `../contract_golden/`.
 
-| 目录 | 内容 | 维护规则 |
+| Directory | Contents | Maintenance |
 |---|---|---|
-| `current/` | 305 个由 Rust 值生成的 Request、Query、Response、QueryResult、EventEnvelope 示例 | 仅显式生成，不手改 |
-| `v1.0/` | API 1.0 的完整 current 副本及原字节 Schema，共 306 项 | 冻结后永不修改 |
+| `current/` | 305 Request, Query, Response, QueryResult, and EventEnvelope examples generated from Rust values | Regenerate explicitly and avoid manual edits |
+| `v1.0/` | Complete API 1.0 copy of current plus the original schema bytes, for 306 files | Immutable after freezing |
 
-`frozen_manifest.rs` 独立钉住冻结文件清单与原字节 SHA-256；摘要检查不生成 expected。冻结根目录的全部 `v*` 集合必须与声明一致，残留目录也报错。
+`frozen_manifest.rs` independently pins the frozen file list and SHA-256 digests of the original bytes. Digest checks do not generate expected values. All `v*` directories in the golden root must match the declared sets. Leftover directories cause a failure.
 
-生成只针对 current 与当前 Schema，环境变量只在下列命令中设置：
+Regeneration covers only current and the current schema. Set the environment variables only for the following commands.
 
 ```sh
 UPDATE_SCHEMA=1 cargo test --offline -p mpmp-core --lib contract::tests::exported_schema_is_up_to_date
 UPDATE_GOLDEN=1 cargo test --offline -p mpmp-core --test contract_golden golden_files_are_up_to_date
 ```
 
-普通 `cargo test --offline -p mpmp-core --test contract_golden` 不设置 UPDATE。它检查 current 完整性、逐字节往返、全部变体/可选字段覆盖、Schema 验证、严格输入、未来输出、冻结消息保真、只增形状与 features、元数据和错误分类、冻结文件与摘要。变异自检继续覆盖编辑、删除、新增、改名、字段/查询/枚举/能力变化以及业务字段名与注解的区分。
+Run ordinary `cargo test --offline -p mpmp-core --test contract_golden` without UPDATE variables. It checks current completeness, byte-for-byte round trips, all variants and optional fields, schema validation, strict input and future output handling, frozen message fidelity, additive-only changes in shape and features, metadata and error classification, and frozen files and digests. Mutation self-tests cover edits, deletions, additions, renames, changes to fields, queries, enums or capabilities, and the distinction between business field names and annotations.
 
-同 minor 不允许新增形状或能力；升 minor 后只允许兼容增长。未来冻结只追加新集合及摘要，既有集合保持不动。首次公开 API 1.0 已包含当前全部功能，不依赖更小的历史基线。
+The same minor allows no new shapes or capabilities. After a minor bump, compatible additions are allowed. Future freezes only append new sets and digests. Existing sets stay intact. The first public API 1.0 includes all current capabilities and requires no older partial baseline.
