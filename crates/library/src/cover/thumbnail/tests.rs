@@ -1,5 +1,5 @@
 use image::{DynamicImage, ImageFormat, Rgb, RgbImage, Rgba, RgbaImage};
-use tempfile::TempDir;
+use mpmp_test_support::TempDir;
 
 use super::*;
 use crate::TrackId;

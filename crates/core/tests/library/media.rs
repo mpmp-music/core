@@ -3,7 +3,7 @@ use super::*;
 
 #[test]
 fn lyrics_come_from_a_lrc_file_or_the_tags() {
-    let (core, _sub, _audio, ids, dir) = scanned();
+    let (dir, core, _sub, _audio, ids) = scanned();
     let album = dir.path().join("music/Test Artist/测试专辑");
     let lyrics = |track: TrackId| match core.query(Query::Lyrics { track }) {
         QueryResult::Lyrics { lyrics } => lyrics,
@@ -92,7 +92,7 @@ fn lyrics_come_from_a_lrc_file_or_the_tags() {
 
 #[test]
 fn waveforms_are_computed_in_the_background_and_announced() {
-    let (core, sub, _audio, ids, dir) = scanned();
+    let (dir, core, sub, _audio, ids) = scanned();
     let album = dir.path().join("music/Test Artist/测试专辑");
     let waveform = |track: TrackId| match core.query(Query::Waveform { track }) {
         QueryResult::Waveform { waveform } => waveform,

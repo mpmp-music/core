@@ -90,7 +90,7 @@ fn frozen_file_inventory_and_sha256_are_pinned() {
 
 #[test]
 fn integrity_guard_detects_undeclared_and_missing_frozen_directories() {
-    let root = tempfile::tempdir().unwrap();
+    let root = mpmp_test_support::TempDir::new().unwrap();
     let expected: BTreeSet<_> = super::FROZEN_SETS.iter().map(|s| (*s).to_owned()).collect();
     std::fs::create_dir(root.path().join("current")).unwrap();
     for set in super::FROZEN_SETS {

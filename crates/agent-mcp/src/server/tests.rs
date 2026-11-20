@@ -5,13 +5,13 @@ use super::*;
 use crate::confirm::{Status, unix_ms};
 
 /// A core with an empty library, and agent `claude`'s token.
-fn core() -> (tempfile::TempDir, CoreHandle, String) {
+fn core() -> (mpmp_test_support::TempDir, CoreHandle, String) {
     core_with_config(CoreConfig::default())
 }
 
-fn core_with_config(config: CoreConfig) -> (tempfile::TempDir, CoreHandle, String) {
+fn core_with_config(config: CoreConfig) -> (mpmp_test_support::TempDir, CoreHandle, String) {
     use mpmp_engine::output::{SampleType, StreamFormat};
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let library = mpmp_library::Library::open(&dir.path().join("library.db")).unwrap();
     let output = mpmp_engine::NullOutput::new(StreamFormat {
         sample_rate: 44_100,

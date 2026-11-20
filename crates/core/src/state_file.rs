@@ -646,7 +646,7 @@ mod output_tests {
 
     #[test]
     fn old_audio_defaults_output_and_unknown_output_enums_only_drop_that_section() {
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let file = StateFile::new(dir.path().join("state.json"));
         let original = json!({
         "version":1,
@@ -698,7 +698,7 @@ mod output_tests {
         use crate::contract::{
             OutputDeviceIdStability, OutputDeviceInfo, OutputDeviceSelection, OutputSettings,
         };
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let file = StateFile::new(dir.path().join("state.json"));
         let mut state = SavedState::default();
         state.audio.output = Some(SavedOutput {

@@ -1235,7 +1235,7 @@ fn output_timer(actor: &mut Actor) {
 
 #[test]
 fn playback_checkpoints_position_periodically_without_dirty_or_shutdown() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let path = dir.path().join("state.json");
     let (mut actor, _, _) = actor();
     actor.persistence.state_file = Some(StateFile::new(&path));
@@ -3310,7 +3310,7 @@ fn stopped_navigation_failed_play_budget_commits_audible_prefetch_once() {
     let heard = actor.heard_ms(instance);
     assert!(heard > 0);
     let opens = device.lock().unwrap().open_attempts;
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let tracks: Vec<_> = (10..15).map(TrackId).collect();
     for track in &tracks {
         catalog.uris.lock().unwrap().insert(
@@ -3819,7 +3819,7 @@ fn last_fast_retry_success_keeps_explicit_switch_playing() {
 #[test]
 fn checkpoint_and_shutdown_pair_engine_successor_with_its_own_position() {
     for shutdown in [false, true] {
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let path = dir.path().join("state.json");
         let (mut actor, device, catalog) = actor();
         actor.persistence.state_file = Some(StateFile::new(&path));
@@ -3877,7 +3877,7 @@ fn checkpoint_and_shutdown_pair_engine_successor_with_its_own_position() {
 
 #[test]
 fn stopped_snapshot_keeps_resume_pair_and_removed_offsets_are_not_reassigned() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let path = dir.path().join("state.json");
     let (mut actor, _, _) = actor();
     actor.persistence.state_file = Some(StateFile::new(&path));
@@ -4713,7 +4713,7 @@ fn fixed_device_polling_recovers_without_native_events_and_queries_cannot_consum
 fn output_preferences_persist_through_the_real_state_file_and_session_ids_expire() {
     use crate::contract::{OutputDeviceSelection, OutputFallbackPolicy, OutputFallbackReason};
     for persistent in [false, true] {
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let path = dir.path().join("state.json");
         let (mut first, device, _) = actor();
         first.persistence.state_file = Some(crate::state_file::StateFile::new(&path));

@@ -21,7 +21,7 @@ use mpmp_test_support::core as support;
 const TIMEOUT: Duration = Duration::from_secs(30);
 
 fn paused_navigation_library_scenario(resume_and_count: bool, state: PlayState) {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = dir.path().join("music");
     make_album(&music);
     let library = Arc::new(mpmp_library::Library::open(&dir.path().join("library.db")).unwrap());
@@ -229,16 +229,16 @@ fn error(result: CommandResult) -> ContractError {
     }
 }
 
-/// A core over a scanned library of the test album: (core, subscription, audio, track
-/// ids in track order, data dir).
+/// A core over a scanned library of the test album. Bind the directory first so
+/// the core drops before cleanup.
 fn scanned() -> (
+    mpmp_test_support::TempDir,
     CoreHandle,
     mpmp_core::Subscription,
     mpmp_engine::NullOutputHandle,
     Vec<TrackId>,
-    tempfile::TempDir,
 ) {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = dir.path().join("music");
     make_album(&music);
     let library = mpmp_library::Library::open(&dir.path().join("library.db")).unwrap();
@@ -291,7 +291,7 @@ fn scanned() -> (
     };
     let ids: Vec<TrackId> = tracks.iter().map(|t| t.id).collect();
     assert_eq!(ids.len(), 3);
-    (core, sub, audio, ids, dir)
+    (dir, core, sub, audio, ids)
 }
 
 /// Waits for an event matching `pred` (without rendering audio): its envelope.

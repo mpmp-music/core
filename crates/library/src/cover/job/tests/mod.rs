@@ -4,17 +4,18 @@ mod transactions;
 const UI: ActionMeta<'static> = ActionMeta::new("ui");
 
 struct Fixture {
-    dir: tempfile::TempDir,
     lib: Library,
     id: TrackId,
     path: PathBuf,
+    // Keep the directory alive until the library has closed SQLite.
+    dir: mpmp_test_support::TempDir,
 }
 impl Fixture {
     fn new() -> Self {
         Self::new_format("sine44_a.mp3")
     }
     fn new_format(name: &str) -> Self {
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let music = dir.path().join("music");
         std::fs::create_dir(&music).unwrap();
         // Synthetic observation batches use the same spelling as stored roots.
@@ -42,7 +43,7 @@ impl Fixture {
             .0[0]
             .track
             .id;
-        Self { dir, lib, id, path }
+        Self { lib, id, path, dir }
     }
     fn change(&self) -> CoverChange {
         CoverChange::Set {
@@ -174,7 +175,7 @@ fn alias_scan_batches(target_upsert: bool) {
 #[cfg(unix)]
 fn cross_root_alias_protection(alias_first: bool) {
     use std::io::Write;
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = dir.path().join("music-a");
     let second = dir.path().join("music-b");
     std::fs::create_dir(&music).unwrap();

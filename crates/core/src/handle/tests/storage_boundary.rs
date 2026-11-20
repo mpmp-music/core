@@ -160,7 +160,7 @@ fn missing_locations_fails_before_workers_start() {
             panic!("output accessed")
         }
     }
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let base = dir.path().canonicalize().unwrap();
     let state_file = base.join("absent/state.json");
     let catalog = Arc::new(CatalogProbe::default());
@@ -244,7 +244,7 @@ fn snapshot_filters_cover_edit_and_edit_tags_by_catalog() {
     }
     assert!(core.shutdown_and_wait(Duration::from_secs(5)));
     // The real Library adapter must also forward its backend, rather than a fixed list.
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let db = dir.path().canonicalize().unwrap().join("library.db");
     let backend = Arc::new(local::LocalStorage::default());
     let lib = mpmp_library::Library::open_with(

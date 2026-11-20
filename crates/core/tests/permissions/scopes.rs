@@ -5,7 +5,7 @@ use super::*;
 #[test]
 fn grant_scope_rejects_symlinks_appearing_or_retargeted_after_preview() {
     use std::os::unix::fs::symlink;
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let (core, sub) = start(dir.path());
     ui(
         &core,
@@ -114,7 +114,7 @@ fn grant_scope_rejects_symlinks_appearing_or_retargeted_after_preview() {
 #[cfg(unix)]
 #[test]
 fn symlinks_cannot_lead_an_agent_out_of_its_grants() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = folder(dir.path(), "music");
     let outside = folder(dir.path(), "outside");
     let sub_ = folder(&outside, "sub");
@@ -237,7 +237,7 @@ fn symlinks_cannot_lead_an_agent_out_of_its_grants() {
 #[cfg(unix)]
 #[test]
 fn agents_name_locations_core_can_read() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = folder(dir.path(), "music");
     std::os::unix::fs::symlink(dir.path().join("gone"), music.join("dangling")).unwrap();
     std::os::unix::fs::symlink(dir.path().join("gone.m3u"), music.join("x.m3u")).unwrap();
@@ -313,7 +313,7 @@ fn agents_name_locations_core_can_read() {
 /// place: the grant the docs show (`export_m3u` in folder 1's `Playlists`) works.
 #[test]
 fn library_prefixes_cover_locations_in_that_place() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = folder(dir.path(), "music");
     let lists = folder(&music, "Playlists");
     let private = folder(&music, "Private");
@@ -419,7 +419,7 @@ fn library_prefixes_cover_locations_in_that_place() {
 /// was undone already is refused before anyone is asked.
 #[test]
 fn undoing_folder_changes_is_checked_for_every_folder() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let (a, b) = (folder(dir.path(), "a"), folder(dir.path(), "b"));
     let (core, sub) = start(dir.path());
     let root_a = ui(&core, add_root(&a)).root.unwrap();
@@ -536,7 +536,7 @@ fn undoing_folder_changes_is_checked_for_every_folder() {
 /// refusal says that only a part of the folder is forbidden, never which (asking for `/` must not list the agent's forbidden places).
 #[test]
 fn a_forbid_inside_a_folder_applies_to_the_whole_folder() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = folder(dir.path(), "music");
     let private = folder(&music, "private");
     let other = folder(dir.path(), "other");
@@ -659,7 +659,7 @@ fn a_forbid_inside_a_folder_applies_to_the_whole_folder() {
 /// so the grants for `add_root` / `remove_root` apply to it as to the command itself.
 #[test]
 fn grants_for_a_folder_command_apply_to_undoing_its_opposite() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = folder(dir.path(), "music");
     let jazz = folder(dir.path(), "jazz");
     let (core, sub) = start(dir.path());
@@ -743,7 +743,7 @@ fn grants_for_a_folder_command_apply_to_undoing_its_opposite() {
 /// the unmatched lines that look like media; the count has them all. The UI sees all.
 #[test]
 fn an_agents_import_reads_back_only_what_looks_like_media() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = folder(dir.path(), "music");
     std::fs::write(
         music.join("notes.m3u"),
@@ -789,7 +789,7 @@ fn an_agents_import_reads_back_only_what_looks_like_media() {
 #[cfg(unix)]
 #[test]
 fn what_an_agent_puts_in_the_way_neither_holds_core_up_nor_widens_a_grant() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = folder(dir.path(), "music");
     let playlists = folder(dir.path(), "Playlists");
     assert!(mkfifo(&music.join("x.m3u")));
@@ -884,7 +884,7 @@ fn what_an_agent_puts_in_the_way_neither_holds_core_up_nor_widens_a_grant() {
 /// gets the plain error it always got.
 #[test]
 fn an_export_to_a_missing_folder_is_refused_before_anyone_is_asked() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = folder(dir.path(), "music");
     let (core, sub) = start(dir.path());
     let playlist = new_playlist(&core, "Mix");
@@ -933,7 +933,7 @@ fn an_export_to_a_missing_folder_is_refused_before_anyone_is_asked() {
 /// may not. Both ways: bringing a folder back (`add_root`) and removing it (`remove_root`).
 #[test]
 fn undoing_a_folder_change_is_judged_without_the_actions_before_it() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = folder(dir.path(), "music");
     let jazz = folder(dir.path(), "jazz");
     let (core, sub) = start(dir.path());
@@ -1039,7 +1039,7 @@ fn undoing_a_folder_change_is_judged_without_the_actions_before_it() {
 #[cfg(unix)]
 #[test]
 fn a_music_folder_is_judged_where_it_leads_now() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = folder(dir.path(), "music");
     let elsewhere = folder(dir.path(), "elsewhere");
     let (core, sub) = start(dir.path());
@@ -1071,7 +1071,7 @@ fn a_music_folder_is_judged_where_it_leads_now() {
 /// path names `command.path`, for an agent and for the user.
 #[test]
 fn an_export_onto_a_folder_names_the_path() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = folder(dir.path(), "music");
     let target = folder(&music, "folder.m3u");
     let (core, sub) = start(dir.path());
@@ -1120,7 +1120,7 @@ fn an_export_onto_a_folder_names_the_path() {
 #[cfg(windows)]
 #[test]
 fn a_forbidden_folder_is_forbidden_by_any_path_back_to_it() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let out = folder(dir.path(), "out");
     let (core, sub) = start(dir.path());
     let playlist = new_playlist(&core, "Mix");
@@ -1195,7 +1195,7 @@ fn offline_folder_confirmations_do_not_offer_an_ineffective_scope() {
             mpmp_fs_desktop::DesktopLocations.nearest(location)
         }
     }
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = folder(dir.path(), "offline");
     let (core, sub) = start_with_config(
         dir.path(),

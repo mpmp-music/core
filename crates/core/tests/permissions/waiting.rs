@@ -5,7 +5,7 @@ use super::*;
 /// (as if the user had rejected it); a session's end also revokes its grants.
 #[test]
 fn removing_an_agent_or_ending_a_session_rejects_what_it_waits_for() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let (one, two, three) = (
         folder(dir.path(), "one"),
         folder(dir.path(), "two"),
@@ -215,7 +215,7 @@ fn removing_an_agent_or_ending_a_session_rejects_what_it_waits_for() {
 #[cfg(unix)]
 #[test]
 fn locations_changed_while_waiting_are_not_acted_on() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = folder(dir.path(), "music");
     let outside = folder(dir.path(), "outside");
     folder(&outside, "secret");
@@ -310,7 +310,7 @@ fn locations_changed_while_waiting_are_not_acted_on() {
 /// nothing (the user answers the request).
 #[test]
 fn a_forbid_given_while_waiting_refuses_the_request() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = folder(dir.path(), "music");
     let (core, sub) = start(dir.path());
     let playlist = new_playlist(&core, "Mix");
@@ -385,7 +385,7 @@ fn a_forbid_given_while_waiting_refuses_the_request() {
 /// folder an agent asked to add, given while it waited, refuses it without naming the place.
 #[test]
 fn a_forbid_inside_a_waiting_folder_refuses_it_without_naming_it() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = folder(dir.path(), "music");
     let diary = folder(&music, "diary");
     let (core, sub) = start(dir.path());
@@ -431,7 +431,7 @@ fn a_forbid_inside_a_waiting_folder_refuses_it_without_naming_it() {
 /// check again, without holding up anyone else, and can no longer be answered meanwhile.
 #[test]
 fn checks_run_off_the_actor_and_see_what_changed_meanwhile() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let slow_dir = folder(dir.path(), "pmp-slow");
     let slow = Slow::new();
     // Long enough that nothing here runs out of time.
@@ -671,7 +671,7 @@ fn checks_run_off_the_actor_and_see_what_changed_meanwhile() {
 /// without the agent's grants and run; also when the agent is registered again meanwhile.
 #[test]
 fn removing_an_agent_withdraws_its_approved_command_being_checked_again() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let slow_dir = folder(dir.path(), "pmp-slow");
     let slow = Slow::new();
     let (core, sub) = start_slow(dir.path(), &slow, Duration::from_secs(30));
@@ -768,7 +768,7 @@ fn removing_an_agent_withdraws_its_approved_command_being_checked_again() {
 /// running), and so is the user's approval meanwhile.
 #[test]
 fn concurrent_checks_of_a_healthy_location_all_answer() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let out = folder(dir.path(), "pmp-slow");
     let slow = Slow::new();
     let (core, sub) = start_slow(dir.path(), &slow, Duration::from_secs(5));
@@ -814,7 +814,7 @@ fn concurrent_checks_of_a_healthy_location_all_answer() {
 #[test]
 fn a_slow_location_holds_up_neither_core_nor_the_user() {
     const LIMIT: Duration = Duration::from_millis(500);
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let slow_dir = folder(dir.path(), "pmp-slow");
     let elsewhere = folder(dir.path(), "elsewhere");
     let slow = Slow::new();
@@ -966,7 +966,7 @@ fn a_slow_location_holds_up_neither_core_nor_the_user() {
 /// Disconnecting during the approval's recheck withdraws the command and releases its key.
 #[test]
 fn ending_a_session_withdraws_an_approved_command_being_checked_again() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let out = folder(dir.path(), "pmp-slow");
     let slow = Slow::new();
     let (core, sub) = start_slow(dir.path(), &slow, Duration::from_secs(30));

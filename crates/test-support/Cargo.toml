@@ -13,6 +13,7 @@ core = ["dep:mpmp-core", "dep:mpmp-engine"]
 mpmp-core = { workspace = true, optional = true }
 mpmp-engine = { workspace = true, optional = true }
 mpmp-storage.workspace = true
+tempfile.workspace = true
 
 [target.'cfg(windows)'.dependencies]
 windows-sys = { workspace = true, features = ["Win32_Storage_FileSystem", "Win32_Foundation"] }

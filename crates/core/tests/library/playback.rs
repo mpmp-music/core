@@ -9,7 +9,7 @@ UPDATE tracks SET title='CUE track 5',artist='Old artist',cue_sheet=?2,cue_numbe
 WHERE id=?1
 "#;
 
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = dir.path().join("music");
     make_album(&music);
     let album = music.join("Test Artist").join("测试专辑");
@@ -179,7 +179,7 @@ fn stopped_navigation_resume_counts_once_after_threshold_skip_and_sqlite_reopen(
 
 #[test]
 fn stop_navigation_cue_resume_starts_at_the_subtrack_beginning() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = dir.path().join("music");
     make_cue_album(&music);
     let library = Arc::new(mpmp_library::Library::open(&dir.path().join("library.db")).unwrap());
@@ -276,7 +276,7 @@ fn stop_navigation_cue_resume_starts_at_the_subtrack_beginning() {
 
 #[test]
 fn cue_tracks_play_gaplessly_and_have_their_own_waveforms() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = dir.path().join("music");
     make_cue_album(&music);
     let library = mpmp_library::Library::open(&dir.path().join("library.db")).unwrap();
@@ -486,7 +486,7 @@ fn cue_tracks_play_gaplessly_and_have_their_own_waveforms() {
 #[test]
 fn guarded_playback_traces_match_sdk_mock() {
     use serde_json::{Value, json};
-    let (core, _sub, _audio, ids, _dir) = scanned();
+    let (_dir, core, _sub, _audio, ids) = scanned();
     let create = |kind| {
         receipt(execute(
             &core,

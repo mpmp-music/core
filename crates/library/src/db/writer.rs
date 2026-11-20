@@ -319,7 +319,7 @@ fn write_reply_classifies_the_failure_before_sending_and_retains_undelivered_err
 
 pub(crate) struct Writer {
     tx: Mutex<Option<Sender<WriteCmd>>>,
-    thread: Mutex<Option<JoinHandle<Result<()>>>>,
+    thread: Mutex<Option<WriterThread>>,
     thread_id: thread::ThreadId,
     closing: Arc<AtomicBool>,
     failures: Arc<WriteFailures>,
@@ -328,6 +328,11 @@ pub(crate) struct Writer {
     pub(crate) before_checkpoint: Arc<Mutex<Option<std::sync::mpsc::Sender<()>>>>,
     /// Notes every write's failure that says the database is damaged.
     damage: Damage,
+}
+
+struct WriterThread {
+    handle: JoinHandle<Result<()>>,
+    /// Released after the readers have closed and the writer has been joined.
     _maintenance: super::schema::reset::Guard,
 }
 
@@ -389,14 +394,16 @@ impl Writer {
         Ok(Self {
             tx: Mutex::new(Some(tx)),
             thread_id: thread.thread().id(),
-            thread: Mutex::new(Some(thread)),
+            thread: Mutex::new(Some(WriterThread {
+                handle: thread,
+                _maintenance: maintenance,
+            })),
             closing,
             failures,
             progress,
             #[cfg(all(test, feature = "desktop-fs"))]
             before_checkpoint,
             damage,
-            _maintenance: maintenance,
         })
     }
 
@@ -425,7 +432,7 @@ impl Writer {
         self.tx.lock().unwrap_or_else(|e| e.into_inner()).take();
         let thread = self.thread.lock().unwrap_or_else(|e| e.into_inner()).take();
         match thread {
-            Some(thread) => match thread.join() {
+            Some(thread) => match thread.handle.join() {
                 Ok(result) => result,
                 Err(_) => {
                     let error = LibraryError::WriterStopped;

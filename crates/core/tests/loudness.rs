@@ -74,7 +74,7 @@ struct Fixture {
     music: PathBuf,
     ids: Vec<TrackId>,
     resolver: Arc<Resolver>,
-    _dir: tempfile::TempDir,
+    _dir: mpmp_test_support::TempDir,
 }
 
 use support::run;
@@ -114,7 +114,7 @@ fn fixture_with_auto(automatic: bool) -> Fixture {
 }
 
 fn fixture_with(automatic: bool, resolver: Resolver, retry: Option<Duration>) -> Fixture {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = dir.path().join("music");
     std::fs::create_dir(&music).unwrap();
     let source = Path::new(env!("CARGO_MANIFEST_DIR")).join("../engine/tests/fixtures");

@@ -445,8 +445,9 @@ impl Library {
 
     /// Seals file-job admission and waits for registered jobs to finish their commits.
     /// Then seals database work on all clones, waits for readers and queued writes, and
-    /// closes the writer after a WAL checkpoint. Concurrent and repeated callers receive
-    /// the same result, including asynchronous write failures and errors during the drain.
+    /// closes the writer after a WAL checkpoint and releases the database maintenance lock.
+    /// Concurrent and repeated callers receive the same result, including asynchronous
+    /// write failures and errors during the drain.
     /// A callback from this library's file job receives `ReentrantClose`. It can call
     /// [`Self::request_close`] and return so the job is free to finish.
     pub fn close(&self) -> Result<(), Arc<LibraryError>> {
@@ -602,7 +603,7 @@ mod tests {
         lib.close().unwrap();
         assert!(!wal.exists());
         assert!(!db.with_file_name("library.sqlite-shm").exists());
-        let copy = tempfile::tempdir().unwrap();
+        let copy = mpmp_test_support::TempDir::new().unwrap();
         let copied_db = copy.path().join("library.db");
         std::fs::copy(db, &copied_db).unwrap();
         let recovered = Library::open(&copied_db).unwrap();
@@ -970,7 +971,7 @@ mod tests {
 
     #[test]
     fn root_undo_postcommit_read_failure_conservatively_resumes_all_affected_roots() {
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let library = Library::open(&dir.path().join("library.db")).unwrap();
         let roots = vec![RootId(1), RootId(2)];
         for root in &roots {
@@ -1009,7 +1010,7 @@ mod tests {
     /// `location_changed`, nothing is replaced and no temporary file is left.
     #[test]
     fn checked_writes_replace_only_what_they_found() {
-        let dir = tempfile::TempDir::new().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let dir = storage_access::canonical_dir(dir.path()).unwrap();
         let (path, other) = (dir.join("x.m3u"), dir.join("other.m3u"));
         std::fs::write(&path, "old").unwrap();

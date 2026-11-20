@@ -21,7 +21,7 @@ fn largest_cover_writes_probe_and_fully_decode_with_the_playback_engine() {
             .unwrap()
             .unwrap()
         };
-        let before = (!name.ends_with("opus")).then(&decode);
+        let before = (!name.ends_with("opus")).then(decode);
         let r = f
             .lib
             .edit_cover(
@@ -202,7 +202,7 @@ fn symlink_music_root_keeps_replaced_target_and_hardlink_alias_protected() {
     use lofty::config::WriteOptions;
     use lofty::file::{AudioFile, TaggedFileExt};
     use lofty::tag::Accessor;
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let real = dir.path().join("real-music");
     let linked = dir.path().join("linked-music");
     std::fs::create_dir(&real).unwrap();

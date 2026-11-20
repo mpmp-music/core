@@ -1055,7 +1055,7 @@ fn id3_extended_header_footer_unsync_and_odd_iff_padding_are_restored() {
 
 #[test]
 fn a_thousand_track_job_can_stage_a_small_delta_for_each_track() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = dir.path().join("music");
     fs::create_dir(&music).unwrap();
     let source = fixture("sine44_a.flac");

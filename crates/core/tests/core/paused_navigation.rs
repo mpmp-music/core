@@ -169,7 +169,7 @@ fn selection_seek_resume_keeps_target_and_announces_a_real_start() {
 #[test]
 fn corrupt_file_is_skipped_silently_and_no_successor_stops() {
     for successor in [true, false] {
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let corrupt = dir.path().join("corrupt.flac");
         std::fs::write(&corrupt, b"not a FLAC file").unwrap();
         let mut catalog = MemoryCatalog::standard();
@@ -259,7 +259,7 @@ fn tail_next_stops_and_unheard_selections_do_not_add_history() {
 #[test]
 fn restart_restores_selection_and_seek_without_playing_or_extra_history() {
     for position_ms in [0, 500] {
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let state = dir.path().join("state.json");
         let catalog;
         let entry;

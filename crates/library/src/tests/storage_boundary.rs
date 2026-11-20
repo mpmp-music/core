@@ -10,8 +10,8 @@ use std::{
 
 const UI: ActionMeta<'_> = ActionMeta::new("ui");
 
-fn temp() -> (tempfile::TempDir, PathBuf) {
-    let dir = tempfile::tempdir().unwrap();
+fn temp() -> (mpmp_test_support::TempDir, PathBuf) {
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let base = dir.path().canonicalize().unwrap();
     (dir, base)
 }

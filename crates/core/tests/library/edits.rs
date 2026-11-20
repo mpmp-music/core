@@ -3,7 +3,7 @@ use super::*;
 
 #[test]
 fn playlists_edit_undo_trash_m3u_and_play() {
-    let (core, sub, audio, ids, dir) = scanned();
+    let (dir, core, sub, audio, ids) = scanned();
 
     // A manual playlist: the third track, then the first two before it.
     let created = receipt(execute(
@@ -304,7 +304,7 @@ fn playlists_edit_undo_trash_m3u_and_play() {
 
 #[test]
 fn playlist_edits_are_idempotent_and_checked() {
-    let (core, _sub, _audio, ids, _dir) = scanned();
+    let (_dir, core, _sub, _audio, ids) = scanned();
     let p = receipt(execute(
         &core,
         Command::CreatePlaylist {
@@ -510,7 +510,7 @@ fn playlist_edits_are_idempotent_and_checked() {
 /// unless someone changed its objects since, and undoing an undo redoes it.
 #[test]
 fn actions_are_recorded_and_undone() {
-    let (core, sub, _audio, ids, _dir) = scanned();
+    let (_dir, core, sub, _audio, ids) = scanned();
     let agent = Origin::agent("helper");
 
     // An agent rates two tracks, without being asked to confirm.
@@ -792,7 +792,7 @@ fn actions_are_recorded_and_undone() {
 
 #[test]
 fn undoing_a_folder_change_follows_the_local_path_rules() {
-    let (core, _sub, _audio, _ids, _dir) = scanned();
+    let (_dir, core, _sub, _audio, _ids) = scanned();
     // The UI's AddRoot in `scanned` is the newest (and only) folder action.
     let (listed, _) = actions(&core, Some(OriginFilter::Ui));
     let add = listed
@@ -837,7 +837,7 @@ fn undoing_a_folder_change_follows_the_local_path_rules() {
 /// nothing and emit nothing. An unknown folder is still `not_found`.
 #[test]
 fn repeated_soft_deletes_and_restores_change_nothing() {
-    let (core, sub, _audio, _ids, _dir) = scanned();
+    let (_dir, core, sub, _audio, _ids) = scanned();
     let QueryResult::Roots { roots } = core.query(Query::Roots) else {
         panic!()
     };
@@ -911,7 +911,7 @@ fn repeated_soft_deletes_and_restores_change_nothing() {
 /// `PositionInfo.at_ms` are core's monotonic clock (the action's field used to be called `at_ms` too).
 #[test]
 fn the_action_time_is_unix_time_and_named_so() {
-    let (core, _sub, _audio, _ids, _dir) = scanned();
+    let (_dir, core, _sub, _audio, _ids) = scanned();
     let actions: serde_json::Value =
         serde_json::from_str(&core.query_json(r#"{"type":"actions","limit":10}"#)).unwrap();
     let action = &actions["actions"][0];
@@ -931,7 +931,7 @@ fn the_action_time_is_unix_time_and_named_so() {
 /// field, instead of clearing the ratings; `null` clears.
 #[test]
 fn set_rating_needs_an_explicit_rating() {
-    let (core, _sub, _audio, ids, _dir) = scanned();
+    let (_dir, core, _sub, _audio, ids) = scanned();
     let send = |command: serde_json::Value| -> serde_json::Value {
         let request = serde_json::json!({"request_id": 1, "command": command});
         let answer = core.execute_json(&request.to_string(), Origin::agent("a"));

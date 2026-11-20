@@ -28,4 +28,4 @@ mpmp-library = { workspace = true, features = ["desktop-fs"] }
 rmcp = { workspace = true, features = ["client", "server"] }
 tokio = { workspace = true, features = ["rt-multi-thread", "process", "sync"] }
 hound.workspace = true
-tempfile.workspace = true
+mpmp-test-support.workspace = true

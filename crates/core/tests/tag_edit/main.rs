@@ -31,7 +31,7 @@ struct Fixture {
     root: RootId,
     /// By file name.
     tracks: BTreeMap<String, TrackId>,
-    _dir: tempfile::TempDir,
+    _dir: mpmp_test_support::TempDir,
 }
 
 /// A core over a library with three tagged FLAC files in `Artist/Album`.
@@ -40,7 +40,7 @@ fn fixture() -> Fixture {
 }
 
 fn fixture_with_resolver(resolver: Arc<dyn mpmp_media_io::SourceResolver>) -> Fixture {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = dir.path().join("music");
     let album = music.join("Artist").join("Album");
     std::fs::create_dir_all(&album).unwrap();
@@ -445,7 +445,7 @@ struct MainReadGate {
 }
 
 struct GatedBytes {
-    source: Arc<dyn mpmp_media_io::ByteSource>,
+    source: Option<Arc<dyn mpmp_media_io::ByteSource>>,
     gate: Arc<MainReadGate>,
     held: std::sync::atomic::AtomicBool,
 }
@@ -459,19 +459,23 @@ impl mpmp_media_io::ByteSource for GatedBytes {
             self.gate.gate.recv_timeout(TIMEOUT).unwrap();
         }
         let len = bytes.len().min(512); // probing must not buffer the entire small fixture
-        self.source.read_at(offset, &mut bytes[..len])
+        self.source
+            .as_ref()
+            .unwrap()
+            .read_at(offset, &mut bytes[..len])
     }
     fn len(&self) -> Option<u64> {
-        self.source.len()
+        self.source.as_ref().unwrap().len()
     }
     fn is_seekable(&self) -> bool {
-        self.source.is_seekable()
+        self.source.as_ref().unwrap().is_seekable()
     }
 }
 
 impl Drop for GatedBytes {
     fn drop(&mut self) {
         use std::sync::atomic::Ordering::SeqCst;
+        drop(self.source.take());
         if self.held.load(SeqCst) {
             self.gate.closed.store(true, SeqCst);
         }
@@ -492,7 +496,7 @@ impl mpmp_media_io::SourceResolver for MainReadResolver {
         uri: &mpmp_media_io::MediaUri,
     ) -> Result<Arc<dyn mpmp_media_io::ByteSource>, mpmp_media_io::Error> {
         Ok(Arc::new(GatedBytes {
-            source: mpmp_media_io::open(FileResolver.resolve(uri)?)?,
+            source: Some(mpmp_media_io::open(FileResolver.resolve(uri)?)?),
             gate: Arc::clone(&self.0),
             held: false.into(),
         }))

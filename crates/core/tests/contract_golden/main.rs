@@ -124,12 +124,12 @@ fn schema_errors(
 /// A core over an empty library in a temporary directory.
 struct TestCore {
     core: CoreHandle,
-    _dir: tempfile::TempDir,
+    _dir: mpmp_test_support::TempDir,
 }
 
 impl TestCore {
     fn new() -> Self {
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let library = mpmp_library::Library::open(&dir.path().join("library.db")).unwrap();
         let output = NullOutput::new(StreamFormat {
             sample_rate: 44_100,

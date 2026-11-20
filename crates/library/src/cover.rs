@@ -275,7 +275,7 @@ mod tests {
 
     #[test]
     fn oversized_images_and_repeated_tag_reads_are_bounded() {
-        let dir = tempfile::TempDir::new().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let path = dir.path().join("cover.jpg");
         File::create(&path)
             .unwrap()
@@ -304,7 +304,7 @@ mod tests {
     #[test]
     fn oversized_embedded_picture_is_absent_before_copying() {
         use std::io::Write;
-        let dir = tempfile::TempDir::new().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let path = dir.path().join("large.mp3");
         let picture_size = MAX_COVER_BYTES as u32 + 1;
         let tag_size = picture_size + 10;
@@ -342,7 +342,7 @@ mod tests {
 
     #[test]
     fn folder_cover_prefers_best_name() {
-        let dir = tempfile::TempDir::new().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         assert_eq!(folder_cover(dir.path()).unwrap(), None);
         fs::write(dir.path().join("Front.PNG"), b"front").unwrap();
         fs::write(dir.path().join("folder.jpg"), b"folder").unwrap();

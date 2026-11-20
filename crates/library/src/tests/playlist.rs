@@ -3,7 +3,7 @@
 use std::path::{Path, PathBuf};
 use std::time::Instant;
 
-use tempfile::TempDir;
+use mpmp_test_support::TempDir;
 
 use crate::db::writer::{ScanBatch, now_ms};
 use crate::playlist::{self, PLAYLIST_TRASH_RETENTION_MS, PurgeReviewClock};

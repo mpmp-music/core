@@ -4,7 +4,7 @@ use super::*;
 #[test]
 fn trusted_button_payloads_parse_and_revoke_real_credentials_and_grants() {
     let payloads: serde_json::Value = serde_json::from_str(client_parity::TRUSTED).unwrap();
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let (core, sub) = start(dir.path());
     let send = |button: &str| {
         let raw = payloads[button].clone();
@@ -47,7 +47,7 @@ fn trusted_button_payloads_parse_and_revoke_real_credentials_and_grants() {
 
 #[test]
 fn agent_cannot_indirectly_purge_expired_trash_and_trusted_cleanup_is_bound_and_audited() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let (core, sub) = start(dir.path());
     let create = |name: &str| {
         ui(
@@ -158,7 +158,7 @@ fn agent_cannot_indirectly_purge_expired_trash_and_trusted_cleanup_is_bound_and_
 /// still compare the whole trash, even if an item arrives or leaves after review.
 #[test]
 fn trusted_null_purge_all_executes_over_100_and_refuses_added_or_removed_items() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let (core, sub) = start(dir.path());
     let mut ids = Vec::new();
     for i in 0..102 {
@@ -218,7 +218,7 @@ fn trusted_null_purge_all_executes_over_100_and_refuses_added_or_removed_items()
 
 #[test]
 fn trusted_pending_recovery_is_ui_only_authoritative_and_expires() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let (core, sub) = start_with_config(
         dir.path(),
         CoreConfig {
@@ -266,7 +266,7 @@ fn trusted_pending_recovery_is_ui_only_authoritative_and_expires() {
 
 #[test]
 fn trusted_guarded_undo_rechecks_state_and_rejects_other_origins() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let (core, sub) = start(dir.path());
     let music = folder(dir.path(), "undo-music");
     let receipt = ui(&core, add_root(&music));
@@ -321,7 +321,7 @@ fn trusted_guarded_undo_rechecks_state_and_rejects_other_origins() {
 
 #[test]
 fn trusted_pending_table_recovers_a_confirmation_lost_to_subscription_overflow() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let (core, sub) = start(dir.path());
     for i in 0..300 {
         ui(&core, Command::SetMuted { muted: i % 2 == 0 });
@@ -358,7 +358,7 @@ fn trusted_pending_table_recovers_a_confirmation_lost_to_subscription_overflow()
 /// Replaces hand-entered root/import/export path probes in the retired debug UI.
 #[test]
 fn ui_path_errors_are_structured_and_do_not_mutate_the_library() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let (core, sub) = start(dir.path());
     let playlist = new_playlist(&core, "path probe");
     let missing = dir.path().join("absent");
@@ -452,7 +452,7 @@ fn ui_path_errors_are_structured_and_do_not_mutate_the_library() {
 
 #[test]
 fn authenticated_agent_cannot_replay_ui_confirmation_in_another_session() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let root = folder(dir.path(), "music");
     let (core, sub) = start(dir.path());
     let credential = ui(

@@ -65,7 +65,7 @@ fn inverse_hash_rejects_a_source_changed_and_restored_during_staging() {
 }
 #[test]
 fn id3_chapter_and_index_offsets_refuse_growth_but_allow_existing_padding() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     for version in [3, 4] {
         for kind in [b"CHAP", b"ASPI"] {
             for padding in [0, 4096] {
@@ -141,7 +141,7 @@ fn adts_and_reserved_flac_metadata_are_refused() {
 }
 #[test]
 fn newly_created_mp4_meta_contains_a_metadata_handler() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let path = dir.path().join("no-meta.m4a");
     tagged_copy("sine44_a.m4a", &path);
     let old = std::fs::read(&path).unwrap();
@@ -277,7 +277,7 @@ fn apply(path: &std::path::Path, change: &CoverChange) -> (Vec<u8>, Vec<Region>)
 use std::fs::File;
 #[test]
 fn formats_set_replace_remove_preserve_bytes_and_inverse() {
-    let d = tempfile::tempdir().unwrap();
+    let d = mpmp_test_support::TempDir::new().unwrap();
     for name in [
         "sine44_a.flac",
         "sine44_a.mp3",

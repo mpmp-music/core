@@ -182,7 +182,7 @@ mod tests {
 
     #[test]
     fn embedded_lyrics_are_parsed() {
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let lyrics = lyrics_in(dir.path(), "[00:01.00]hi").unwrap();
         assert_eq!(lyrics.source, LyricsSource::Embedded);
         assert_eq!(lyrics.format, LyricsFormat::Lrc);
@@ -191,7 +191,7 @@ mod tests {
 
     #[test]
     fn sidecar_wins_over_embedded() {
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         fs::write(dir.path().join("01 Song.lrc"), "[00:01.00]from file").unwrap();
         let lyrics = lyrics_in(dir.path(), "from tags").unwrap();
         assert_eq!(lyrics.source, LyricsSource::File);
@@ -200,7 +200,7 @@ mod tests {
 
     #[test]
     fn sidecar_name_and_extension_case() {
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let find = || {
             read_lyrics_with(&dir.path().join("01 Song.flac"), none)
                 .unwrap()
@@ -238,7 +238,7 @@ mod tests {
 
     #[test]
     fn sidecar_encodings() {
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let path = dir.path().join("01 Song.lrc");
         let text = "[00:01.00]你好，世界\n[00:02.00]晶港\n";
         let find = || {
@@ -268,7 +268,7 @@ mod tests {
 
     #[test]
     fn size_limit() {
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let path = dir.path().join("01 Song.lrc");
         let find = || {
             read_lyrics_with(&dir.path().join("01 Song.flac"), |_| {
@@ -295,7 +295,7 @@ mod tests {
 
     #[test]
     fn unusable_sidecars_fall_back_to_tags() {
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let path = dir.path().join("01 Song.lrc");
         // Empty, or only metadata: nothing to show.
         fs::write(&path, "[ar:A]\n[ti:T]\n").unwrap();
@@ -310,7 +310,7 @@ mod tests {
 
     #[test]
     fn a_panicking_tag_reader_is_no_lyrics() {
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let lyrics = read_lyrics_with(&dir.path().join("a.flac"), |_| panic!("tags")).unwrap();
         assert_eq!(lyrics, None);
         // Nor does a missing folder fail.

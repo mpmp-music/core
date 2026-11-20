@@ -1069,10 +1069,10 @@ dependencies = [
  "mpmp-fs-desktop",
  "mpmp-library",
  "mpmp-media-io",
+ "mpmp-test-support",
  "rmcp",
  "serde",
  "serde_json",
- "tempfile",
  "tokio",
  "tracing",
  "windows-sys",
@@ -1183,9 +1183,9 @@ dependencies = [
  "mpmp-engine",
  "mpmp-library",
  "mpmp-media-io",
+ "mpmp-test-support",
  "rmcp",
  "serde_json",
- "tempfile",
  "tokio",
 ]
 
@@ -1222,6 +1222,7 @@ dependencies = [
  "mpmp-core",
  "mpmp-engine",
  "mpmp-storage",
+ "tempfile",
  "windows-sys",
 ]
 

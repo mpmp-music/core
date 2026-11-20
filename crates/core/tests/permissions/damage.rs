@@ -6,7 +6,7 @@ use super::*;
 /// apply; grants that expired while core was stopped are deleted when it starts.
 #[test]
 fn stored_records_core_cannot_read_never_let_an_agent_in() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = folder(dir.path(), "music");
     let (core, sub) = start(dir.path());
     let token = ui(
@@ -253,7 +253,7 @@ fn a_damaged_library_is_reported() {
 /// `Snapshot.problems`: core asks the catalog after every message and on every tick.
 #[test]
 fn damage_found_outside_commands_is_reported() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let db = dir.path().join("library.db");
     let library = mpmp_library::Library::open(&db).unwrap();
     let core = CoreHandle::start(
@@ -317,7 +317,7 @@ fn damage_found_outside_commands_is_reported() {
 #[cfg(unix)]
 #[test]
 fn a_location_that_cannot_be_read_is_judged_by_its_name() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = folder(dir.path(), "music");
     let diary = folder(dir.path(), "diary");
     let (core, sub) = start(dir.path());

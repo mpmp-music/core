@@ -183,7 +183,7 @@ fn historical_v13_fixture_has_independent_provenance_and_matches_baseline() {
         format!("{:x}", Sha256::digest(fixture)),
         "0829e24744a220e7b0ef26ca58f2477187495c2aebb627f324f6fcd48ff0625f"
     );
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let path = dir.path().join("library.db");
     let conn = development(&path);
     assert_eq!(header(&conn), (13, 0));
@@ -229,7 +229,7 @@ fn v1_ddl_matches_author_v13_exact_schema_fingerprint() {
 #[test]
 fn missing_and_empty_databases_initialize_published_1_atomically() {
     for existing in [false, true] {
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let path = dir.path().join("library.db");
         if existing {
             drop(Connection::open(&path).unwrap());
@@ -248,7 +248,7 @@ fn missing_and_empty_databases_initialize_published_1_atomically() {
 fn development_1_through_12_are_rejected_with_and_without_migrate() {
     for version in 1..=12 {
         for migrate in [false, true] {
-            let dir = tempfile::tempdir().unwrap();
+            let dir = mpmp_test_support::TempDir::new().unwrap();
             let path = dir.path().join("library.db");
             let conn = development(&path);
             conn.pragma_update(None, "user_version", version).unwrap();
@@ -270,7 +270,7 @@ fn development_1_through_12_are_rejected_with_and_without_migrate() {
 
 #[test]
 fn migrate_false_recognizes_v13_without_backup_notice_or_writes() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let path = dir.path().join("library.db");
     let conn = development(&path);
     seed(&conn);
@@ -291,7 +291,7 @@ fn migrate_false_recognizes_v13_without_backup_notice_or_writes() {
 
 #[test]
 fn reset_preserves_all_values_rowids_schema_and_wal_and_backup_is_readonly_v13() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let path = dir.path().join("library.db");
     let conn = development(&path);
     conn.pragma_update(None, "journal_mode", "WAL").unwrap();
@@ -362,7 +362,7 @@ fn early_v13_variants_keys_references_formats_and_unknown_objects_are_rejected()
         "INSERT INTO file_write_intents(family,format_version,authorization_json,target_json,before_digest,before_image,after_digest,stage,created_at,updated_at) VALUES('cover_edit',1,'{}','{}','b',x'00','a','retained',1,1);",
     ];
     for sql in variants {
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let path = dir.path().join("library.db");
         let conn = development(&path);
         conn.execute_batch(sql).unwrap();
@@ -390,7 +390,7 @@ fn future_published_schemas_foreign_markers_nonempty_zero_and_damage_are_distinc
         (99, 0, "io"),
         (1, 123, "io"),
     ] {
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let path = dir.path().join("library.db");
         let conn = development(&path);
         conn.pragma_update(None, "user_version", version).unwrap();
@@ -400,7 +400,7 @@ fn future_published_schemas_foreign_markers_nonempty_zero_and_damage_are_distinc
         assert_eq!(open(&path, true).err().unwrap().code(), expected);
         assert_eq!(std::fs::read(&path).unwrap(), before);
     }
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let path = dir.path().join("library.db");
     std::fs::write(&path, vec![0x5a; 8192]).unwrap();
     assert!(open(&path, true).err().unwrap().is_damaged());
@@ -422,7 +422,7 @@ fn every_precommit_failure_keeps_v13_all_values_and_retains_published_backups() 
         "version_written",
         "before_commit",
     ] {
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let path = dir.path().join("library.db");
         let conn = development(&path);
         seed(&conn);
@@ -466,7 +466,7 @@ fn every_precommit_failure_keeps_v13_all_values_and_retains_published_backups() 
 
 #[test]
 fn failed_commit_rolls_back_both_headers_and_keeps_backup_and_pending() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let path = dir.path().join("library.db");
     let conn = development(&path);
     seed(&conn);
@@ -498,7 +498,7 @@ fn failed_commit_rolls_back_both_headers_and_keeps_backup_and_pending() {
 
 #[test]
 fn external_write_after_backup_is_detected_before_header_changes() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let path = dir.path().join("library.db");
     let conn = development(&path);
     seed(&conn);
@@ -535,7 +535,7 @@ fn external_write_after_backup_is_detected_before_header_changes() {
 #[test]
 fn corrupt_partial_backup_is_rejected_and_cleaned() {
     for physical in [false, true] {
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let path = dir.path().join("library.db");
         let conn = development(&path);
         seed(&conn);
@@ -582,7 +582,7 @@ fn low_space_capacity_errors_and_blocked_backup_directory_never_reset() {
         }
     }
     for failure in 0..3 {
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let path = dir.path().join("library.db");
         let conn = development(&path);
         seed(&conn);
@@ -614,7 +614,7 @@ fn pending_receipt_recovers_after_commit_notice_failure_and_history_is_readonly(
         "before_notice",
         "completed_receipt_persisted",
     ] {
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let path = dir.path().join("library.db");
         let conn = development(&path);
         seed(&conn);
@@ -654,7 +654,7 @@ fn pending_receipt_recovers_after_commit_notice_failure_and_history_is_readonly(
 
 #[test]
 fn lifetime_maintenance_lock_excludes_reset_while_another_library_writer_is_live() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let path = dir.path().join("library.db");
     let live = open(&path, true).unwrap();
     let conn = Connection::open(&path).unwrap();
@@ -681,7 +681,7 @@ fn initialization_errors_roll_back_schema_and_both_header_fields() {
         "initialized_marker",
         "initialized_version",
     ] {
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let path = dir.path().join("library.db");
         let injection = hook(move |phase, _| {
             if phase == at {
@@ -707,7 +707,7 @@ fn initialization_errors_roll_back_schema_and_both_header_fields() {
 #[test]
 fn sqlite_readonly_vacuum_denial_and_disk_full_leave_original_v13() {
     for failure in ["readonly", "vacuum", "full"] {
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let path = dir.path().join("library.db");
         let conn = development(&path);
         seed(&conn);
@@ -749,7 +749,7 @@ fn sqlite_readonly_vacuum_denial_and_disk_full_leave_original_v13() {
 
 #[test]
 fn external_write_lock_timeout_keeps_v13_and_retains_backup() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let path = dir.path().join("library.db");
     let conn = development(&path);
     seed(&conn);
@@ -783,7 +783,7 @@ fn external_write_lock_timeout_keeps_v13_and_retains_backup() {
 #[cfg(unix)]
 #[test]
 fn path_replacement_is_detected_before_header_writes() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let path = dir.path().join("library.db");
     let conn = development(&path);
     seed(&conn);
@@ -818,7 +818,7 @@ fn path_replacement_is_detected_before_header_writes() {
 
 #[test]
 fn pending_receipt_write_failure_retains_backup_without_reset() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let path = dir.path().join("library.db");
     let conn = development(&path);
     seed(&conn);
@@ -836,7 +836,7 @@ fn pending_receipt_write_failure_retains_backup_without_reset() {
 
 #[test]
 fn reset_from_delete_mode_preserves_journal_mode_and_foreign_keys() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let path = dir.path().join("library.db");
     let conn = development(&path);
     seed(&conn);
@@ -865,7 +865,7 @@ fn reset_from_delete_mode_preserves_journal_mode_and_foreign_keys() {
 #[test]
 fn pending_receipt_requires_matching_backup_and_database_identity() {
     for tamper in ["backup", "identity"] {
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let path = dir.path().join("library.db");
         let conn = development(&path);
         seed(&conn);
@@ -914,7 +914,7 @@ fn concurrent_published_opens_and_notice_consumption_publish_once() {
         mpsc,
     };
     use std::time::Duration;
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let path = dir.path().join("library.db");
     drop(development(&path));
     let fault = hook(|phase, _| {
@@ -983,7 +983,7 @@ fn published_open_waits_for_rollback_writer_before_enabling_wal() {
     use crate::db::writer::ON_WAL_BUSY;
     use std::{sync::mpsc, time::Duration};
 
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let path = dir.path().join("library.db");
     drop(prepare(&path, &storage(), true).unwrap());
     let blocker = Connection::open(&path).unwrap();
@@ -1016,7 +1016,7 @@ fn published_open_reports_sqlite_busy_when_wal_upgrade_times_out() {
     use std::error::Error;
     use std::time::{Duration, Instant};
 
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let path = dir.path().join("library.db");
     drop(prepare(&path, &storage(), true).unwrap());
     let blocker = Connection::open(&path).unwrap();
@@ -1051,7 +1051,7 @@ fn published_open_reports_sqlite_busy_when_wal_upgrade_times_out() {
 
 #[test]
 fn identity_unsupported_backend_opens_published_but_refuses_development_reset() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let path = dir.path().join("library.db");
     let backend = std::sync::Arc::new(mpmp_test_support::local_storage::LocalStorage {
         identities: false,
@@ -1103,7 +1103,7 @@ fn identity_unsupported_backend_opens_published_but_refuses_development_reset() 
 #[cfg(unix)]
 #[test]
 fn dangling_database_symlink_is_rejected_without_creating_target() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let path = dir.path().join("library.db");
     let target = dir.path().join("missing.db");
     std::os::unix::fs::symlink(&target, &path).unwrap();
@@ -1124,7 +1124,7 @@ fn dangling_database_symlink_is_rejected_without_creating_target() {
 #[cfg(feature = "desktop-fs")]
 #[test]
 fn reset_session_runs_normal_wal_optimize_cover_recovery_and_pruning() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let path = dir.path().join("library.db");
     let conn = development(&path);
     seed(&conn);
@@ -1170,7 +1170,7 @@ fn reset_session_runs_normal_wal_optimize_cover_recovery_and_pruning() {
 
 #[test]
 fn readonly_probe_runs_exact_checks_without_creating_files() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let path = dir.path().join(if cfg!(windows) {
         "library # 测试.db"
     } else {
@@ -1203,7 +1203,7 @@ fn readonly_probe_runs_exact_checks_without_creating_files() {
 #[test]
 fn published_900_track_startup_retains_strict_recognition_at_measured_cost() {
     use std::time::Instant;
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let path = dir.path().join("library.db");
     let conn = development(&path);
     conn.execute_batch(concat!(
@@ -1239,7 +1239,7 @@ fn published_900_track_startup_retains_strict_recognition_at_measured_cost() {
 
 #[test]
 fn postcommit_external_write_reports_published_header_and_retains_original_backup() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let path = dir.path().join("library.db");
     let conn = development(&path);
     seed(&conn);
@@ -1285,7 +1285,7 @@ fn directory_metadata(path: &Path) -> BTreeMap<std::ffi::OsString, (u64, std::ti
 
 #[test]
 fn readonly_probe_cleanly_closed_wal_succeeds_without_file_or_metadata_changes() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let path = dir.path().join(if cfg!(windows) {
         "library # 测试.db"
     } else {
@@ -1309,7 +1309,7 @@ fn readonly_probe_cleanly_closed_wal_succeeds_without_file_or_metadata_changes()
 
 #[test]
 fn readonly_probe_existing_wal_and_shm_includes_frames_without_metadata_changes() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let path = dir.path().join("library.db");
     let conn = development(&path);
     conn.pragma_update(None, "journal_mode", "WAL").unwrap();
@@ -1350,7 +1350,7 @@ fn readonly_probe_refuses_journal_or_incomplete_siblings_without_writes() {
         vec!["-journal"],
         vec!["-wal", "-shm", "-journal"],
     ] {
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let path = dir.path().join("library.db");
         drop(development(&path));
         for suffix in suffixes {
@@ -1370,7 +1370,7 @@ fn readonly_probe_refuses_journal_or_incomplete_siblings_without_writes() {
 #[test]
 fn relabel_copy_reuses_reset_and_preserves_all_rows_before_normal_startup() {
     for mode in ["DELETE", "WAL"] {
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let path = dir.path().join("library.db");
         let conn = development(&path);
         seed(&conn);

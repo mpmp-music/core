@@ -15,7 +15,7 @@ fn set(key: &str, values: &[&str]) -> TagChange {
 /// total changes.
 #[test]
 fn id3v2_keeps_what_the_change_does_not_name() {
-    let dir = tempfile::TempDir::new().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let path = dir.path().join("a.mp3");
     std::fs::copy(
         Path::new(env!("CARGO_MANIFEST_DIR")).join("../engine/tests/fixtures/sine44_a.mp3"),
@@ -158,7 +158,7 @@ fn save(edited: &Editable, path: &Path) {
 /// copied; and the edit can be undone.
 #[test]
 fn latin1_gbk_frames_read_as_the_whole_file_reads_them() {
-    let dir = tempfile::TempDir::new().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let latin1 = TextEncoding::Latin1;
     // Detected: the title and artist are GBK.
     let detected = mp3(
@@ -245,7 +245,7 @@ fn latin1_gbk_frames_read_as_the_whole_file_reads_them() {
 
 #[test]
 fn unknown_people_roles_are_preserved_when_rebuilding() {
-    let dir = tempfile::TempDir::new().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let path = mp3(
         dir.path(),
         "native.mp3",
@@ -272,7 +272,7 @@ fn unknown_people_roles_are_preserved_when_rebuilding() {
 /// `TRCK` another program wrote, `3/abc`, which the library shows as a total).
 #[test]
 fn undo_check_finds_values_that_cannot_be_written_back() {
-    let dir = tempfile::TempDir::new().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     for (name, trck, undoable) in [("a.mp3", "3/12", true), ("b.mp3", "3/abc", false)] {
         let path = mp3(
             dir.path(),
@@ -294,7 +294,7 @@ fn undo_check_finds_values_that_cannot_be_written_back() {
 /// Formats whose tags are not written are told apart from files that cannot be read.
 #[test]
 fn unsupported_formats() {
-    let dir = tempfile::TempDir::new().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let mpc = dir.path().join("a.mpc");
     let mut bytes = b"MPCK".to_vec();
     bytes.extend([0u8; 64]);

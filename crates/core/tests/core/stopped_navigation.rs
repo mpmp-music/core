@@ -206,7 +206,7 @@ fn enqueue_only_next_and_previous_have_no_target_and_do_not_start() {
 #[test]
 fn bad_file_is_selected_without_probe_and_fails_only_on_resume() {
     for (successor, corrupt) in [(true, false), (false, false), (true, true), (false, true)] {
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let mut catalog = MemoryCatalog::standard();
         if corrupt {
             let path = dir.path().join("corrupt.flac");
@@ -253,7 +253,7 @@ fn bad_file_is_selected_without_probe_and_fails_only_on_resume() {
 fn exit_preserves_real_position_unless_stop_explicitly_reset_it() {
     for paused in [false, true] {
         for stop in [false, true] {
-            let dir = tempfile::tempdir().unwrap();
+            let dir = mpmp_test_support::TempDir::new().unwrap();
             let state = dir.path().join("state.json");
             let entry;
             {
@@ -292,7 +292,7 @@ fn exit_preserves_real_position_unless_stop_explicitly_reset_it() {
 
 #[test]
 fn shutdown_and_restart_restore_last_selection_at_zero_stopped() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let state = dir.path().join("state.json");
     let entry;
     {

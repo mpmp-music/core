@@ -33,7 +33,7 @@ fn zero_limit_counts_and_next_offset_ends() {
 
 #[test]
 fn playback_limits_are_not_restored_after_a_core_restart() {
-    let directory = tempfile::tempdir().unwrap();
+    let directory = mpmp_test_support::TempDir::new().unwrap();
     let path = directory.path().join("state.json");
     {
         let mut h = Harness::new(Some(path.clone()));

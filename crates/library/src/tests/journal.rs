@@ -3,7 +3,7 @@
 
 use std::time::{Duration, Instant};
 
-use tempfile::TempDir;
+use mpmp_test_support::TempDir;
 
 use crate::db::writer::now_ms;
 use crate::tests::{UI, fixture, meta, record, upsert};

@@ -17,8 +17,14 @@ const POINTS: &[&str] = &[
     "after_action",
 ];
 
-fn fixture() -> (tempfile::TempDir, Library, PathBuf, PathBuf, TrackId) {
-    let dir = tempfile::tempdir().unwrap();
+fn fixture() -> (
+    mpmp_test_support::TempDir,
+    Library,
+    PathBuf,
+    PathBuf,
+    TrackId,
+) {
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = dir.path().join("music");
     fs::create_dir(&music).unwrap();
     let path = music.join("sample.flac");

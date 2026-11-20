@@ -29,7 +29,6 @@ const TIMEOUT: Duration = Duration::from_secs(60);
 type Client = RunningService<RoleClient, ()>;
 
 struct Harness {
-    dir: tempfile::TempDir,
     core: CoreHandle,
     /// The UI: sees confirmation requests, answers them.
     ui: Subscription,
@@ -39,6 +38,8 @@ struct Harness {
     token: String,
     /// Track ids by title.
     tracks: Vec<(String, TrackId)>,
+    // Clean up after the server and core release the catalog.
+    dir: mpmp_test_support::TempDir,
 }
 
 fn test_endpoint(dir: &Path) -> Endpoint {
@@ -159,7 +160,7 @@ impl Harness {
     }
 
     fn with_config(options: ServerOptions, config: CoreConfig) -> Self {
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let library = mpmp_library::Library::open(&dir.path().join("library.db")).unwrap();
         let output = NullOutput::new(StreamFormat {
             sample_rate: 44_100,
@@ -185,12 +186,12 @@ impl Harness {
         }
         let mut h = Self {
             endpoint: test_endpoint(dir.path()),
-            dir,
             core,
             ui,
             server: None,
             token: String::new(),
             tracks: Vec::new(),
+            dir,
         };
         h.ui_ok(Command::AddRoot {
             path: music.display().to_string(),
@@ -289,7 +290,12 @@ impl Drop for Harness {
         if let Some(server) = self.server.take() {
             tokio::task::block_in_place(|| server.shutdown());
         }
-        self.core.shutdown();
+        // The server may still have a session finishing on another thread.
+        // Close the catalog even if that session holds a clone of the core.
+        let closed = self.core.shutdown_with_result(TIMEOUT);
+        if !std::thread::panicking() {
+            closed.unwrap();
+        }
     }
 }
 

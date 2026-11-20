@@ -125,7 +125,7 @@ fn person_membership_is_ordered_deduplicated_and_independent_of_grouping() {
 
 #[test]
 fn pending_parser_versions_resume_across_reopens_without_changing_stamps() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = dir.path().join("music");
     std::fs::create_dir(&music).unwrap();
     let audio = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
@@ -319,7 +319,7 @@ fn real_vorbis_flac_opus_repeated_fields_and_artists_priority() {
     use lofty::config::WriteOptions;
     use lofty::ogg::tag::VorbisComments;
     use lofty::tag::TagExt;
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     for fixture in ["sine44_a.flac", "sine44_a.ogg", "sine44_a.opus"] {
         let path = dir.path().join(fixture);
         audio_fixture(fixture, &path);
@@ -362,7 +362,7 @@ fn real_id3v24_nul_txxx_and_v23_slashes_preserve_display_chain() {
     use lofty::config::WriteOptions;
     use lofty::id3::v2::{ExtendedTextFrame, Frame, Id3v2Tag, TextInformationFrame};
     use lofty::tag::TagExt;
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     for v23 in [false, true] {
         let path = dir.path().join(if v23 { "v23.mp3" } else { "v24.mp3" });
         audio_fixture("sine44_a.mp3", &path);
@@ -422,7 +422,7 @@ fn real_id3v23_splits_only_explicit_artists_with_picard_join() {
     use lofty::config::WriteOptions;
     use lofty::id3::v2::{ExtendedTextFrame, Frame, FrameId, Id3v2Tag, TextInformationFrame};
     use lofty::tag::TagExt;
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     for (v23, explicit, expected) in [
         (true, Some("A/B"), vec!["A", "B"]),
         (true, None, vec!["A/B"]),
@@ -489,7 +489,7 @@ fn real_mp4_only_picard_namespace_establishes_artists_and_reads_all_text_values(
     use lofty::config::WriteOptions;
     use lofty::mp4::{Atom, AtomData, AtomIdent, Ilst};
     use lofty::tag::{Accessor, TagExt};
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let path = dir.path().join("a.m4a");
     audio_fixture("sine44_a.m4a", &path);
     let mut tag = Ilst::new();
@@ -537,7 +537,7 @@ fn real_mp4_only_picard_namespace_establishes_artists_and_reads_all_text_values(
 
 #[test]
 fn edit_undo_redo_update_people_without_replacing_display_or_album_key() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = dir.path().join("music");
     std::fs::create_dir(&music).unwrap();
     audio_fixture("sine44_a.flac", &music.join("a.flac"));
@@ -618,7 +618,7 @@ fn forced_id3_encoding_applies_to_each_person_value() {
     use lofty::config::WriteOptions;
     use lofty::id3::v2::{Frame, FrameId, Id3v2Tag, TextInformationFrame};
     use lofty::tag::TagExt;
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let path = dir.path().join("a.mp3");
     audio_fixture("sine44_a.mp3", &path);
     let (bytes, _, _) = encoding_rs::GBK.encode("周砚舟\0云笛");
@@ -649,7 +649,7 @@ fn backfill_commits_500_row_pages_and_resumes_after_interruption() {
         Arc,
         atomic::{AtomicUsize, Ordering},
     };
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = dir.path().join("music");
     std::fs::create_dir(&music).unwrap();
     for n in 0..501 {
@@ -713,7 +713,7 @@ fn backfill_commits_500_row_pages_and_resumes_after_interruption() {
 
 #[test]
 fn external_rewrite_with_the_same_stamp_does_not_commit_an_undo() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = dir.path().join("music");
     std::fs::create_dir(&music).unwrap();
     let path = music.join("a.flac");
@@ -771,7 +771,7 @@ fn external_rewrite_with_the_same_stamp_does_not_commit_an_undo() {
 
 #[test]
 fn unreadable_after_edit_keeps_old_people_pending_for_retry() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = dir.path().join("music");
     std::fs::create_dir(&music).unwrap();
     let path = music.join("a.flac");
@@ -816,7 +816,7 @@ fn unreadable_after_edit_keeps_old_people_pending_for_retry() {
 fn delayed_scan_cannot_clear_failed_edit_or_undo_backfill() {
     for undo in [false, true] {
         for artists_only in [false, true] {
-            let dir = tempfile::tempdir().unwrap();
+            let dir = mpmp_test_support::TempDir::new().unwrap();
             let music = dir.path().join("music");
             std::fs::create_dir(&music).unwrap();
             let path = music.join("a.flac");
@@ -916,7 +916,7 @@ INSERT INTO file_write_intents(family,format_version,authorization_json,target_j
 VALUES('cover',1,'{}','{}','before',x'010203','after','pending',1,1,1);
 "#;
 
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let path = dir.path().join("db.sqlite");
     let mut conn = Connection::open(&path).unwrap();
     schema::migrate(&mut conn).unwrap();
@@ -1054,7 +1054,7 @@ UPDATE tracks SET artists_parser_version=0,title='Preserved',
 artist='Preserved credit',album_key='preserved-key',album_group_artist='Preserved group',updated_at=12
 "#;
 
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = dir.path().join("music");
     std::fs::create_dir(&music).unwrap();
     audio_fixture("sine44_a.flac", &music.join("a.flac"));

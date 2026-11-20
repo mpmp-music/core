@@ -716,6 +716,15 @@ fn shutdown_during_main_decode_release_never_joins_blocked_source() {
     assert!(!gate.closed.load(SeqCst));
     open.send(()).unwrap();
     thread.join().unwrap();
+    // The detached decoder can still be closing the source after the request returned.
+    let deadline = Instant::now() + TIMEOUT;
+    while !gate.closed.load(SeqCst) {
+        assert!(
+            Instant::now() < deadline,
+            "decoder did not close its source"
+        );
+        std::thread::sleep(Duration::from_millis(1));
+    }
 }
 
 #[test]

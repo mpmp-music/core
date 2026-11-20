@@ -3,7 +3,7 @@ use super::*;
 
 #[test]
 fn agent_tokens_authenticate_until_renewed_or_removed() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let (core, sub) = start(dir.path());
     let register = |name: &str| {
         run(
@@ -158,7 +158,7 @@ fn agent_tokens_authenticate_until_renewed_or_removed() {
 /// retry after reconnecting).
 #[test]
 fn idempotency_keys_belong_to_the_agent_not_its_session() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let (core, _sub) = start(dir.path());
     let create = Command::CreatePlaylist {
         name: "Mix".into(),
@@ -202,7 +202,7 @@ fn idempotency_keys_belong_to_the_agent_not_its_session() {
 /// another command with it is `idempotency_key_reused`.
 #[test]
 fn tokens_are_not_kept_for_retries() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let (core, _sub) = start(dir.path());
     let send = |key: &str, command: Command| {
         core.execute(

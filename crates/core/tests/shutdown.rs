@@ -107,7 +107,7 @@ fn core(catalog: Arc<impl mpmp_core::Catalog>, state: std::path::PathBuf) -> Cor
 
 #[test]
 fn shutdown_closes_the_library_while_core_and_library_handles_remain_live() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let db = dir.path().join("library.db");
     let library = Arc::new(mpmp_library::Library::open(&db).unwrap());
     let core = core(library.clone(), dir.path().join("state.json"));
@@ -145,13 +145,15 @@ fn shutdown_closes_the_library_while_core_and_library_handles_remain_live() {
             .code,
         ErrorCode::WriterStopped
     );
+    // An explicit shutdown must release the directory even with both handles alive.
+    drop(dir);
 }
 
 #[test]
 fn shutdown_keeps_a_failed_write_distinct_from_a_finished_checkpoint_and_close() {
     use mpmp_library::CloseStage;
 
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let db = dir.path().join("library.db");
     let library = Arc::new(mpmp_library::Library::open(&db).unwrap());
     let core = core(library.clone(), dir.path().join("state.json"));
@@ -188,7 +190,7 @@ fn shutdown_keeps_a_failed_write_distinct_from_a_finished_checkpoint_and_close()
 
 #[test]
 fn shutdown_waits_for_a_job_without_progress_then_saves_and_rejects_commands() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let state = dir.path().join("state.json");
     let catalog = Arc::new(Jobs::default());
     let core = core(Arc::clone(&catalog), state.clone());
@@ -263,7 +265,7 @@ fn shutdown_waits_for_a_job_without_progress_then_saves_and_rejects_commands() {
 
 #[test]
 fn shutdown_without_jobs_is_waitable_and_idempotent() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let state = dir.path().join("state.json");
     let core = core(Arc::new(Jobs::default()), state.clone());
     core.shutdown();

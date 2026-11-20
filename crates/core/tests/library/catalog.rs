@@ -7,7 +7,7 @@ fn startup_backfills_pending_person_parser_without_manual_rescan_or_metadata_cha
     use lofty::TextEncoding;
     use lofty::id3::v2::{ExtendedTextFrame, Frame, FrameId, Id3v2Tag, TextInformationFrame};
     use lofty::tag::TagExt;
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = dir.path().join("music");
     std::fs::create_dir(&music).unwrap();
     let source =
@@ -150,7 +150,7 @@ fn startup_backfills_pending_person_parser_without_manual_rescan_or_metadata_cha
 
 #[test]
 fn scan_browse_play_and_history() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = dir.path().join("music");
     make_album(&music);
     let library = mpmp_library::Library::open(&dir.path().join("library.db")).unwrap();
@@ -460,7 +460,7 @@ fn scan_browse_play_and_history() {
 /// again after the scan's `JobFinished`.
 #[test]
 fn adding_a_folder_announces_it_at_once_and_after_its_scan() {
-    let (core, sub, _audio, _ids, dir) = scanned();
+    let (dir, core, sub, _audio, _ids) = scanned();
     let more = dir.path().join("more");
     make_album(&more);
     sub.events.try_iter().for_each(drop);
@@ -493,7 +493,7 @@ fn adding_a_folder_announces_it_at_once_and_after_its_scan() {
 /// The query regression example uses the current `Tracks` and `Value` shapes.
 #[test]
 fn the_track_query_design_example_runs() {
-    let (core, _sub, _audio, _ids, _dir) = scanned();
+    let (_dir, core, _sub, _audio, _ids) = scanned();
     let doc = std::fs::read_to_string(
         Path::new(env!("CARGO_MANIFEST_DIR")).join("../../test-data/track-query-example.md"),
     )
@@ -511,7 +511,7 @@ fn the_track_query_design_example_runs() {
 
 #[test]
 fn track_rows_preserves_order_duplicates_unavailable_and_missing_rules() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = dir.path().join("music");
     make_album(&music);
     let catalog = Arc::new(mpmp_library::Library::open(&dir.path().join("library.db")).unwrap());
@@ -590,7 +590,7 @@ fn track_rows_preserves_order_duplicates_unavailable_and_missing_rules() {
 
 #[test]
 fn person_view_contract_keeps_album_group_defaults_and_track_search() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = dir.path().join("music");
     make_album(&music);
     let lib = mpmp_library::Library::open(&dir.path().join("library.db")).unwrap();

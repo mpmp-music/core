@@ -8,7 +8,7 @@ pub(crate) mod fixtures {
     use std::path::Path;
     use std::time::{Duration, Instant};
 
-    use tempfile::TempDir;
+    use mpmp_test_support::TempDir;
 
     use crate::db::writer::{ScanBatch, TrackRecord, WriteCmd};
     use crate::tags::read::TrackMeta;

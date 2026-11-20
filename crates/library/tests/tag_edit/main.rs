@@ -17,7 +17,7 @@ use lofty::tag::{ItemValue, Tag, TagItem};
 use mpmp_library::{
     ActionMeta, Library, LibraryError, ScanStart, TagChange, TagJobOptions, TrackId, TrackQuery,
 };
-use tempfile::TempDir;
+use mpmp_test_support::TempDir;
 
 const UI: ActionMeta<'static> = ActionMeta::new("ui");
 

@@ -260,7 +260,7 @@ mod tests {
 
     #[test]
     fn a_stored_waveform_reads_back() {
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let cache = WaveformCache::new(dir.path().join("waveforms"));
         assert_eq!(cache.get(TrackId(7), STAMP), None, "nothing stored yet");
         for (channels, buckets) in [(2, 2048), (1, 2048), (2, 3)] {
@@ -285,7 +285,7 @@ mod tests {
 
     #[test]
     fn storing_a_new_version_removes_the_old_ones() {
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let cache = WaveformCache::new(dir.path().to_path_buf());
         let old = FileVersion {
             size: 1,
@@ -316,7 +316,7 @@ mod tests {
 
     #[test]
     fn a_damaged_or_foreign_file_is_no_waveform() {
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let cache = WaveformCache::new(dir.path().to_path_buf());
         cache.put(TrackId(1), STAMP, &waveform(2, 64, 9)).unwrap();
         let path = cache.path(TrackId(1), STAMP);
@@ -407,7 +407,7 @@ mod tests {
 
     #[test]
     fn a_malformed_waveform_is_not_stored() {
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let cache = WaveformCache::new(dir.path().to_path_buf());
         let mut uneven = waveform(2, 16, 0);
         uneven.channels[1].rms.pop();

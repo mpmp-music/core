@@ -15,7 +15,7 @@ use mpmp_library::{
     ActionMeta, AlbumKey, AlbumSort, Library, Page, ScanProgress, ScanReport, ScanStart, Track,
     VARIOUS_ARTISTS,
 };
-use tempfile::TempDir;
+use mpmp_test_support::TempDir;
 
 const UI: ActionMeta<'static> = ActionMeta::new("ui");
 

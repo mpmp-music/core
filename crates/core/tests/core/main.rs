@@ -434,8 +434,8 @@ fn long_track(dir: &Path) -> (TrackInfo, PathBuf) {
     (track, path)
 }
 
-fn with_long_track() -> (tempfile::TempDir, Harness) {
-    let dir = tempfile::tempdir().unwrap();
+fn with_long_track() -> (mpmp_test_support::TempDir, Harness) {
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let mut catalog = MemoryCatalog::standard();
     catalog.tracks.insert(TrackId(20), long_track(dir.path()));
     let h = Harness::with_catalog(Arc::new(catalog), None);

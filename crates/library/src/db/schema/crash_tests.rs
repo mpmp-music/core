@@ -163,7 +163,7 @@ fn commit_crash_child() {
     panic!("commit did not reach the armed VFS barrier");
 }
 fn crash_during_commit(mode: &str) {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let path = dir.path().join("library.db");
     let conn = development(&path);
     conn.pragma_update(None, "journal_mode", mode).unwrap();
@@ -277,7 +277,7 @@ fn posix_observer_child() {
 #[cfg(unix)]
 #[test]
 fn failed_second_open_preserves_live_sqlite_posix_locks_and_wal_visibility() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let path = dir.path().join("library.db");
     let live = open(&path, true).unwrap();
     live.inner

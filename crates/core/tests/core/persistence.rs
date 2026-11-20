@@ -61,7 +61,7 @@ fn ids_and_revisions_start_from_the_clock_without_a_state_file() {
 
 #[test]
 fn c4_stop_navigation_persists_the_track_start() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let path = dir.path().join("state.json");
     let mut h = Harness::new(Some(path.clone()));
     let entry = h.ok(play(album())).created_entries[0];

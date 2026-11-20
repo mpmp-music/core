@@ -5,7 +5,7 @@ use super::*;
 /// and a missing M3U file is `not_found`, not a retryable I/O error.
 #[test]
 fn commands_that_cannot_run_are_refused_before_asking() {
-    let (core, sub, _audio, _ids, dir) = scanned();
+    let (dir, core, sub, _audio, _ids) = scanned();
     let agent = Origin::agent("a");
     let live = receipt(execute(
         &core,
@@ -88,7 +88,7 @@ fn commands_that_cannot_run_are_refused_before_asking() {
 
 #[test]
 fn an_agent_adding_an_existing_folder_is_not_asked_to_confirm() {
-    let (core, _sub, _audio, _ids, dir) = scanned();
+    let (dir, core, _sub, _audio, _ids) = scanned();
     // The folder `scanned` added: nothing would change, so nothing to confirm.
     let again = ok(execute(
         &core,

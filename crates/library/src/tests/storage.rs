@@ -136,7 +136,7 @@ fn two_libraries_do_not_share_storage_backend() {
         result
     }
 
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     // TMPDIR may sit behind a symlink; the storage backend reports canonical paths.
     let base = std::fs::canonicalize(dir.path()).unwrap();
     let music = base.as_path().join("music");
@@ -342,7 +342,7 @@ fn two_libraries_do_not_share_storage_backend() {
 
 #[test]
 fn injected_database_backend_is_used_before_upgrade_and_recovery() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     // TMPDIR may sit behind a symlink; the storage backend reports canonical paths.
     let base = std::fs::canonicalize(dir.path()).unwrap();
     let path = base.as_path().join("old.sqlite");

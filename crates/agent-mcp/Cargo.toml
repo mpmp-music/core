@@ -54,7 +54,7 @@ mpmp-media-io.workspace = true
 mpmp-library = { workspace = true, features = ["desktop-fs"] }
 mpmp-fs-desktop.workspace = true
 hound.workspace = true
-tempfile.workspace = true
+mpmp-test-support.workspace = true
 
 [[test]]
 name = "mcp"

@@ -111,7 +111,7 @@ VALUES (?1,?2,?3,?4)
 fn sdk_mock_query_corpus_matches_core_catalog() {
     let path = client_parity::core_crate_path(env!("CARGO_MANIFEST_DIR"), "mock-query-cases.json");
     let mut corpus: Value = serde_json::from_str(&std::fs::read_to_string(&path).unwrap()).unwrap();
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let populated = library(&dir.path().join("populated"), &corpus, true);
     let empty = library(&dir.path().join("empty"), &corpus, false);
     let update = std::env::var_os("UPDATE_MOCK_QUERY_CASES").is_some();
@@ -185,7 +185,7 @@ fn mock_smart_query_commands_use_core_validation_without_rows() {
     let corpus: Value = serde_json::from_str(client_parity::QUERY).unwrap();
     let cases: Value = serde_json::from_str(client_parity::STATE).unwrap();
     for (i, case) in cases["smart"].as_array().unwrap().iter().enumerate() {
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let library = library(
             &dir.path().join(i.to_string()),
             &corpus,
@@ -245,7 +245,7 @@ fn legacy_album_over_1000_tracks_and_explicit_paging_match_mock() {
             })
         })
         .collect();
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let catalog = library(dir.path(), &corpus, true);
     for case in spec["cases"].as_array().unwrap() {
         let mut query: Query = serde_json::from_value(case["query"].clone()).unwrap();
@@ -282,7 +282,7 @@ fn legacy_album_over_1000_tracks_and_explicit_paging_match_mock() {
 
 #[test]
 fn mixed_search_nonzero_offset_reports_query_offset() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let catalog = Library::open(&dir.path().join("library.db")).unwrap();
     let query: Query =
         serde_json::from_value(json!({"type":"search","text":"x","offset":1,"limit":10})).unwrap();
@@ -296,7 +296,7 @@ fn mixed_search_nonzero_offset_reports_query_offset() {
 
 #[test]
 fn future_action_details_are_omitted_instead_of_sending_decode_only_unknown() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let corpus: Value = serde_json::from_str(
         &std::fs::read_to_string(client_parity::core_crate_path(
             env!("CARGO_MANIFEST_DIR"),

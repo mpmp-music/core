@@ -22,11 +22,12 @@ use tokio::process::{Child, Command as Process};
 const TIMEOUT: Duration = Duration::from_secs(60);
 
 struct Player {
-    dir: tempfile::TempDir,
     core: CoreHandle,
     server: Option<ServerHandle>,
     endpoint: Endpoint,
     token: String,
+    // Clean up after the server and core release the catalog.
+    dir: mpmp_test_support::TempDir,
 }
 
 fn endpoint(dir: &Path, name: &str) -> Endpoint {
@@ -61,7 +62,7 @@ impl Player {
 
     /// … served at `at(its folder)`.
     fn start_at(at: impl FnOnce(&Path) -> Endpoint) -> Self {
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let library = mpmp_library::Library::open(&dir.path().join("library.db")).unwrap();
         let output = NullOutput::new(StreamFormat {
             sample_rate: 44_100,
@@ -124,11 +125,11 @@ impl Player {
         )
         .unwrap();
         Self {
-            dir,
             core,
             server: Some(server),
             endpoint,
             token,
+            dir,
         }
     }
 }
@@ -138,7 +139,12 @@ impl Drop for Player {
         if let Some(server) = self.server.take() {
             tokio::task::block_in_place(|| server.shutdown());
         }
-        self.core.shutdown();
+        // The server may still have a session finishing on another thread.
+        // Close the catalog even if that session holds a clone of the core.
+        let closed = self.core.shutdown_with_result(TIMEOUT);
+        if !std::thread::panicking() {
+            closed.unwrap();
+        }
     }
 }
 
@@ -334,7 +340,7 @@ fn initialize(id: u64) -> Value {
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn without_a_player_the_bridge_says_so() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     within(async {
         let nowhere = endpoint(dir.path(), "nobody");
         // Both lifecycles: with initialize, and 2026-07-28 without it.
@@ -358,7 +364,7 @@ async fn without_a_player_the_bridge_says_so() {
 /// new one, which connects.
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn a_player_that_starts_later_is_found_at_the_next_call() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     within(async {
         let later = endpoint(dir.path(), "later");
         let mut child = bridge(&later, Some("pmpa_0123"));
@@ -577,7 +583,7 @@ async fn the_bridge_exits_soon_after_the_last_answer_when_the_player_stays() {
         "params": {"requestId": 2, "reason": "the user pressed Esc"}});
     // A request still unanswered when stdin closes; one the framework cancelled first.
     for (lines, answered) in [(vec![request(1)], true), (vec![request(2), cancel], false)] {
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let path = dir.path().join("mcp.sock");
         let listener = tokio::net::UnixListener::bind(&path).unwrap();
         let player = tokio::spawn(player_that_never_hangs_up(listener, DELAY));
@@ -624,7 +630,7 @@ async fn the_bridge_exits_soon_after_the_last_answer_when_the_player_stays() {
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn an_endpoint_the_system_refuses_is_explained() {
     use std::os::unix::fs::PermissionsExt;
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     within(async {
         let path = dir.path().join("mcp.sock");
         let _listener = std::os::unix::net::UnixListener::bind(&path).unwrap();

@@ -91,15 +91,22 @@ impl<S: 'static> Owner<S> {
 
     pub fn start(make: impl FnOnce() -> S + Send + 'static) -> Result<Arc<Self>, OutputError> {
         static ACTIVE: AtomicUsize = AtomicUsize::new(0);
-        if ACTIVE
-            .fetch_update(Ordering::AcqRel, Ordering::Acquire, |n| {
-                (n < 8).then_some(n + 1)
-            })
-            .is_err()
-        {
-            return Err(OutputError::Backend(
-                "audio owner thread limit reached".into(),
-            ));
+        let mut active = ACTIVE.load(Ordering::Acquire);
+        loop {
+            if active >= 8 {
+                return Err(OutputError::Backend(
+                    "audio owner thread limit reached".into(),
+                ));
+            }
+            match ACTIVE.compare_exchange_weak(
+                active,
+                active + 1,
+                Ordering::AcqRel,
+                Ordering::Acquire,
+            ) {
+                Ok(_) => break,
+                Err(current) => active = current,
+            }
         }
         struct Permit;
         impl Drop for Permit {

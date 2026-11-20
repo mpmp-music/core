@@ -204,7 +204,7 @@ mod tests {
                 location.to_owned()
             }
         }
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let catalog = mpmp_library::Library::open(&dir.path().join("library.db")).unwrap();
         let root = RootId(
             catalog

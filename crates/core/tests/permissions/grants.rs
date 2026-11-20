@@ -3,7 +3,7 @@ use super::*;
 
 #[test]
 fn permanent_delete_binds_ids_and_refuses_changed_trash_without_reinterpreting_null() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let (core, sub) = start(dir.path());
     let create = |name: &str| {
         ui(
@@ -130,7 +130,7 @@ fn permanent_delete_binds_ids_and_refuses_changed_trash_without_reinterpreting_n
 
 #[test]
 fn pending_recovery_keeps_creation_order_across_ticket_counter_digits() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let (core, sub) = start(dir.path());
     let id = ui(
         &core,
@@ -165,7 +165,7 @@ fn pending_recovery_keeps_creation_order_across_ticket_counter_digits() {
 
 #[test]
 fn only_the_ui_manages_agents_and_grants() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let (core, sub) = start(dir.path());
     let token = ui(
         &core,
@@ -250,7 +250,7 @@ fn only_the_ui_manages_agents_and_grants() {
 
 #[test]
 fn grants_decide_for_agents_what_would_need_confirmation() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = folder(dir.path(), "music");
     let (jazz, rock) = (folder(&music, "jazz"), folder(&music, "rock"));
     let elsewhere = folder(dir.path(), "elsewhere");
@@ -598,7 +598,7 @@ fn grants_decide_for_agents_what_would_need_confirmation() {
 
 #[test]
 fn permanently_deleting_always_asks_an_agent() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let (core, sub) = start(dir.path());
     let doomed = ui(
         &core,
@@ -730,7 +730,7 @@ fn permanently_deleting_always_asks_an_agent() {
 
 #[test]
 fn lasting_grants_survive_a_restart_and_session_grants_do_not() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = folder(dir.path(), "music");
     let (core, sub) = start(dir.path());
     let lasting = [
@@ -828,7 +828,7 @@ fn lasting_grants_survive_a_restart_and_session_grants_do_not() {
 
 #[test]
 fn grants_expire() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = folder(dir.path(), "music");
     let (core, sub) = start(dir.path());
     let id = ui(
@@ -873,7 +873,7 @@ fn grants_expire() {
 
 #[test]
 fn grant_requests_are_checked() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = folder(dir.path(), "music");
     let (core, _sub) = start(dir.path());
     let root = ui(&core, add_root(&music)).root.unwrap();
@@ -1049,7 +1049,7 @@ fn grant_requests_are_checked() {
 /// checked, and locations stored in normal form.
 #[test]
 fn grants_say_only_what_can_apply() {
-    let dir = tempfile::tempdir().unwrap();
+    let dir = mpmp_test_support::TempDir::new().unwrap();
     let music = folder(dir.path(), "music");
     folder(&music, "jazz");
     let (core, _sub) = start(dir.path());
@@ -1279,7 +1279,7 @@ fn output_preferences_confirm_by_default_and_agent_forbid_overrides_allow() {
             expected_revision: None,
         },
     ] {
-        let dir = tempfile::tempdir().unwrap();
+        let dir = mpmp_test_support::TempDir::new().unwrap();
         let (core, sub) = start(dir.path());
         ui(
             &core,
