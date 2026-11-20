@@ -37,6 +37,10 @@ rusqlite.workspace = true
 # Validates the golden contract examples against docs/contract.schema.json (tests only).
 jsonschema = { version = "=0.58.6", default-features = false }
 
+[[example]]
+name = "embed"
+required-features = ["desktop-fs"]
+
 [[test]]
 name = "core"
 path = "tests/core/main.rs"
