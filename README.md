@@ -2,7 +2,7 @@
 
 # mpmp core
 
-The platform-independent Rust core of **mpmp**, a local music player: gapless playback, a SQLite music library, and one JSON contract shared by every client.
+The platform-independent Rust core of **mpmp** (*my personal music player*), a local music player: gapless playback, a SQLite music library, and one JSON contract shared by every client.
 
 [![License: MIT OR Apache-2.0](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](#license)
 [![MSRV: Rust 1.90](https://img.shields.io/badge/MSRV-1.90-orange.svg)](Cargo.toml)
@@ -24,50 +24,71 @@ mpmp core is the engine behind a player, not a player app. A host process embeds
 
 ## Architecture
 
+The workspace is layered. Crates depend only on their own layer and the layers below; platform adapters plug into the traits the lower layers define.
+
 ```mermaid
-flowchart TD
-    host["Host process<br/>(UI, media controls, remote, agents)"]
-    mcp["mpmp-agent-mcp<br/>MCP service"]
-    core["mpmp-core<br/>actor, contract, permissions"]
-    library["mpmp-library<br/>SQLite catalog, scans, file edits"]
-    engine["mpmp-engine<br/>decoding, gapless playback, DSP"]
-    cpal["mpmp-output-cpal<br/>cpal output backend"]
-    mediaio["mpmp-media-io<br/>URIs, resolvers, byte sources"]
-    storage["mpmp-storage<br/>storage traits"]
-    fs["mpmp-fs-desktop<br/>desktop file system rules"]
+flowchart TB
+    host(["Host application"])
+
+    subgraph access["Access"]
+        direction LR
+        bridge["player-mcp<br/>stdio bridge"]
+        mcp["mpmp-agent-mcp<br/>MCP service"]
+    end
+    subgraph service["Service"]
+        core["mpmp-core<br/>actor · contract · permissions"]
+    end
+    subgraph domain["Domain"]
+        direction LR
+        library["mpmp-library<br/>catalog · scans · file edits"]
+        engine["mpmp-engine<br/>decoding · gapless playback"]
+    end
+    subgraph foundation["Foundation"]
+        direction LR
+        mediaio["mpmp-media-io<br/>URIs · media sources"]
+        storage["mpmp-storage<br/>storage traits"]
+    end
+    subgraph adapters["Platform adapters (pluggable)"]
+        direction LR
+        cpal["mpmp-output-cpal<br/>audio output"]
+        fs["mpmp-fs-desktop<br/>desktop file system"]
+    end
 
     host -->|CoreHandle| core
-    host --> cpal
-    host --> mcp
-    mcp --> core
+    bridge --> mcp --> core
     core --> library
     core --> engine
-    core --> storage
-    core -.->|desktop-fs| fs
     library --> engine
-    library --> mediaio
-    library --> storage
-    library -.->|desktop-fs| fs
-    engine --> mediaio
-    cpal --> engine
-    fs --> storage
+    domain --> foundation
+    cpal -.->|OutputBackend| engine
+    fs -.->|desktop-fs| storage
+
+    click bridge "https://github.com/mpmp-music/core/tree/main/apps/player-mcp"
+    click mcp "https://github.com/mpmp-music/core/tree/main/crates/agent-mcp"
+    click core "https://github.com/mpmp-music/core/tree/main/crates/core"
+    click library "https://github.com/mpmp-music/core/tree/main/crates/library"
+    click engine "https://github.com/mpmp-music/core/tree/main/crates/engine"
+    click mediaio "https://github.com/mpmp-music/core/tree/main/crates/media-io"
+    click storage "https://github.com/mpmp-music/core/tree/main/crates/storage"
+    click cpal "https://github.com/mpmp-music/core/tree/main/crates/output-cpal"
+    click fs "https://github.com/mpmp-music/core/tree/main/crates/fs-desktop"
 ```
 
-Arrows point from a crate to the crates it depends on. Dashed edges exist only with the `desktop-fs` feature, which is on by default.
+Solid arrows point from a crate to what it depends on; an arrow into a layer means the crates above use the crates of that layer. Dashed arrows are adapters: `mpmp-output-cpal` implements the engine's `OutputBackend`, and `mpmp-fs-desktop` implements the storage traits behind the default `desktop-fs` feature. The host supplies the adapters when it starts the core.
 
-| Crate | Path | Owns |
+| Layer | Crate | Owns |
 |---|---|---|
-| `mpmp-media-io` | `crates/media-io` | Media URIs, the `SourceResolver` trait and `FileResolver`, byte sources shared by the engine and the library |
-| `mpmp-engine` | `crates/engine` | Decoding, gapless playback, resampling, loudness measurement, waveforms, signal path and bit-perfect reasoning, the `OutputBackend` trait and `NullOutput` |
-| `mpmp-output-cpal` | `crates/output-cpal` | An `OutputBackend` on cpal, shared mode only |
-| `mpmp-storage` | `crates/storage` | File, identity, space, and durable replacement traits used by the library |
-| `mpmp-library` | `crates/library` | `Library`: the SQLite catalog, scans, CUE sheets, tags, covers, lyrics, playlists, the journal and undo, byte-exact tag undo |
-| `mpmp-core` | `crates/core` | The actor that owns queue, play state and history; the contract types; permissions and confirmations; `CoreHandle` |
-| `mpmp-fs-desktop` | `crates/fs-desktop` | Windows, macOS, and Linux file system rules and location strings, behind `desktop-fs` |
-| `mpmp-agent-mcp` | `crates/agent-mcp` | The MCP service for agents over a same-user Unix socket or named pipe |
-| `mpmp-test-support` | `crates/test-support` | Shared test backends and frozen client inputs, for tests only |
-| `mpmp-cli` | `apps/cli` | A minimal gapless playback example on the engine (`mpmp-cli <file>...`) |
-| `mpmp-mcp` | `apps/player-mcp` | The `player-mcp` stdio bridge between MCP clients and the MCP service |
+| Access | [`mpmp-mcp`](apps/player-mcp) | The `player-mcp` stdio bridge between MCP clients and the MCP service |
+| Access | [`mpmp-agent-mcp`](crates/agent-mcp) | The MCP service for agents over a same-user Unix socket or named pipe |
+| Service | [`mpmp-core`](crates/core) | The actor that owns queue, play state and history; the contract types; permissions and confirmations; `CoreHandle` |
+| Domain | [`mpmp-library`](crates/library) | `Library`: the SQLite catalog, scans, CUE sheets, tags, covers, lyrics, playlists, the journal and undo, byte-exact tag undo |
+| Domain | [`mpmp-engine`](crates/engine) | Decoding, gapless playback, resampling, loudness measurement, waveforms, signal path and bit-perfect reasoning, the `OutputBackend` trait and `NullOutput` |
+| Foundation | [`mpmp-media-io`](crates/media-io) | Media URIs, the `SourceResolver` trait and `FileResolver`, byte sources shared by the engine and the library |
+| Foundation | [`mpmp-storage`](crates/storage) | File, identity, space, and durable replacement traits used by the library |
+| Adapter | [`mpmp-output-cpal`](crates/output-cpal) | An `OutputBackend` on cpal, shared mode only |
+| Adapter | [`mpmp-fs-desktop`](crates/fs-desktop) | Windows, macOS, and Linux file system rules and location strings, behind `desktop-fs` |
+| Example | [`mpmp-cli`](apps/cli) | A minimal gapless playback example on the engine (`mpmp-cli <file>...`) |
+| Tests | [`mpmp-test-support`](crates/test-support) | Shared test backends and frozen client inputs, for tests only |
 
 **Actor model.** `CoreHandle::start` spawns one actor thread that owns the queue, play state, history, and permission state. Clients hold a `CoreHandle`, which is cheap to clone. `execute` returns once the command's effects are visible. Queries read the published snapshot or the library's read connections without waiting for the actor. Events arrive on a channel in one core-wide `seq` order. The core stops on `shutdown` or when the last handle is dropped.
 

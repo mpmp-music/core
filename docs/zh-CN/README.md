@@ -2,7 +2,7 @@
 
 # mpmp core
 
-**mpmp** 是一款本地音乐播放器，本仓库是它与平台无关的 Rust 核心：无缝播放、SQLite 曲库，以及所有客户端共用的一份 JSON 契约。
+**mpmp**（*my personal music player*）是一款本地音乐播放器，本仓库是它与平台无关的 Rust 核心：无缝播放、SQLite 曲库，以及所有客户端共用的一份 JSON 契约。
 
 [![License: MIT OR Apache-2.0](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](#许可)
 [![MSRV: Rust 1.90](https://img.shields.io/badge/MSRV-1.90-orange.svg)][msrv]
@@ -27,50 +27,71 @@ mpmp core 是播放器背后的引擎，而不是一个播放器应用。宿主�
 
 ## 架构
 
+工作区分层组织：crate 只依赖本层和下面的层；平台适配层接入下层定义的 trait。
+
 ```mermaid
-flowchart TD
-    host["Host process<br/>(UI, media controls, remote, agents)"]
-    mcp["mpmp-agent-mcp<br/>MCP service"]
-    core["mpmp-core<br/>actor, contract, permissions"]
-    library["mpmp-library<br/>SQLite catalog, scans, file edits"]
-    engine["mpmp-engine<br/>decoding, gapless playback, DSP"]
-    cpal["mpmp-output-cpal<br/>cpal output backend"]
-    mediaio["mpmp-media-io<br/>URIs, resolvers, byte sources"]
-    storage["mpmp-storage<br/>storage traits"]
-    fs["mpmp-fs-desktop<br/>desktop file system rules"]
+flowchart TB
+    host(["宿主应用"])
+
+    subgraph access["接入层"]
+        direction LR
+        bridge["player-mcp<br/>stdio 桥"]
+        mcp["mpmp-agent-mcp<br/>MCP 服务"]
+    end
+    subgraph service["服务层"]
+        core["mpmp-core<br/>actor · 契约 · 权限"]
+    end
+    subgraph domain["领域层"]
+        direction LR
+        library["mpmp-library<br/>曲库 · 扫描 · 文件编辑"]
+        engine["mpmp-engine<br/>解码 · 无缝播放"]
+    end
+    subgraph foundation["基础层"]
+        direction LR
+        mediaio["mpmp-media-io<br/>URI · 媒体源"]
+        storage["mpmp-storage<br/>存储 trait"]
+    end
+    subgraph adapters["平台适配（可替换）"]
+        direction LR
+        cpal["mpmp-output-cpal<br/>音频输出"]
+        fs["mpmp-fs-desktop<br/>桌面文件系统"]
+    end
 
     host -->|CoreHandle| core
-    host --> cpal
-    host --> mcp
-    mcp --> core
+    bridge --> mcp --> core
     core --> library
     core --> engine
-    core --> storage
-    core -.->|desktop-fs| fs
     library --> engine
-    library --> mediaio
-    library --> storage
-    library -.->|desktop-fs| fs
-    engine --> mediaio
-    cpal --> engine
-    fs --> storage
+    domain --> foundation
+    cpal -.->|OutputBackend| engine
+    fs -.->|desktop-fs| storage
+
+    click bridge "https://github.com/mpmp-music/core/tree/main/apps/player-mcp"
+    click mcp "https://github.com/mpmp-music/core/tree/main/crates/agent-mcp"
+    click core "https://github.com/mpmp-music/core/tree/main/crates/core"
+    click library "https://github.com/mpmp-music/core/tree/main/crates/library"
+    click engine "https://github.com/mpmp-music/core/tree/main/crates/engine"
+    click mediaio "https://github.com/mpmp-music/core/tree/main/crates/media-io"
+    click storage "https://github.com/mpmp-music/core/tree/main/crates/storage"
+    click cpal "https://github.com/mpmp-music/core/tree/main/crates/output-cpal"
+    click fs "https://github.com/mpmp-music/core/tree/main/crates/fs-desktop"
 ```
 
-箭头从一个 crate 指向它依赖的 crate。虚线只在启用 `desktop-fs` feature 时存在，该 feature 默认开启。
+实线箭头从一个 crate 指向它依赖的对象；指向某一层的箭头表示上层使用该层的 crate。虚线是适配：`mpmp-output-cpal` 实现引擎的 `OutputBackend`，`mpmp-fs-desktop` 在默认开启的 `desktop-fs` feature 下实现存储 trait。宿主在启动核心时提供这些适配。
 
-| Crate | 路径 | 负责 |
+| 层 | Crate | 负责 |
 |---|---|---|
-| `mpmp-media-io` | `crates/media-io` | 媒体 URI、`SourceResolver` trait 与 `FileResolver`，以及引擎和曲库共用的字节源 |
-| `mpmp-engine` | `crates/engine` | 解码、无缝播放、重采样、响度测量、波形、信号路径与 bit-perfect 判断、`OutputBackend` trait 和 `NullOutput` |
-| `mpmp-output-cpal` | `crates/output-cpal` | 基于 cpal 的 `OutputBackend`，仅共享模式 |
-| `mpmp-storage` | `crates/storage` | 曲库使用的文件、身份、空间和持久替换 trait |
-| `mpmp-library` | `crates/library` | `Library`：SQLite 曲库、扫描、CUE、标签、封面、歌词、歌单、操作日志与撤销、逐字节的标签撤销 |
-| `mpmp-core` | `crates/core` | 持有队列、播放状态和历史的 actor；契约类型；权限与确认；`CoreHandle` |
-| `mpmp-fs-desktop` | `crates/fs-desktop` | Windows、macOS、Linux 的文件系统规则和位置字符串，位于 `desktop-fs` 之后 |
-| `mpmp-agent-mcp` | `crates/agent-mcp` | 面向 Agent 的 MCP 服务，经同一用户的 Unix socket 或命名管道提供 |
-| `mpmp-test-support` | `crates/test-support` | 共享测试后端和冻结的客户端输入，仅供测试 |
-| `mpmp-cli` | `apps/cli` | 基于引擎的最小无缝播放示例（`mpmp-cli <file>...`） |
-| `mpmp-mcp` | `apps/player-mcp` | MCP 客户端与 MCP 服务之间的 `player-mcp` stdio 桥 |
+| 接入 | [`mpmp-mcp`](../../apps/player-mcp) | MCP 客户端与 MCP 服务之间的 `player-mcp` stdio 桥 |
+| 接入 | [`mpmp-agent-mcp`](../../crates/agent-mcp) | 面向 Agent 的 MCP 服务，经同一用户的 Unix socket 或命名管道提供 |
+| 服务 | [`mpmp-core`](../../crates/core) | 持有队列、播放状态和历史的 actor；契约类型；权限与确认；`CoreHandle` |
+| 领域 | [`mpmp-library`](../../crates/library) | `Library`：SQLite 曲库、扫描、CUE、标签、封面、歌词、歌单、操作日志与撤销、逐字节的标签撤销 |
+| 领域 | [`mpmp-engine`](../../crates/engine) | 解码、无缝播放、重采样、响度测量、波形、信号路径与 bit-perfect 判断、`OutputBackend` trait 和 `NullOutput` |
+| 基础 | [`mpmp-media-io`](../../crates/media-io) | 媒体 URI、`SourceResolver` trait 与 `FileResolver`，以及引擎和曲库共用的字节源 |
+| 基础 | [`mpmp-storage`](../../crates/storage) | 曲库使用的文件、身份、空间和持久替换 trait |
+| 适配 | [`mpmp-output-cpal`](../../crates/output-cpal) | 基于 cpal 的 `OutputBackend`，仅共享模式 |
+| 适配 | [`mpmp-fs-desktop`](../../crates/fs-desktop) | Windows、macOS、Linux 的文件系统规则和位置字符串，位于 `desktop-fs` 之后 |
+| 示例 | [`mpmp-cli`](../../apps/cli) | 基于引擎的最小无缝播放示例（`mpmp-cli <file>...`） |
+| 测试 | [`mpmp-test-support`](../../crates/test-support) | 共享测试后端和冻结的客户端输入，仅供测试 |
 
 **Actor 模型。** `CoreHandle::start` 启动一个 actor 线程，由它持有队列、播放状态、历史和权限状态。客户端持有 `CoreHandle`，克隆代价很低。`execute` 在命令的效果可见后返回。查询读取已发布的快照或曲库的只读连接，不等待 actor。事件通过 channel 按全核心统一的 `seq` 顺序送达。调用 `shutdown` 或丢弃最后一个 handle 时核心停止。
 
