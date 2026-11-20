@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="724" viewBox="0 0 920 724" role="img" aria-labelledby="title desc">
+<title id="title">mpmp core architecture</title>
+<desc id="desc">Five layers of crates. A host application uses mpmp-core through CoreHandle; player-mcp reaches mpmp-core through mpmp-agent-mcp. mpmp-core uses mpmp-library and mpmp-engine; mpmp-library uses mpmp-engine, mpmp-storage and mpmp-media-io; mpmp-engine uses mpmp-media-io. Between the domain and foundation layers, the platform adapters mpmp-fs-desktop and mpmp-output-cpal implement the storage traits and the engine's OutputBackend.</desc>
+<style>
+text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;fill:#e6edf3}
+.band{fill:#151b23;stroke:#2a313c;stroke-width:1}
+.layer{font-size:14px;font-weight:600;letter-spacing:.2px}
+.sub{font-size:12px;fill:#9198a1}
+.card{fill:#0d1117;stroke:#3d444d;stroke-width:1}
+.card.accent{fill:#0f2440;stroke:#4493f8;stroke-width:1.5}
+.name{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;font-size:14.5px;font-weight:600;text-anchor:middle}
+.name.accent{fill:#79c0ff}
+.role{font-size:12.5px;fill:#9198a1;text-anchor:middle}
+.host{fill:none;stroke:#4493f8;stroke-width:1.75}
+.dep{fill:none;stroke:#7d8590;stroke-width:1.5}
+.impl{fill:none;stroke:#7d8590;stroke-width:1.5;stroke-dasharray:5 4}
+.label{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;font-size:12px;fill:#9198a1}
+.label.accent{fill:#79c0ff}
+.pill{fill:#0d1117;stroke:#4493f8;stroke-width:1.5}
+.pilltext{font-size:14px;font-weight:600;text-anchor:middle}
+.legend{font-size:12px;fill:#9198a1}
+</style>
+<defs>
+<marker id="head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1.5 L9 5 L1 8.5 z" fill="#7d8590"/></marker>
+<marker id="head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1.5 L9 5 L1 8.5 z" fill="#4493f8"/></marker>
+</defs>
+<rect class="band" x="20" y="88" width="880" height="92" rx="14"/>
+<text class="layer" x="40" y="139.0">Access</text>
+<rect class="band" x="20" y="208" width="880" height="92" rx="14"/>
+<text class="layer" x="40" y="259.0">Service</text>
+<rect class="band" x="20" y="328" width="880" height="92" rx="14"/>
+<text class="layer" x="40" y="379.0">Domain</text>
+<rect class="band" x="20" y="448" width="880" height="92" rx="14"/>
+<text class="layer" x="40" y="491.0">Platform adapters</text>
+<text class="sub" x="40" y="509.0">pluggable</text>
+<rect class="band" x="20" y="568" width="880" height="92" rx="14"/>
+<text class="layer" x="40" y="619.0">Foundation</text>
+<rect class="pill" x="190.5" y="20" width="192" height="40" rx="20"/>
+<text class="pilltext" x="286.5" y="45">Host application</text>
+<rect class="card" x="423" y="102" width="214" height="64" rx="10"/><text class="name" x="530.0" y="130">player-mcp</text><text class="role" x="530.0" y="150">stdio bridge</text>
+<rect class="card" x="667" y="102" width="213" height="64" rx="10"/><text class="name" x="773.5" y="130">mpmp-agent-mcp</text><text class="role" x="773.5" y="150">MCP service</text>
+<rect class="card accent" x="180" y="222" width="700" height="64" rx="10"/><text class="name accent" x="530.0" y="250">mpmp-core</text><text class="role" x="530.0" y="270">actor · contract · permissions</text>
+<rect class="card" x="180" y="342" width="430" height="64" rx="10"/><text class="name" x="395.0" y="370">mpmp-library</text><text class="role" x="395.0" y="390">catalog · scans · file edits</text>
+<rect class="card" x="640" y="342" width="240" height="64" rx="10"/><text class="name" x="760.0" y="370">mpmp-engine</text><text class="role" x="760.0" y="390">decoding · gapless playback</text>
+<rect class="card" x="180" y="462" width="180" height="64" rx="10"/><text class="name" x="270.0" y="490">mpmp-fs-desktop</text><text class="role" x="270.0" y="510">desktop file system</text>
+<rect class="card" x="700" y="462" width="180" height="64" rx="10"/><text class="name" x="790.0" y="490">mpmp-output-cpal</text><text class="role" x="790.0" y="510">audio output</text>
+<rect class="card" x="180" y="582" width="340" height="64" rx="10"/><text class="name" x="350.0" y="610">mpmp-storage</text><text class="role" x="350.0" y="630">storage traits</text>
+<rect class="card" x="560" y="582" width="320" height="64" rx="10"/><text class="name" x="720.0" y="610">mpmp-media-io</text><text class="role" x="720.0" y="630">URIs · media sources</text>
+<path class="host" d="M286.5 60 L286.5 220" marker-end="url(#head-accent)"/>
+<text class="label accent" x="298.5" y="138.0">CoreHandle</text>
+<path class="dep" d="M637 134.0 L665 134.0" marker-end="url(#head)"/>
+<path class="dep" d="M773.5 166 L773.5 220" marker-end="url(#head)"/>
+<path class="dep" d="M395.0 286 L395.0 340" marker-end="url(#head)"/>
+<path class="dep" d="M760.0 286 L760.0 340" marker-end="url(#head)"/>
+<path class="dep" d="M610 374.0 L638 374.0" marker-end="url(#head)"/>
+<path class="dep" d="M440 406 L440 580" marker-end="url(#head)"/>
+<path class="dep" d="M585 406 L585 580" marker-end="url(#head)"/>
+<path class="dep" d="M668 406 L668 580" marker-end="url(#head)"/>
+<path class="impl" d="M790.0 462 L790.0 408" marker-end="url(#head)"/>
+<path class="impl" d="M270.0 526 L270.0 580" marker-end="url(#head)"/>
+<text class="label" x="802.0" y="438.0">OutputBackend</text>
+<text class="label" x="282.0" y="558.0">desktop-fs</text>
+<path class="dep" d="M180 698 L214 698" marker-end="url(#head)"/>
+<text class="legend" x="224" y="702">depends on</text>
+<path class="impl" d="M330 698 L364 698" marker-end="url(#head)"/>
+<text class="legend" x="374" y="702">implements a trait of</text>
+</svg>

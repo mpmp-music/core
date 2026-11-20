@@ -27,57 +27,14 @@ mpmp core 是播放器背后的引擎，而不是一个播放器应用。宿主�
 
 ## 架构
 
-工作区分层组织：crate 只依赖本层和下面的层；平台适配层接入下层定义的 trait。
+工作区分层组织：crate 依赖本层和下面的层。平台适配层位于领域层和基础层之间：宿主把 `mpmp-output-cpal`（或其他 `OutputBackend`）传给核心，曲库和核心通过默认开启的 `desktop-fs` feature 使用 `mpmp-fs-desktop`。
 
-```mermaid
-flowchart TB
-    host(["宿主应用"])
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../images/architecture-dark.svg">
+  <img alt="mpmp core 的分层架构。宿主应用通过 CoreHandle 使用 mpmp-core，player-mcp stdio 桥经 mpmp-agent-mcp MCP 服务访问它。mpmp-core 使用 mpmp-library 和 mpmp-engine；mpmp-library 使用 mpmp-engine、mpmp-storage 和 mpmp-media-io；mpmp-engine 使用 mpmp-media-io。位于领域层和基础层之间的可替换平台适配 mpmp-output-cpal 和 mpmp-fs-desktop 分别实现引擎的 OutputBackend 和 desktop-fs feature 下的存储 trait。" src="../images/architecture-light.svg">
+</picture>
 
-    subgraph access["接入层"]
-        direction LR
-        bridge["player-mcp<br/>stdio 桥"]
-        mcp["mpmp-agent-mcp<br/>MCP 服务"]
-    end
-    subgraph service["服务层"]
-        core["mpmp-core<br/>actor · 契约 · 权限"]
-    end
-    subgraph domain["领域层"]
-        direction LR
-        library["mpmp-library<br/>曲库 · 扫描 · 文件编辑"]
-        engine["mpmp-engine<br/>解码 · 无缝播放"]
-    end
-    subgraph foundation["基础层"]
-        direction LR
-        mediaio["mpmp-media-io<br/>URI · 媒体源"]
-        storage["mpmp-storage<br/>存储 trait"]
-    end
-    subgraph adapters["平台适配（可替换）"]
-        direction LR
-        cpal["mpmp-output-cpal<br/>音频输出"]
-        fs["mpmp-fs-desktop<br/>桌面文件系统"]
-    end
-
-    host -->|CoreHandle| core
-    bridge --> mcp --> core
-    core --> library
-    core --> engine
-    library --> engine
-    domain --> foundation
-    cpal -.->|OutputBackend| engine
-    fs -.->|desktop-fs| storage
-
-    click bridge "https://github.com/mpmp-music/core/tree/main/apps/player-mcp"
-    click mcp "https://github.com/mpmp-music/core/tree/main/crates/agent-mcp"
-    click core "https://github.com/mpmp-music/core/tree/main/crates/core"
-    click library "https://github.com/mpmp-music/core/tree/main/crates/library"
-    click engine "https://github.com/mpmp-music/core/tree/main/crates/engine"
-    click mediaio "https://github.com/mpmp-music/core/tree/main/crates/media-io"
-    click storage "https://github.com/mpmp-music/core/tree/main/crates/storage"
-    click cpal "https://github.com/mpmp-music/core/tree/main/crates/output-cpal"
-    click fs "https://github.com/mpmp-music/core/tree/main/crates/fs-desktop"
-```
-
-实线箭头从一个 crate 指向它依赖的对象；指向某一层的箭头表示上层使用该层的 crate。虚线是适配：`mpmp-output-cpal` 实现引擎的 `OutputBackend`，`mpmp-fs-desktop` 在默认开启的 `desktop-fs` feature 下实现存储 trait。宿主在启动核心时提供这些适配。
+实线箭头指向 crate 所依赖的对象；虚线箭头从适配指向它实现的 trait。
 
 | 层 | Crate | 负责 |
 |---|---|---|

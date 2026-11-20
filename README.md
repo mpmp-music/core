@@ -24,57 +24,14 @@ mpmp core is the engine behind a player, not a player app. A host process embeds
 
 ## Architecture
 
-The workspace is layered. Crates depend only on their own layer and the layers below; platform adapters plug into the traits the lower layers define.
+The workspace is layered: crates depend on their own layer and the layers below. The platform adapters sit between the domain and foundation layers: the host passes `mpmp-output-cpal` (or another `OutputBackend`) to the core, and the library and core use `mpmp-fs-desktop` through the default `desktop-fs` feature.
 
-```mermaid
-flowchart TB
-    host(["Host application"])
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/images/architecture-dark.svg">
+  <img alt="Layered architecture of mpmp core. A host application uses mpmp-core through CoreHandle, and the player-mcp stdio bridge reaches it through the mpmp-agent-mcp MCP service. mpmp-core uses mpmp-library and mpmp-engine; mpmp-library uses mpmp-engine, mpmp-storage and mpmp-media-io; mpmp-engine uses mpmp-media-io. Between the domain and foundation layers, the pluggable platform adapters mpmp-output-cpal and mpmp-fs-desktop implement the engine's OutputBackend and the storage traits behind the desktop-fs feature." src="docs/images/architecture-light.svg">
+</picture>
 
-    subgraph access["Access"]
-        direction LR
-        bridge["player-mcp<br/>stdio bridge"]
-        mcp["mpmp-agent-mcp<br/>MCP service"]
-    end
-    subgraph service["Service"]
-        core["mpmp-core<br/>actor · contract · permissions"]
-    end
-    subgraph domain["Domain"]
-        direction LR
-        library["mpmp-library<br/>catalog · scans · file edits"]
-        engine["mpmp-engine<br/>decoding · gapless playback"]
-    end
-    subgraph foundation["Foundation"]
-        direction LR
-        mediaio["mpmp-media-io<br/>URIs · media sources"]
-        storage["mpmp-storage<br/>storage traits"]
-    end
-    subgraph adapters["Platform adapters (pluggable)"]
-        direction LR
-        cpal["mpmp-output-cpal<br/>audio output"]
-        fs["mpmp-fs-desktop<br/>desktop file system"]
-    end
-
-    host -->|CoreHandle| core
-    bridge --> mcp --> core
-    core --> library
-    core --> engine
-    library --> engine
-    domain --> foundation
-    cpal -.->|OutputBackend| engine
-    fs -.->|desktop-fs| storage
-
-    click bridge "https://github.com/mpmp-music/core/tree/main/apps/player-mcp"
-    click mcp "https://github.com/mpmp-music/core/tree/main/crates/agent-mcp"
-    click core "https://github.com/mpmp-music/core/tree/main/crates/core"
-    click library "https://github.com/mpmp-music/core/tree/main/crates/library"
-    click engine "https://github.com/mpmp-music/core/tree/main/crates/engine"
-    click mediaio "https://github.com/mpmp-music/core/tree/main/crates/media-io"
-    click storage "https://github.com/mpmp-music/core/tree/main/crates/storage"
-    click cpal "https://github.com/mpmp-music/core/tree/main/crates/output-cpal"
-    click fs "https://github.com/mpmp-music/core/tree/main/crates/fs-desktop"
-```
-
-Solid arrows point from a crate to what it depends on; an arrow into a layer means the crates above use the crates of that layer. Dashed arrows are adapters: `mpmp-output-cpal` implements the engine's `OutputBackend`, and `mpmp-fs-desktop` implements the storage traits behind the default `desktop-fs` feature. The host supplies the adapters when it starts the core.
+Solid arrows point to what a crate depends on; dashed arrows point from an adapter to the trait it implements.
 
 | Layer | Crate | Owns |
 |---|---|---|
