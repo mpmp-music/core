@@ -1872,13 +1872,16 @@ fn only_regular_files_are_imported() {
     for (path, checked, expected) in cases {
         let (lib, at) = (f.lib.clone(), path.clone());
         let (tx, rx) = std::sync::mpsc::channel();
-        std::thread::spawn(move || {
+        let worker = std::thread::spawn(move || {
             let result = lib.import_m3u(&at, None, UI.with_checked(checked));
             let _ = tx.send(result.map(|_| ()).map_err(|e| e.code()));
         });
         let result = rx
             .recv_timeout(Duration::from_secs(10))
             .expect("the import returns without waiting for a writer");
+        // The worker drops its `Library` clone after sending; join so the
+        // database is closed before the fixture removes its folder.
+        worker.join().unwrap();
         assert_eq!(result, Err(expected), "{path:?} {checked}");
     }
 }

@@ -1,7 +1,10 @@
 use super::*;
 
 fn fixture() -> (tempfile::TempDir, DataPaths) {
-    let dir = tempfile::tempdir().unwrap();
+    fixture_with(tempfile::tempdir().unwrap())
+}
+
+fn fixture_with(dir: tempfile::TempDir) -> (tempfile::TempDir, DataPaths) {
     let paths = DataPaths {
         root: dir.path().join("mpmp"),
         legacy: Some(dir.path().join(LEGACY_IDENTIFIER)),
@@ -467,7 +470,13 @@ fn readable_readonly_files_are_synced_and_permissions_preserved() {
 #[test]
 fn webview_links_and_recognized_stale_socket_are_skipped_but_sources_remain() {
     use std::os::unix::fs::{FileTypeExt, symlink};
+    #[cfg(target_os = "linux")]
     let (dir, paths) = fixture();
+    // Outside Linux the socket is really bound, and macOS's per-user `$TMPDIR`
+    // is too long for a socket path (104 bytes), so the fixture lives in /tmp.
+    #[cfg(not(target_os = "linux"))]
+    let (dir, paths) =
+        fixture_with(tempfile::tempdir_in(fs::canonicalize("/tmp").unwrap()).unwrap());
     seed(&paths);
     let old = paths.legacy.as_ref().unwrap();
     let outside = dir.path().join("outside");
