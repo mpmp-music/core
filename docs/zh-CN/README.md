@@ -87,15 +87,17 @@ tracks in library: 2
 
 ## 用法
 
-这些 crate 没有发布到 crates.io。请通过 Git 依赖，并固定到某个提交：
+这些 crate 没有发布到 crates.io。请通过 Git 依赖，并固定到某个 [release](https://github.com/mpmp-music/core/releases) tag：
 
 ```toml
 [dependencies]
-mpmp-core = { git = "https://github.com/mpmp-music/core", rev = "<commit>" }
-mpmp-engine = { git = "https://github.com/mpmp-music/core", rev = "<commit>" }
-mpmp-library = { git = "https://github.com/mpmp-music/core", rev = "<commit>" }
-mpmp-media-io = { git = "https://github.com/mpmp-music/core", rev = "<commit>" }
+mpmp-core = { git = "https://github.com/mpmp-music/core", tag = "v0.1.0" }
+mpmp-engine = { git = "https://github.com/mpmp-music/core", tag = "v0.1.0" }
+mpmp-library = { git = "https://github.com/mpmp-music/core", tag = "v0.1.0" }
+mpmp-media-io = { git = "https://github.com/mpmp-music/core", tag = "v0.1.0" }
 ```
+
+工作区内所有 crate 共用一个版本，请把它们都固定到同一个 tag。想试用尚未发布的改动，可改用 `rev = "<commit>"`。
 
 下面的代码片段摘自 [`crates/core/examples/embed.rs`](../../crates/core/examples/embed.rs)，可用 `cargo run -p mpmp-core --example embed` 运行。示例用默认存储打开曲库，因此需要 `desktop-fs` feature（默认开启）。
 
@@ -242,7 +244,7 @@ API 1.0 冻结的是 JSON 线上格式和语义保证，而不是 Rust 签名。
 
 ## 当前状态
 
-- API **1.0**，数据库 schema **1**，版本 **0.1.0**。首次公开只发布源码。
+- API **1.0**，数据库 schema **1**，版本 **0.1.0**。首次公开只发布源码，见[发布说明](https://github.com/mpmp-music/core/releases/tag/v0.1.0)。
 - 平台：Windows、macOS 和 Linux。较早的开发版数据库的处理方式见[存储说明](design/storage.md)。
 
 ## 文档

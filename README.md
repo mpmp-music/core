@@ -84,15 +84,17 @@ The library lives in a temporary directory and is removed when the example exits
 
 ## Usage
 
-The crates are not published to crates.io. Depend on them through Git, pinned to a commit:
+The crates are not published to crates.io. Depend on them through Git, pinned to a [release](https://github.com/mpmp-music/core/releases) tag:
 
 ```toml
 [dependencies]
-mpmp-core = { git = "https://github.com/mpmp-music/core", rev = "<commit>" }
-mpmp-engine = { git = "https://github.com/mpmp-music/core", rev = "<commit>" }
-mpmp-library = { git = "https://github.com/mpmp-music/core", rev = "<commit>" }
-mpmp-media-io = { git = "https://github.com/mpmp-music/core", rev = "<commit>" }
+mpmp-core = { git = "https://github.com/mpmp-music/core", tag = "v0.1.0" }
+mpmp-engine = { git = "https://github.com/mpmp-music/core", tag = "v0.1.0" }
+mpmp-library = { git = "https://github.com/mpmp-music/core", tag = "v0.1.0" }
+mpmp-media-io = { git = "https://github.com/mpmp-music/core", tag = "v0.1.0" }
 ```
+
+All crates in the workspace share one version, so pin every one of them to the same tag. To try unreleased changes, use `rev = "<commit>"` instead.
 
 The snippets below are excerpts of [`crates/core/examples/embed.rs`](crates/core/examples/embed.rs), which runs with `cargo run -p mpmp-core --example embed`. The example needs the `desktop-fs` feature (on by default) because it opens the library with the default storage.
 
@@ -239,7 +241,7 @@ The frozen part of API 1.0 is the JSON wire format and the guarantees, not the R
 
 ## Status
 
-- API **1.0**, database schema **1**, version **0.1.0**. This first public release is source only.
+- API **1.0**, database schema **1**, version **0.1.0**. This first public release is source only; see the [release notes](https://github.com/mpmp-music/core/releases/tag/v0.1.0).
 - Platforms: Windows, macOS, and Linux. Older development databases are handled as described in the [storage guide](docs/design/storage.md).
 
 ## Documentation
